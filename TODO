@@ -1,0 +1,22 @@
+#
+# xflow by D.Béréziat
+# (c) 2002/2003 INRIA, LIP6
+#
+# $Id: TODO,v 1.16 2007/09/21 09:15:15 bereziat Exp $
+
+Par ordre de priorite
+
+XFLOW 
+ - Intégrer les trajectoires (ordre4 en réécriture)
+ - Seuillage des champs : critere sur le nombre : afficher 80% des champs les plus petits par exemple.
+ - reallocation des images de fond inutile sur les onglet M,D et R.
+ - export : utiliser mon script inr2avi
+ - champs 3D : facile à faire côté libxflow
+               côté visu : on ecrit un client gl => préprojet pour des étudiants
+
+UTILS
+ - uv2col -> voir Jonathan Fabrizio , puis intégration dans XFLOW
+ - xflpar a terminer
+ - les commandes ifmt et cim d'INRIMAGE permet de se passer de 
+   xflset (sauf pour l'écriture des pixels).
+

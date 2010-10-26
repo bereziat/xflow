@@ -1,0 +1,2 @@
+EXTRA_DIST = gradvel.sh uv2vel.sh velpar.sh velset.sh
+

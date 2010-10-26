@@ -1,0 +1,17 @@
+Source: xflow
+Section: graphics
+Priority: extra
+Maintainer: Dominique Béréziat <bereziat@orphee>
+Build-Depends: debhelper (>= 7), autotools-dev, inrimage, libgtk2.0-dev
+Standards-Version: 3.8.0
+Homepage: http://pequan.lip6.fr/~bereziat/softs/xflow/
+
+Package: xflow 
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends} 
+Description: Image processing software
+ Xflow is an utility devoted to display image 2D vector fields in a GTK
+ window. Image vectors fields are embedded in an Inrimage image data.
+ Xflow can display simultaneous several vector fields (in order to
+ compare them), and produce postscript figures or mpeg/avi sequences
+ for report or multimedia presentations.

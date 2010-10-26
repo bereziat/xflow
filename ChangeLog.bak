@@ -1,0 +1,794 @@
+2009-06-02 22:34  bereziat
+
+	* src/xflow/Makefile.am: le module arrow.sh est maintenant dans la
+	  distribution.
+
+2009-06-02 20:22  bereziat
+
+	* ChangeLog, Makefile.in, NEWS, aclocal.m4, config.h.in,
+	  config.status, configure, configure.ac, scripts/Makefile.in,
+	  src/Makefile.in, src/doxydoc.c, src/img/Makefile.in,
+	  src/inrimage/Makefile.in, src/lib/Makefile.in: commit avant tag.
+
+2009-06-02 20:19  bereziat
+
+	* src/: doxydoc.c, img/pref-window.png: maj de la doc.
+
+2009-06-02 20:06  bereziat
+
+	* src/utils/: Makefile.in, vel2fig.c: nouvelles options -awidth &
+	  -astyle
+
+2009-06-02 20:05  bereziat
+
+	* src/xflow/: Makefile.am, Makefile.in, arrow.sh, callbacks.h,
+	  cb_export.c, cb_mainwindow.c, cb_prefs.c, data.h, interface.c,
+	  main.c, utils.c, utils.h, xflow.glade, pixmaps/arrow0.png,
+	  pixmaps/arrow1.png, pixmaps/arrow2.png, pixmaps/arrow3.png,
+	  pixmaps/arrow4.png, pixmaps/arrow5.png, pixmaps/arrow6.png:
+	  gestion des options -awidth & -astyle de la commande vel2fig
+
+2009-03-11 15:18  bereziat
+
+	* src/utils/vel2fig.c: nouvel option: type des fleches
+
+2009-02-17 10:43  bereziat
+
+	* config.status, src/Makefile: petit nettoyage
+
+2008-09-25 14:59  bereziat
+
+	* scripts/vel2mpg: Nouvelle version du script: (vraiment) plus
+	  robuste, avec une option en plus -fps bien pratique. Repose sur
+	  png2inr (donc un Inrimage recent).
+
+2008-08-26 14:18  bereziat
+
+	* src/xflow.doxy: spefication de la nouvelle position de xflow.h et
+	  specification de l'encodage des caracteres.
+
+2008-02-05 13:31  bereziat
+
+	* src/examples/xflow.m4: Script M4 pour utiliser xflow
+
+2007-09-24 14:44  bereziat
+
+	* src/utils/uv2col.c: transforme un champ de vitesse en une image
+	  RGB (a finir).
+
+2007-09-24 14:43  bereziat
+
+	* src/utils/veldif.c: oubli !
+
+2007-09-24 14:05  bereziat
+
+	* src/xflow/Makefile.in: autotools
+
+2007-09-24 14:02  bereziat
+
+	* src/inrimage/: Makefile.am, Makefile.in, xflow.h: xflow.h est
+	  place dans inrimage
+
+2007-09-24 13:59  bereziat
+
+	* acsite.m4, configure.ac, configure: macro m4 pour inrimage
+
+2007-09-24 13:43  bereziat
+
+	* Makefile.am, Makefile.in, config.status, configure, configure.ac,
+	  scripts/Makefile.in, src/Makefile, src/Makefile.am,
+	  src/Makefile.in, src/img/Makefile.in, src/lib/Makefile.am,
+	  src/lib/Makefile.in, src/lib/xflow.c, src/utils/Makefile.am,
+	  src/utils/Makefile.in, src/utils/uv2vel.c, src/utils/vel2fig.c,
+	  src/utils/vel2lic.c, src/utils/velpar.c, src/utils/velset.c,
+	  src/xflow/Makefile.am, src/xflow/data.h: xflow.h est place dans
+	  inrimage ajout des fichiers autotools manquant pour compiler sans
+	  autotools
+
+2007-09-21 11:15  bereziat
+
+	* COPYING, COPYRIGHT, ChangeLog, INSTALL, TODO, aclocal.m4,
+	  config.h.in, config.status, configure.ac, depcomp, install-sh,
+	  missing, stamp-h1, scripts/Makefile.in, src/Makefile,
+	  src/Makefile.in, src/examples/sh/Makefile.in,
+	  src/img/Makefile.am, src/img/Makefile.in, src/lib/Makefile.am,
+	  src/lib/Makefile.in, src/lib/xflow.h, src/utils/Makefile.am,
+	  src/utils/Makefile.in, src/xflow/Makefile.am,
+	  src/xflow/callbacks.h, src/xflow/cb_prefs.c,
+	  src/xflow/interface.c, src/xflow/interface.h, src/xflow/utils.c,
+	  src/xflow/utils.h, src/xflow/xflow.glade: Meilleur integration
+	  des autotools dans le depot Debut du nouveau formulaire de
+	  preference.
+
+2007-08-15 20:54  bereziat
+
+	* src/utils/vel2lic.c: on peut utiliser l'image associer comme
+	  condition initiale au lieu d'une image randomisee.
+
+2006-11-08 17:28  bereziat
+
+	* src/xflow.doxy: remove comments
+
+2006-10-12 10:27  bereziat
+
+	* NEWS: update
+
+2006-10-12 10:25  bereziat
+
+	* scripts/Makefile.am, scripts/velimg, src/Makefile, src/doxydoc.c,
+	  src/utils/velset.c: minor changes
+
+2006-10-12 10:07  bereziat
+
+	* src/utils/: vel2fig.c, vel2lic.c, velpar.c: fix documentation.
+
+2006-10-12 10:05  bereziat
+
+	* src/xflow/: cb_about.c, data.h, main.c: bug fix (appearing from
+	  last version) : zoom works correctly when an image background is
+	  not supplied.
+
+2006-10-12 10:04  bereziat
+
+	* configure.ac, src/xflow.doxy: fix version to 2.2.3
+
+2006-10-04 10:50  bereziat
+
+	* ChangeLog, Makefile.am, NEWS, configure.ac, scripts/Makefile.am,
+	  src/Makefile, src/Makefile.am, src/xflow.doxy,
+	  src/lib/Makefile.am, src/utils/Makefile.am,
+	  src/xflow/Makefile.am, src/xflow/cb_about.c: Improve the
+	  autotools files
+
+2006-10-04 10:36  bereziat
+
+	* src/examples/sh/: gradvel, gradvel.sh, uv2vel, uv2vel.sh, velpar,
+	  velpar.sh, velset, velset.sh: minor changes
+
+2006-10-03 14:30  bereziat
+
+	* src/Makefile.am: adding automake template to generate
+	  documentation.
+
+2006-10-03 14:23  bereziat
+
+	* src/img/: main-window.fig, pref-window.png, xflow-1.png: adding
+	  documentation figures
+
+2006-10-03 14:08  bereziat
+
+	* src/examples/c/Makefile.in: autoconf Makefile for compile C
+	  examples.
+
+2006-10-03 11:35  bereziat
+
+	* INSTALL, Makefile.am, configure.ac, scripts/Makefile.am,
+	  scripts/gradvel.sh, scripts/uv2vel.sh, scripts/velpar,
+	  scripts/velset.sh, src/Makefile, src/xflow.doxy,
+	  src/examples/c/gradvel.c, src/examples/sh/gradvel,
+	  src/examples/sh/uv2vel, src/examples/sh/velpar,
+	  src/examples/sh/velset, src/utils/gradvel.c,
+	  src/xflow/Makefile.am: - improvement of autotools files, scripts
+	  are now correctly handled by automake - new hierarchy : some c
+	  and sh examples are gathered in the src/example folder -
+	  documentation is build from src directory
+
+2006-10-03 11:28  bereziat
+
+	* src/utils/velpar.c: - some improvements, some switches like par
+	  (see velpar -help)
+
+2006-10-03 00:45  bereziat
+
+	* AUTHORS, ChangeLog, Makefile, Makefile.am, NEWS, TODO,
+	  configure.ac, doc/Makefile, scripts/Makefile, src/lib/Makefile,
+	  src/lib/Makefile.am, src/utils/Makefile, src/utils/Makefile.am,
+	  src/xflow/Makefile, src/xflow/Makefile.am, src/xflow/cb_about.c,
+	  src/xflow/utils.c: xflow projet is now supported by GNU
+	  autotools.
+
+2006-09-10 15:42  bereziat
+
+	* src/xflow/: data.h, main.c: Les valeurs initiales des curseurs de
+	  la barre d'outil de xflow sont parametrable depuis la ligne de
+	  commandes via les options -sample, -scale, -tlow et -thigh.
+
+2006-05-27 13:29  bereziat
+
+	* src/lib/xflow.c: xflow_open_verif(): correction d'un bogue
+	  genant.
+
+2006-05-24 23:26  bereziat
+
+	* src/xflow/api.c: max of threshold tune are set to the image
+	  dimension.
+
+2006-05-22 01:26  bereziat
+
+	* src/: lib/xflow.c, lib/xflow.h, xflow/main.c: modification de la
+	  signature de xflow_open_test() (la pr√©cedente est trop
+	  dangereuse).
+
+2006-05-21 20:34  bereziat
+
+	* src/xflow/data.c: Petite modif pour afficher une image monoplan
+	  en arriere plan.
+
+2006-05-21 20:00  bereziat
+
+	* src/xflow/main.c: Correction d'un bug devenu apparent depuis la
+	  derniere modif sur libxflow.
+
+2006-05-21 19:59  bereziat
+
+	* src/lib/xflow.c: - correction bug dans xflow_open_test() +
+	  gestion de l'entree standard.
+
+2006-05-21 17:27  bereziat
+
+	* src/lib/: xflow.c, xflow.h: - nouvelle fonction
+	  xflow_open_verif() - la fonction xflow_open_test() verifie plus
+	  finement le type des images.	  on peut egalement lui demander de
+	  verifier si les images ont des dimensions    compatible.  -
+	  increment XFLOW_RELEASE (lib en version 2.0.4)
+
+2006-04-03 13:31  bereziat
+
+	* ChangeLog, HISTORIC, NEWS, doc/Makefile, src/doxydoc.c,
+	  src/xflow.doxy, src/lib/xflow.h, src/xflow/data.h,
+	  src/xflow/interface.c, src/xflow/xflow.glade: Mise a jour des
+	  numeros de version, de la doc, etc...
+
+2006-03-29 17:39  bereziat
+
+	* ChangeLog, scripts/vel2mpg, src/utils/vel2fig.c,
+	  src/xflow/cb_export.c, src/xflow/interface.c,
+	  src/xflow/xflow.glade: - bug fixe dans vel2fig.  - ajout export
+	  GIF98.
+
+2006-01-27 22:31  bereziat
+
+	* src/lib/xflow.c: fix previous patch whose don't compile.
+
+2006-01-27 22:22  bereziat
+
+	* src/lib/: xflow.c, xflow.h: - bug fix in xflow_write_value_v2d().
+	  - adding xflow_write_value(), xflow_read_value().
+
+2005-09-27 22:27  bereziat
+
+	* Makefile: again some fixes
+
+2005-09-27 22:22  bereziat
+
+	* ChangeLog, Makefile: Improve compilation (diffusion of INR_HOME
+	  variable)
+
+2005-09-27 22:18  bereziat
+
+	* src/xflow/: callbacks.h, interface.c, support.h, xflow.glade: -
+	  last modifs on interface finaly commited.
+
+2005-06-24 16:26  bereziat
+
+	* Makefile.INRIA: Compilation speficique pour CLIME.
+
+2005-06-12 22:17  bereziat
+
+	* COPYRIGHT, HISTORIC, INSTALL, README, TODO, doc/Makefile,
+	  scripts/Makefile, scripts/gradvel.sh, scripts/vel2curl,
+	  scripts/vel2div, scripts/vel2mpg, src/doxydoc.c, src/xflow.doxy,
+	  src/utils/vel2fig.c, src/utils/vel2lic.c, src/xflow/Makefile,
+	  src/xflow/api.c, src/xflow/cb_about.c, src/xflow/cb_export.c,
+	  src/xflow/cb_mainwindow.c, src/xflow/cb_prefs.c,
+	  src/xflow/data.c, src/xflow/data.h, src/xflow/main.c,
+	  src/xflow/utils.c, src/xflow/xflow.glade: - improvement in vector
+	  arrow position.  - vector field can be smoothed (if sample > 1)
+	  in xflow and vel2fig.  - vel2img and xflow can export AVI movies.
+	  - display parameters (sample,scale,threshs) can be saved in
+	  headers of xflow files.  - memory is cleany freeup and file
+	  correctly closed when api finish.
+
+2005-04-09 19:14  bereziat
+
+	* scripts/: vel2curl, vel2div: Adding scripts to compute divergence
+	  and curl of a vector fields for displaying as background in
+	  xflow.
+
+2005-04-08 17:05  bereziat
+
+	* HISTORIC, TODO, src/doxydoc.c, src/xflow/cb_mainwindow.c,
+	  src/xflow/data.h, src/xflow/lecscrn.c, src/xflow/lecscrn.h,
+	  src/xflow/main.c, src/xflow/utils.c, src/xflow/utils.h: - xflow
+	  can display indexed image as background - divergence and curl are
+	  displayed using a gradient   of red color for negative values and
+	  a gradient of   bleu color for positive values.
+
+2005-03-17 16:04  bereziat
+
+	* ChangeLog, HISTORIC, src/doxydoc.c, src/xflow.doxy,
+	  src/xflow/data.h: xflow version 2.1.8, see HISTORIC for details.
+
+2005-03-09 23:29  bereziat
+
+	* ChangeLog, HISTORIC, Makefile, src/doxydoc.c,
+	  src/utils/vel2fig.c, src/xflow/cb_about.c, src/xflow/cb_export.c,
+	  src/xflow/data.h, src/xflow/main.c: Adding an XFLOW_API_BETA
+	  constant set to 1 for beta version.  The beta tag appears in the
+	  box info of xflow and in the version number.	vel2fig handles now
+	  high threshold on velocity norm. vel2fig threshes velocity norm
+	  exactly like xflow (a square was forgotten).
+
+2004-11-17 23:24  bereziat
+
+	* src/xflow/Makefile:
+	  Adding stuff for compiling with GTK for Win32
+
+2004-11-17 17:39  bereziat
+
+	* src/xflow/: callbacks.h, interface.c, interface.h, support.c,
+	  support.h, utils.c: Ajout des fichiers generer par glade pour
+	  pouvoir compiler sans lui. on enleve libgen.h
+
+2004-11-17 11:04  bereziat
+
+	* HISTORIC: xflow version set to 2.1.7
+
+2004-11-17 11:02  bereziat
+
+	* ChangeLog, HISTORIC, Makefile, src/utils/Makefile,
+	  src/xflow/cb_about.c, src/xflow/data.h, src/xflow/lecscrn.c,
+	  src/xflow/main.c, src/xflow/utils.c, src/xflow/utils.h,
+	  src/xflow/xflow.glade: xflow : adding control version of xflow to
+	  alert user for new version.  packed image can be displayed.
+
+2004-07-27 19:34  bereziat
+
+	* scripts/velpar: velpar : better analyse of Inrimage header,
+	  velpar can analyse several files.
+
+2004-07-23 15:53  bereziat
+
+	* src/xflow/data.h: xflow version number set to 2.1.6
+
+2004-07-23 15:52  bereziat
+
+	* HISTORIC, src/doxydoc.c, src/xflow/api.c,
+	  src/xflow/cb_mainwindow.c, src/xflow/cb_prefs.c,
+	  src/xflow/lecscrn.c, src/xflow/main.c, src/xflow/xflow.glade: -
+	  xflow : page increment in scale cursor is now 0.1 - xflow : logs
+	  in console removed - xflow : prefs formular is now full handled,
+	  normalize button is handled.
+
+2004-07-20 16:40  bereziat
+
+	* ChangeLog, HISTORIC, scripts/velimg, scripts/velpar,
+	  src/utils/vel2fig.c, src/xflow/cb_export.c,
+	  src/xflow/xflow.glade: bug fixe in velpar (J.-P. Berroir) adding
+	  $Id$ tag in velimg and velpar velfig.c normalize background image
+	  as xflow xflow exports the right background image
+
+2004-07-19 15:42  bereziat
+
+	* src/xflow/: cb_export.c, cb_mainwindow.c, main.c, xflow.glade:
+	  xflow can now export in Inrimage and Mpeg 1 format (using
+	  vel2mpg)
+
+2004-07-19 15:41  bereziat
+
+	* src/utils/vel2fig.c: nothing important
+
+2004-07-19 15:38  bereziat
+
+	* src/doxydoc.c: Adding documentation
+
+2004-07-19 15:38  bereziat
+
+	* ChangeLog, HISTORIC, Makefile, scripts/vel2mpg: - vel2img have a
+	  new interface - xflow can now export in Inrimage or Mpeg 1
+	  sequence (using vel2img)
+
+2004-07-15 17:09  bereziat
+
+	* HISTORIC, Makefile, src/doxydoc.c, src/xflow.doxy,
+	  src/lib/xflow.c, src/lib/xflow.h, src/utils/Makefile,
+	  src/utils/gradvel.c, src/utils/vel2fig.c, src/xflow/api.c,
+	  src/xflow/cb_mainwindow.c, src/xflow/data.c, src/xflow/data.h,
+	  src/xflow/main.c, src/xflow/xflow.glade: - Update documentation -
+	  xflow improvement : adding a high-threshold cursor, arrows are
+	  drawn at pixel center, vector fields are no more normalized.
+	  normsup computed for each field separately.
+
+2004-07-08 16:34  bereziat
+
+	* scripts/velimg: Fix bug in call of velpar
+
+2004-07-08 14:53  bereziat
+
+	* INSTALL, scripts/Makefile, scripts/velimg, scripts/velpar,
+	  src/doxydoc.c, src/utils/Makefile, src/xflow/Makefile,
+	  src/xflow/cb_about.c, src/xflow/xflow.glade: Xflow : adding Help
+	  item in menu (call mozilla with xflow documentation) velimg is a
+	  script setting associate image of a xflow data velpar is now a
+	  script (instead of C-program) velset is no longer maintain
+	  (source file not yet removed)
+
+2004-07-08 12:46  bereziat
+
+	* INSTALL, Makefile: Minor modif, completing INSTALL instruction
+	  (in french)
+
+2004-07-08 12:34  bereziat
+
+	* Makefile, README, doc/Makefile, src/xflow.doxy,
+	  src/xflow/Makefile: Adding README file and procedure to install
+	  documentation
+
+2004-07-07 15:58  bereziat
+
+	* src/: doxydoc.c, xflow/Makefile: Minor modifs
+
+2004-07-06 12:28  bereziat
+
+	* ChangeLog: ChangeLog (generate by cvs2cl.pl)
+
+2004-07-06 12:27  bereziat
+
+	* src/xflow/: Makefile, cb_export.c, cb_mainwindow.c, main.c,
+	  xflow.glade: - fix display bug when navigate on booknote widget -
+	  adding mpg and inr export (only interface) - windows are
+	  centered, main window is opened with	 a fixed size (500x500)
+
+2004-07-06 12:25  bereziat
+
+	* Makefile, TODO, scripts/Makefile: Some updates
+
+2004-07-06 12:01  bereziat
+
+	* src/utils/vel2fig.c: Remove traces
+
+2004-07-06 11:41  bereziat
+
+	* scripts/vel2mpg: nothing important
+
+2004-07-06 11:39  bereziat
+
+	* scripts/vel2mpg: Improving script. Can convert in INRIMAGE or
+	  Mpeg.  Test on parameter, online help have been added.
+
+2004-07-05 17:15  bereziat
+
+	* COPYRIGHT, TODO: minor modifs
+
+2004-07-05 16:49  bereziat
+
+	* HISTORIC, src/xflow/cb_export.c, src/xflow/cb_mainwindow.c,
+	  src/xflow/data.h, src/xflow/main.c, src/xflow/utils.c,
+	  src/xflow/xflow.glade: - resize window does not longer zoom image
+	  - adding zoom cursor, drawing area can be scolled if needed -
+	  Stable version tagged to STABLE_2_1_4.
+
+2004-06-25 16:50  bereziat
+
+	* Makefile: adding scripts installation
+
+2004-06-25 16:15  bereziat
+
+	* Makefile, src/lib/Makefile, src/utils/Makefile,
+	  src/xflow/Makefile: clean target works better
+
+2004-06-16 17:17  bereziat
+
+	* scripts/Makefile: Makefile d'installation des scripts
+
+2004-06-16 16:57  bereziat
+
+	* src/utils/vel2fig.c: ajout des options -nvo et -bbo (utile pour
+	  l'export mpeg) correction d'un bug sur l'extraction de l'image de
+	  fond.  vel2fig est xflow2fig version 1.2 (j'ai gard√© le meme
+	  numero de version).
+
+2004-06-16 16:51  bereziat
+
+	* scripts/: vel2mpg, velmpg: velmpg renomme en vel2mpg
+
+2004-06-16 16:31  bereziat
+
+	* scripts/: velmpg, velset.sh, xflowseq, xflset.sh: xflset.sh
+	  renomme en velset.sh xflowseq renomme en velmpg
+
+2004-06-16 14:11  bereziat
+
+	* src/: doxydoc.c, xflow.doxy, utils/velpar.c, utils/velset.c: rien
+	  d'important
+
+2004-06-15 15:03  bereziat
+
+	* src/xflow/cb_export.c: utilise vel2fig au lieu de xflow2fig
+
+2004-06-15 15:02  bereziat
+
+	* src/: doxydoc.c, xflow.doxy, lib/xflow.doxy: suite dep.
+
+2004-06-15 15:02  bereziat
+
+	* Makefile, src/utils/Makefile: rien d'important
+
+2004-06-15 14:45  bereziat
+
+	* src/utils/: Makefile, vel2fig.c, vel2lic.c, velpar.c, velset.c,
+	  xflow2fig.c, xflow2lic.c, xflpar.c, xflset.c: modif nom
+
+2004-06-15 14:32  bereziat
+
+	* src/: lib/Makefile, utils/Makefile, utils/xflow2lic.c,
+	  xflow/utils.h: suite dep.
+
+2004-06-15 14:31  bereziat
+
+	* COPYRIGHT, Makefile: copyright reste a preciser makefile global
+
+2004-06-15 14:16  bereziat
+
+	* gradvel.c, src/utils/gradvel.c, gradvel.sh, uv2vel.c, uv2vel.sh:
+	  suite dep.
+
+2004-06-15 14:15  bereziat
+
+	* src/utils/uv2vel.c: suite deplacement
+
+2004-06-15 14:14  bereziat
+
+	* scripts/: gradvel.sh, uv2vel.sh, vel2uv.sh, xflowseq, xflset.sh:
+	  deplacement des scripts dans le repertoire scripts
+
+2004-06-15 14:11  bereziat
+
+	* callbacks.h, xflow2fig.c, xflpar.c, xflset.c: suite deplacement
+
+2004-06-15 14:08  bereziat
+
+	* cb_about.c, cb_export.c, cb_mainwindow.c, cb_prefs.c,
+	  interface.h, support.c, support.h: suite deplacement
+
+2004-06-15 14:06  bereziat
+
+	* src/xflow/Makefile: deplacement xflow.mak dans src/xflow/Makefile
+
+2004-06-15 14:05  bereziat
+
+	* src/xflow/: api.c, api.h, cb_about.c, cb_export.c,
+	  cb_mainwindow.c, cb_prefs.c, data.c, data.h, lecscrn.c,
+	  lecscrn.h, main.c, utils.c: deplacement xflow dans src/xflow CVS
+	  ----------------------------------------------------------------------
+
+2004-06-15 14:00  bereziat
+
+	* xflow.glade, xflow.gladep, src/utils/xflow2fig.c,
+	  src/utils/xflpar.c, src/utils/xflset.c, src/xflow/xflow.glade,
+	  src/xflow/xflow.gladep: suite deplacement
+
+2004-06-15 13:58  bereziat
+
+	* src/lib/: xflow.c, xflow.doxy, xflow.h: deplacement des sources
+	  libxflow dans le repertoire src/lib
+
+2004-06-15 13:57  bereziat
+
+	* api.c, data.c, data.h, doxydoc.c, lecscrn.c, lecscrn.h, main.c,
+	  utils.c, utils.h, xflow.c, xflow.doxy, xflow.h, xflow.mak:
+	  deplacement des sources xflow dans le repertoire src/xflow
+
+2004-06-15 13:16  bereziat
+
+	* INSTALL: rien d'important
+
+2004-06-15 13:10  bereziat
+
+	* HISTORIC, data.h: Ajustement du numero de version de xflow pour
+	  le snapshoot : RELEASE-2_3_1-STABLE
+
+2004-06-14 16:58  bereziat
+
+	* Makefile, TODO, callbacks.h, cb_mainwindow.c, xflow.glade: - Les
+	  onglets M,D et R fonctionnent a nouveau (et c'est plus rapide car
+	  les tampons non visualisees ne sont pas calcules).  - Racourci
+	  clavier pour le choix des onglets et le scroll des plans, ces
+	  operations apparaissent dans le menu principal.  - affichage dans
+	  stdout des points cliques (bouton-3)
+
+2004-06-13 01:52  bereziat
+
+	* HISTORIC, Makefile, TODO, callbacks.c, callbacks.h, cb_about.c,
+	  cb_export.c, cb_mainwindow.c, cb_prefs.c, data.c, data.h, main.c,
+	  utils.c, xflow.c, xflow.glade, xflow.mak: - callbacks.c est
+	  splitte sur differents fichiers cb_*.c et efface - ajout des
+	  fichiers cb_*.c cb=callbacks - xflow.mak: modifs en consequence -
+	  Makefile: meilleur gestion de glade - xflow_prefs: ajout d'un
+	  bouton 'hide others' pour masquer les champs de vecteurs   il
+	  reste encore des problemes a fixer - xflow: on peut maintenant
+	  specfier plusieurs images de fond dans la ligne   de commande
+	  (auparavant, seul la premiere image etait prise en compte) -
+	  xflow_prefs: ajout d'un popup qui selectionne l'image de fond.  -
+	  xflow: modif afficher des normes, div et rot : ca ne marche plus
+	  momentanement.
+
+2004-06-07 23:27  bereziat
+
+	* callbacks.c, callbacks.h, data.c, utils.c, xflow.glade: Ajout
+	  visualisation rotationel
+
+2004-06-07 16:57  bereziat
+
+	* HISTORIC, Makefile, api.c, callbacks.c, callbacks.h, data.c,
+	  data.h, main.c, utils.c, utils.h, xflow.glade, xflow.mak: Ajout
+	  vue divergence + correction bugs
+
+2004-06-01 17:16  bereziat
+
+	* HISTORIC, data.h, main.c, xflow2fig.c: ajustement des numeros de
+	  version (rien d'important)
+
+2004-06-01 17:09  bereziat
+
+	* HISTORIC, api.c, callbacks.c, xflow.glade, xflow2fig.c: option -q
+	  dans fig2dev et traitement dans xflow-export xflow ajuste le page
+	  et step increment de xflow_thresh selon la valeur de api->normsup
+
+2004-05-26 16:38  bereziat
+
+	* HISTORIC, callbacks.c, xflow.mak: bug du champ constant fixÈ
+	  ajout PKG_CONFIG_PATH dans xflow.mak
+
+2004-04-22 16:40  bereziat
+
+	* TODO, uv2vel.sh: un simple script pour convertir deux fichiers u
+	  et v en un fichier uv
+
+2004-04-13 14:59  bereziat
+
+	* HISTORIC, INSTALL, Makefile, api.c, callbacks.c, callbacks.h,
+	  data.h, doxydoc.c, interface.h, main.c, utils.c, xflow.c,
+	  xflow.glade, xflow.h, xflow.mak, xflpar.c, xflset.c: - ajout
+	  formulaire d'info - ajout api.c (le debut)
+
+2004-04-09 14:28  bereziat
+
+	* Makefile, TODO, callbacks.c, data.c, data.h, main.c, utils.c,
+	  utils.h, xflow.glade, xflow.h, xflow2fig.c: Ajout export
+
+2004-04-06 11:52  bereziat
+
+	* INSTALL, Makefile, doxydoc.c, xflow.mak: Utilisation strict du
+	  Makfile. Utilisation de INR_HOME.
+
+2004-04-06 09:58  bereziat
+
+	* doxydoc.c, xflow.c, xflow.h, xflpar.c, xflset.c: Complement Doc
+
+2004-04-05 16:20  bereziat
+
+	* Makefile, main.c, xflow.c, xflow.h, xflow.mak: Ajout de la
+	  fonction xflow_open_test()
+
+2004-04-05 15:26  bereziat
+
+	* Makefile, gradvel.c, gradvel.sh, test.c, xflow.mak: test.c est
+	  renomme en gradvel.c
+
+2004-04-05 12:40  bereziat
+
+	* callbacks.h, data.h, lecscrn.h, support.h, utils.h: Encore des
+	  oublis ...
+
+2004-04-05 12:38  bereziat
+
+	* interface.h: Ajout interface.h (oubli)
+
+2004-04-05 12:36  bereziat
+
+	* xflow.mak: Ajout makefile xflow2
+
+2004-04-05 12:19  bereziat
+
+	* HISTORIC, Makefile, TODO, callbacks.c, data.c, doxydoc.c,
+	  lecscrn.c, main.c, test.c, utils.c, uv2vel.c, xflow.c,
+	  xflow.glade, xflow.h, xflset.c: Nouvelle mise-‡-jour (voir
+	  HISTORIC)
+
+2004-04-05 12:18  bereziat
+
+	* xflow2fig.c: xflow2fig peut supperposer plusieurs champs de
+	  vitesse.
+
+2004-03-24 13:45  bereziat
+
+	* xflow.glade: modifiÈ par glade
+
+2004-03-24 13:44  bereziat
+
+	* xflow.gladep: fichier de configuration de xflow.glade
+
+2004-03-24 13:44  bereziat
+
+	* interface.c: interface.c est generÈ par glade
+
+2004-03-24 11:28  bereziat
+
+	* api.c, callbacks.c, color.c, data.c, interface.c, lecscrn.c,
+	  main.c, support.c, test.c, utils.c, xflow.glade: Nouvelle version
+	  de XFLOW, construite a partir de Glade-2.
+
+2004-03-24 11:26  bereziat
+
+	* xflow2tex.c: xflow2tex est remplac√© par xflow2fig plus puissant
+	  et adapt√©s a nos besoins.
+
+2004-03-24 11:25  bereziat
+
+	* HISTORIC, corexflow.c: Le programme de visualisation pour gtk 1.2
+	  est supprim√© pour une nouvelle version r√©√©crite from scratch
+	  pour GTK 2.
+
+2004-03-24 11:07  bereziat
+
+	* Makefile, TODO, corexflow.c, uv2vel.c, xflow.c, xflow.h,
+	  xflow2fig.c, xflpar.c, xflset.c: Nouvelle sp√©cification pour la
+	  librairie XFLOW (version 2) xflow ancienne sauce (GTK-1.2)
+	  adpat√© pour cette librairie.
+
+2003-09-25 17:11  bereziat
+
+	* TODO, corexflow.c, xflow.c, xflow.h: Nouvelle version 2 de la
+	  librairie utilisant un format sous la forme un fichier INRIMAGE
+	  unique ‡ deux composantes.
+
+2003-06-25 10:12  bereziat
+
+	* HISTORIC, xflow.h: dernier commit avant marquage
+
+2003-05-23 15:46  bereziat
+
+	* xflow.c: Meilleur prise en compte des fichiers comprÈssÈ en
+	  lecture (par analyze de leur nom)
+
+2003-05-16 14:37  bereziat
+
+	* xflow2fig.c: Dom: correction aide en ligne, pret a la diffusion
+
+2003-05-16 14:26  bereziat
+
+	* HISTORIC, TODO, corexflow.c, xflow2fig.c: Dom: voir modif
+	  16/05/01 dans HISTORIC
+
+2003-05-14 17:23  bereziat
+
+	* TODO, xflow2fig.c: Dom: correction boggue dans xflow2fig.c
+
+2003-05-14 16:56  bereziat
+
+	* TODO: Dom: ajout d'un fichier TODO
+
+2003-05-14 16:21  bereziat
+
+	* HISTORIC, Makefile, corexflow.c, xflow.c, xflow2fig.c: Dom: voir
+	  modif du 14/05/03 dans HISTORIC
+
+2003-05-12 12:24  bereziat
+
+	* xflow.c: dom: correction bug sur test de igethline
+
+2003-05-08 10:24  bereziat
+
+	* HISTORIC: Dom: ajout d'un fichier d'historique
+
+2003-05-07 17:07  bereziat
+
+	* Makefile, corexflow.c, doxydoc.c, xflow.c, xflow.doxy, xflow.h,
+	  xflow2tex.c: Importation du projet xflow
+
+2003-05-07 17:07  bereziat
+
+	* Makefile, corexflow.c, doxydoc.c, xflow.c, xflow.doxy, xflow.h,
+	  xflow2tex.c: Initial revision
+

@@ -1,0 +1,33 @@
+#! /bin/bash
+
+# XFLOW 
+# (c) 2004 by Dominique Bereziat, INRIA, LIP6
+#
+# Associate an image background to a XFLOW data.
+# $Id
+
+function usage() {
+    cvsid='$Id: velimg,v 1.4 2006/10/12 08:25:35 bereziat Exp $'
+    echo "velimg - Associate an image background to a XFLOW data"
+    echo "Usage is : " `basename $0` " xflow-file inrimage-file"
+    echo "$cvsid$"
+    exit 1
+} 
+
+case $# in
+    0|1)
+	usage
+	;;
+    *)
+	;;
+esac
+
+if velpar $1 > /dev/null; then
+    if par $2  > /dev/null; then
+	velset -img $2 $1
+    fi
+else
+    usage
+fi
+
+

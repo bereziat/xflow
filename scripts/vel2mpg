@@ -1,0 +1,237 @@
+#! /bin/bash
+# 
+# Converti un fichier xflow en un fichier mpeg
+# (c) 2008, Dominique Béréziat
+#
+# 1.3 : simplification du script (qui était de toute facon
+#       buggé), on convertit systématiquement en png puisque
+#       Inrimage connait ce format depuis la 4.6.0
+#       nouvelle option -fps pour Mpeg et AVI
+#
+# 1.2 : ajout encodage AVI
+#
+# $Id: vel2mpg,v 1.7 2008/09/25 12:59:43 bereziat Exp $
+
+name=`basename $0`
+version=1.3-cvs
+
+cvsid='$Id: vel2mpg,v 1.7 2008/09/25 12:59:43 bereziat Exp $'
+case $# in
+    0|1)
+	cat <<EOF
+$name version $version
+Convert an XFLOW sequence in a visual sequence (INRIMAGE, GIF89,
+AVI or MPEG format).
+
+Usage $name input -o output [-codec codec][-vbr bitrate] [vel2fig options]
+   input  : input as XFLOW format
+   output : the name of output file. The file suffix determines
+            the output file format :
+               .inr : INRIMAGE multiframe image
+               .avi : AVI film,
+               .mpg : MPEG1 film,
+               .gif : GIF89 animation.
+
+   -codec : select an codec for AVI encoding. Possible are
+            mjpeg, mpeg1, mpeg2, divx3 and divx4
+   -vbr   : choice an video bitrate for AVI encoding. 
+   -fps   : AVI/MPEG encoding : video speed (in frame per second)
+
+   vel2fig options:
+            other options will be given to vel2fig (allows
+            to chosen size, arrow color, etc. See 
+            vel2fig -help). A minimal of one XFLOW input
+            file is required otherwise, the script will fail.
+            Options -frame, -iz, -type and -o will be ignored.
+
+   Remark : to produce MPEG sequence, mpeg_encode is required.
+            to procude AVI sequence, mencoder is required.
+
+(c) 2006 Dominique Bereziat
+$cvsid
+EOF
+	exit
+	;;
+    *)
+	;;
+esac
+
+# check if a command exists
+function checkcmd () {
+    if which $1 2> /dev/null > /dev/null ; then
+	:
+    else
+	echo "Error: $2"
+	exit 1
+    fi
+}
+
+
+function clean () {
+    echo "cleaning dirs ..."
+    rm -f $TMPFILE*
+}
+
+
+
+
+########################################################
+# Globals variables
+########################################################
+trap clean EXIT
+
+TMPFILE=tmp-vel2mpg$$
+OUTPUT=
+OPTS=
+z=0
+codec=mpeg4
+vbr=200
+fps=5
+
+
+########################################################
+echo -n "PASS 1 : analyze arguments ... "
+########################################################
+
+# Get output filename and remove undesir options
+while [ $# -ne 0 ]
+do
+  case $1 in
+      -o)
+	  OUTPUT=$2
+	  shift
+	  ;;
+      -frame|-iz|-type)
+	  shift
+	  ;;
+      -nvo)
+	  ;;
+      -codec)
+	  case $2 in
+	      mjpeg)
+		  codec=mjpeg
+		  ;;
+	      mpeg1)
+		  codec=mpeg1video
+		  ;;
+	      mpeg2)
+		  codec=mpeg2video
+		  ;;
+	      divx3)
+		  codec=msmpeg4
+		  ;;
+	      divx5)
+		  codec=mpeg4
+		  ;;
+	      *)
+		  echo "error: unknown codec"
+		  exit 1
+		  ;;
+	  esac
+	  ;;
+      -vbr)
+	  vbr=$2
+	  shift
+	  ;;
+      -fps)
+	  fps=$2
+	  frep="-rep $(( 25/$fps))"
+	  shift
+	  ;;
+      *)
+          # Test if argument is an image
+          # and get the dimension 
+	  back=$*
+          if [ -f $1 ]
+	  then
+	      if par $1 > /dev/null ; then
+		  z=$(par $1 -z | awk '{print $2}')
+	      fi
+	  fi
+	  set -- $back
+	  OPTS="$OPTS $1"
+	  ;;
+  esac
+  shift
+done
+
+############################################
+# Check output validity & associated tools
+############################################
+case $OUTPUT in
+    *.inr)
+	# nothing special
+	;;
+    *.mpg)
+	checkcmd mpeg_encode "mpeg_encode is required to encode in MPG format"
+	;;
+    *.avi)
+	checkcmd mencoder "mencoder is required to encode in AVI format"
+	;;
+    *.gif)
+	checkcmd convert "convert is required to encode in GIF format"
+	;;
+    *)
+	echo "error: output file has not an admissible name extension ($OUTPUT)"
+	exit 1
+	;;
+esac
+checkcmd png2inr "png2inr not found, check your Inrimage installation"
+
+# Check nframe validity
+if [ $z = 0 ] ; then
+    echo "Error : any input file has been specified"
+    exit 1
+fi
+echo "($z frames to encode)"
+OPTS="$OPTS -type png -nvo"
+
+#############################################################
+echo -n "PASS 2 : create frames "
+#############################################################
+
+# On génère le premier plan pour connaître la véritable taille
+# de la séquence. En effet, les vecteurs peuvent sortir du
+# domaine image et agrandir ainsi le domaine vectoriel.
+#echo vel2fig -frame 1 -o $TMPFILE $OPTS
+
+for iz in `seq $z` ; do
+    echo -n '.'
+    vel2fig -frame $iz -o $TMPFILE $OPTS
+    mv  $TMPFILE-$iz.png $TMPFILE-`printf "%04d" $iz`.png    
+done 
+echo ""
+
+case $OUTPUT in
+    *.inr)
+#############################################################
+	echo "PASS 3 : build Inrimage sequence"
+#############################################################
+	create > $OUTPUT -v 3 `par $TMPFILE-0001.png -x -y` -z $z
+	inrcat $TMPFILE-*.png >> $OUTPUT
+	;;
+    *.mpg)
+#############################################################
+	echo "PASS 3 : MPEG encoding ..."
+#############################################################
+	inr2mpg -C -e $TMPFILE-*.png $frep > /dev/null 2> /dev/null
+	mv mpeg.mpg $OUTPUT
+	rm -f mpeg.param $TMPFILE
+	;;
+    *.avi)
+#############################################################
+	echo "PASS 3 : AVI encoding ..."
+#############################################################
+	vcodec=$codec:vbitrate=$vbr
+        mencoder mf://$TMPFILE-*.png -o $OUTPUT -mf  fps=$fps:type=png  \
+	    -ovc lavc -lavcopts vcodec=$codec -oac copy > /dev/null 2> /dev/null
+	;;
+    *.gif)
+#############################################################
+	echo "PASS 3 : GIF encoding ..."
+# modif a faire : utiliser inr2gif -anim a partir de la sequence .inr
+#############################################################	
+	convert $TMPFILE-*.png -loop 0 $OUTPUT
+	;;
+esac
+

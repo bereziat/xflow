@@ -1,0 +1,33 @@
+This package was debianized by Dominique Béréziat <Dominique.Bereziat@inria.fr> on
+Fri, 21 Mar 2008 17:08:53 +0100.
+
+It was downloaded from <http://inrimage.gforge.inria.fr>
+
+Upstream Author: 
+
+    <Dominique Bereziat Dominique.Bereziat@inria.fr>
+
+Copyright: 
+
+    <Copyright (C) 2008 INRIA>
+
+License:
+
+    INRIA holds all the ownership rights on the Software.
+    INRIA freely grants the right to use, modify the Software, integrate it in
+    another Software, under the following conditions:
+      - This file must be included in any reproduction.
+      - Any non-profit use is authorized.
+      - Express authorization of INRIA must be obtained prior to any use or
+        reproduction of this Software for commercial purposes.
+    Any commercial use made without obtaining the prior express agreement of
+    INRIA would therefore constitute a fraudulent imitation.
+    INRIA can assume no liability, and cannot be help responsible, in any man-
+    ner or in any case, for any direct or indirect dammage sustained by the user.
+
+
+The Debian packaging is (C) 2008, Dominique Bereziat <Dominique.Bereziat@inria.fr> and
+is licensed under the GPL, see `/usr/share/common-licenses/GPL'.
+
+# Please also look if there are files or directories which have a
+# different copyright/license attached and list them here.

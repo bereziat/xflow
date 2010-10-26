@@ -1,0 +1,12 @@
+# An example of xflow client
+# $Id: Makefile.in,v 1.1 2006/10/03 12:08:09 bereziat Exp $
+# (c) 2002-2006 D. Bereziat
+
+CPPFLAGS = @CPPFLAGS@ -I@prefix@/include
+CFLAGS   = -O2 -Wall 
+LDFLAGS  = @LDFLAGS@ -L@prefix@/lib
+LDLIBS   = -lxflow -linrimage -lm -ledges
+
+gradvel: gradvel.o
+
+clean:; $(RM) gradvel.o gradvel
