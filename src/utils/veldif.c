@@ -1,6 +1,8 @@
 /**
  * Différence de deux champ de vecteur : mesure d'erreur
  * Voir aussi ''errors''
+ * obsolete et jamais utilisé
+ * va etre remplacé par velerr / velnorme (a voir)
  */
 
 #include <inrimage/xflow.h>

@@ -8,7 +8,7 @@ AM_LDFLAGS = -L../lib/
 LDADD   = -lxflow -lm
 
 # list of programs to build
-bin_PROGRAMS = vel2fig vel2lic velpar velset uv2vel veldif
+bin_PROGRAMS = vel2fig vel2lic velpar velset uv2vel veldif velerr
 
 # @todo move vel2grad in an example folder
 # @todo rename error into velerr or something like that

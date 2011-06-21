@@ -16,7 +16,7 @@
 
 # Makefile for compile xflow utilities
 # (c) 2002-2006 D.Béréziat
-# $Id: Makefile.in,v 1.5 2010/07/21 12:41:58 bereziat Exp $
+# $Id: Makefile.am,v 1.4 2007/09/24 11:43:35 bereziat Exp $
 
 VPATH = @srcdir@
 pkgdatadir = $(datadir)/@PACKAGE@
@@ -35,7 +35,8 @@ NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
 bin_PROGRAMS = vel2fig$(EXEEXT) vel2lic$(EXEEXT) velpar$(EXEEXT) \
-	velset$(EXEEXT) uv2vel$(EXEEXT) veldif$(EXEEXT)
+	velset$(EXEEXT) uv2vel$(EXEEXT) veldif$(EXEEXT) \
+	velerr$(EXEEXT)
 subdir = src/utils
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
@@ -64,6 +65,10 @@ veldif_SOURCES = veldif.c
 veldif_OBJECTS = veldif.$(OBJEXT)
 veldif_LDADD = $(LDADD)
 veldif_DEPENDENCIES =
+velerr_SOURCES = velerr.c
+velerr_OBJECTS = velerr.$(OBJEXT)
+velerr_LDADD = $(LDADD)
+velerr_DEPENDENCIES =
 velpar_SOURCES = velpar.c
 velpar_OBJECTS = velpar.$(OBJEXT)
 velpar_LDADD = $(LDADD)
@@ -79,8 +84,10 @@ COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
 LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
-SOURCES = uv2vel.c vel2fig.c vel2lic.c veldif.c velpar.c velset.c
-DIST_SOURCES = uv2vel.c vel2fig.c vel2lic.c veldif.c velpar.c velset.c
+SOURCES = uv2vel.c vel2fig.c vel2lic.c veldif.c velerr.c velpar.c \
+	velset.c
+DIST_SOURCES = uv2vel.c vel2fig.c vel2lic.c veldif.c velerr.c velpar.c \
+	velset.c
 ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
@@ -255,6 +262,9 @@ vel2lic$(EXEEXT): $(vel2lic_OBJECTS) $(vel2lic_DEPENDENCIES)
 veldif$(EXEEXT): $(veldif_OBJECTS) $(veldif_DEPENDENCIES) 
 	@rm -f veldif$(EXEEXT)
 	$(LINK) $(veldif_OBJECTS) $(veldif_LDADD) $(LIBS)
+velerr$(EXEEXT): $(velerr_OBJECTS) $(velerr_DEPENDENCIES) 
+	@rm -f velerr$(EXEEXT)
+	$(LINK) $(velerr_OBJECTS) $(velerr_LDADD) $(LIBS)
 velpar$(EXEEXT): $(velpar_OBJECTS) $(velpar_DEPENDENCIES) 
 	@rm -f velpar$(EXEEXT)
 	$(LINK) $(velpar_OBJECTS) $(velpar_LDADD) $(LIBS)
@@ -272,6 +282,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/vel2fig.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/vel2lic.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/veldif.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/velerr.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/velpar.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/velset.Po@am__quote@
 

@@ -39,6 +39,8 @@
 #include <string.h>
 #include <libgen.h>
 
+extern int debug_;
+
 /* enlève l'extension d'un nom de fichier, 
  * l'extension .gz est pris en compte */
 
@@ -327,6 +329,9 @@ int main( int argc, char **argv) {
   if( *image) {
     /* verification si l'image du plan est bien la 
      * création si besoin */
+    char tmpname[] = "/tmp/vel2figXXXXXX";
+
+    mkstemp( tmpname);
     sprintf( name, "%s%d.gif", output, frame);
     fp = fopen( name, "r");
     if( fp == NULL || igetopt0("-doeps")) {
@@ -336,29 +341,32 @@ int main( int argc, char **argv) {
 	"je la créée à partir de la séquence d'image ...\n");
       */
 
-      sprintf( name, "extg %s tempo.inr -iz %d -z 1 ", image, frame);
+      sprintf( name, "extg %s %s -iz %d -z 1 ", image, tmpname, frame);
       system( name);
 
       /* Normalisez l'image de fond si besoin */
       {
 	Fort_int lfmt[9];
-	struct image *img = image_( "tempo.inr", "e", "", lfmt);
+	struct image *img = image_( tmpname, "e", "", lfmt);
 	fermnf_( &img);
 	if( !(TYPE==FIXE && BSIZE==1)) {
-	  system( "norma tempo.inr tempo2.inr");
-	  system( "mv tempo2.inr tempo.inr");
+	  sprintf( name, "norma %s %s2", tmpname, tmpname);
+	  system( name);
+	  sprintf( name, "mv %s2 %s", tmpname, tmpname);
+	  system( name);
 	}
      
-      sprintf( name, "inr2gif %s tempo.inr %s.gif", 
+      sprintf( name, "inr2gif %s %s %s.gif", 
 	       /* @FIXME : cas des couleurs -z 3 et à palette */
 	       NDIMV==3?"-C":"",
+	       tmpname,
 	       output);
       }
       
-      fprintf( stderr, "system: %s\n", name);
+      if(debug_)fprintf( stderr, "system: %s\n", name);
       system( name);
-      system( "rm -f tempo.inr");
-
+      sprintf( name, "rm -f %s", tmpname);
+      system( name);
 
     }
     if(fp)  fclose( fp);
