@@ -11,6 +11,10 @@ pkgdata_DATA = AUTHORS README TODO NEWS COPYING INSTALL ChangeLog
 
 # target reached by 'make install'
 install-data-local:
+	@$(NORMAL_INSTALL)
+	$(mkinstalldirs) $(DESTDIR)$(docdir)
+	$(INSTALL_DATA) NEWS $(DESTDIR)$(docdir)
+	$(INSTALL_DATA) ChangeLog $(DESTDIR)$(docdir)
 
 # target reached by 'make dist'
 dist-hook:

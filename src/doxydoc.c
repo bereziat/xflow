@@ -18,8 +18,8 @@
  *   de vecteurs (programme de flot, etc) utiliseront cette librarie pour
  *   créer leurs fichiers résultats.
  *
- * Voir aussi l'<a class="el" href="../NEWS">historique</a> des versions
- * ou le fichier <a class="el" href="../ChangeLog">ChangeLog</a>.
+ * Voir aussi l'<a class="el" href="NEWS">historique</a> des versions
+ * ou le fichier <a class="el" href="ChangeLog">ChangeLog</a>.
  * 
  * \section format Format des fichiers XFLOW
  *

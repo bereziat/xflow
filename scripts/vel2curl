@@ -21,7 +21,7 @@ case $# in
 esac
 
 # Compute curl
-extg -iv 2 -v 1 $INPUT | recfilters -cont 1O -s 1 -x 1 -y -1 -z -1 > $TMP-1.inr
+extg -iv 2 -v 1 $INPUT | recfilters -cont 10 -s 1 -x 1 -y -1 -z -1 > $TMP-1.inr
 extg -iv 1 -v 1 $INPUT | recfilters -cont 10 -s 1 -x -1 -y 1 -z -1 | bi -n -1 | ad $TMP-1.inr > $TMP-2.inr
 set -- `ical $TMP-2.inr`
 min=$1

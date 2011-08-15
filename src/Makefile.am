@@ -6,11 +6,6 @@ EXTRA_DIST = xflow.doxy doxydoc.c
 
 nobase_include_HEADERS = inrimage/xflow.h
 
-# pkgdata_DATA = $(wildcard doc/*)
-# @todo automake copie tout ces fichiers dans pkgdatadir
-#                (alors qu'on voudrait préserver la hiérarchie).
-#                a priori, il faut faire la manip à la main.
-
 if BUILD_DOX
 doc: xflow.doxy doxydoc.c img/main-window.png; doxygen xflow.doxy
 img/main-window.png: img/main-window.fig; fig2dev -L png $< $@
@@ -18,18 +13,19 @@ img/main-window.png: img/main-window.fig; fig2dev -L png $< $@
 # target reached by 'make install'
 install-data-local: doc
 	@$(NORMAL_INSTALL)
-	$(mkinstalldirs) $(DESTDIR)$(pkgdatadir)/doc ; \
+	$(mkinstalldirs) $(DESTDIR)$(docdir) 
 	for file in $(srcdir)/doc/* ; do \
-	  $(INSTALL_DATA) $$file $(DESTDIR)$(pkgdatadir)/doc ;\
-	done ; \
-	$(mkinstalldirs) $(DESTDIR)$(pkgdatadir)/examples/sh ; \
-	$(mkinstalldirs) $(DESTDIR)$(pkgdatadir)/examples/c ; \
+	  $(INSTALL_DATA) $$file $(DESTDIR)$(docdir) ;\
+	done
+	$(mkinstalldirs) $(DESTDIR)$(pkgdatadir)/examples/sh
+	$(mkinstalldirs) $(DESTDIR)$(pkgdatadir)/examples/c
 	for file in $(srcdir)/examples/sh/* ; do \
 	  $(INSTALL_DATA) $$file $(DESTDIR)$(pkgdatadir)/examples/sh ;\
-	done ; \
+	done
 	for file in $(srcdir)/examples/c/* ; do \
 	  $(INSTALL_DATA) $$file $(DESTDIR)$(pkgdatadir)/examples/c ;\
 	done 
+	cd $(DESTDIR)$(pkgdatadir) && ln -sf $(docdir) doc
 endif
 
 # target reached by 'make dist'

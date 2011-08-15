@@ -164,7 +164,7 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 
 # Makefile for generate xflow documentation
-# $Id: Makefile.in,v 1.5 2010/07/21 12:41:58 bereziat Exp $
+# $Id: Makefile.am,v 1.3 2007/09/24 11:43:34 bereziat Exp $
 # (c) 2002-2006 D.Bereziat
 SUBDIRS = inrimage lib xflow utils img 
 EXTRA_DIST = xflow.doxy doxydoc.c
@@ -503,29 +503,25 @@ uninstall-am: uninstall-nobase_includeHEADERS
 	uninstall-nobase_includeHEADERS
 
 
-# pkgdata_DATA = $(wildcard doc/*)
-# @todo automake copie tout ces fichiers dans pkgdatadir
-#                (alors qu'on voudrait préserver la hiérarchie).
-#                a priori, il faut faire la manip à la main.
-
 @BUILD_DOX_TRUE@doc: xflow.doxy doxydoc.c img/main-window.png; doxygen xflow.doxy
 @BUILD_DOX_TRUE@img/main-window.png: img/main-window.fig; fig2dev -L png $< $@
 
 # target reached by 'make install'
 @BUILD_DOX_TRUE@install-data-local: doc
 @BUILD_DOX_TRUE@	@$(NORMAL_INSTALL)
-@BUILD_DOX_TRUE@	$(mkinstalldirs) $(DESTDIR)$(pkgdatadir)/doc ; \
+@BUILD_DOX_TRUE@	$(mkinstalldirs) $(DESTDIR)$(docdir) 
 @BUILD_DOX_TRUE@	for file in $(srcdir)/doc/* ; do \
-@BUILD_DOX_TRUE@	  $(INSTALL_DATA) $$file $(DESTDIR)$(pkgdatadir)/doc ;\
-@BUILD_DOX_TRUE@	done ; \
-@BUILD_DOX_TRUE@	$(mkinstalldirs) $(DESTDIR)$(pkgdatadir)/examples/sh ; \
-@BUILD_DOX_TRUE@	$(mkinstalldirs) $(DESTDIR)$(pkgdatadir)/examples/c ; \
+@BUILD_DOX_TRUE@	  $(INSTALL_DATA) $$file $(DESTDIR)$(docdir) ;\
+@BUILD_DOX_TRUE@	done
+@BUILD_DOX_TRUE@	$(mkinstalldirs) $(DESTDIR)$(pkgdatadir)/examples/sh
+@BUILD_DOX_TRUE@	$(mkinstalldirs) $(DESTDIR)$(pkgdatadir)/examples/c
 @BUILD_DOX_TRUE@	for file in $(srcdir)/examples/sh/* ; do \
 @BUILD_DOX_TRUE@	  $(INSTALL_DATA) $$file $(DESTDIR)$(pkgdatadir)/examples/sh ;\
-@BUILD_DOX_TRUE@	done ; \
+@BUILD_DOX_TRUE@	done
 @BUILD_DOX_TRUE@	for file in $(srcdir)/examples/c/* ; do \
 @BUILD_DOX_TRUE@	  $(INSTALL_DATA) $$file $(DESTDIR)$(pkgdatadir)/examples/c ;\
 @BUILD_DOX_TRUE@	done 
+@BUILD_DOX_TRUE@	cd $(DESTDIR)$(pkgdatadir) && ln -sf $(docdir) doc
 
 # target reached by 'make dist'
 dist-hook:

@@ -213,13 +213,13 @@ on_xflow_mag_expose_event              (GtkWidget       *widget,
 	pd->data.xflow.magbuf
 	) {
       gdk_draw_gray_image( widget->window, 
-			      widget->style->fg_gc[GTK_STATE_NORMAL],
-			      0, 0, api.wwin, api.hwin,
-			      GDK_RGB_DITHER_NORMAL, 
-			      pd->data.xflow.magbuf,
-			      api.wwin);
-			      // ,
-			      //(GdkRgbCmap*) utils_pal_get() );
+			   widget->style->fg_gc[GTK_STATE_NORMAL],
+			   0, 0, api.wwin, api.hwin,
+			   GDK_RGB_DITHER_NORMAL, 
+			   pd->data.xflow.magbuf,
+			   api.wwin);
+      // ,
+      //(GdkRgbCmap*) utils_pal_get() );
       draw_vectors( widget, pd);
       // break;
     }

@@ -50,7 +50,8 @@ main (int argc, char *argv[])
   int isimg, norma, smooth;
   int color;
   Fort_int lfmt[9];
-  
+  static char *title = NULL;
+ 
   //  initopts( argc, argv);
   sprintf( version, "%d.%d.%d %s", XFLOW_API_MAJOR, XFLOW_API_MINOR, XFLOW_API_RELEASE,
 	   XFLOW_API_BETA?"beta":"");
@@ -199,8 +200,19 @@ main (int argc, char *argv[])
    * the project. Delete any components that you don't want shown initially.
    */
   api.mainwindow = create_xflow_mainwindow ();
-  sprintf( name, "Xflow %d.%d.%d", XFLOW_API_MAJOR, XFLOW_API_MINOR, 
-	   XFLOW_API_RELEASE);
+
+  /* main window title: the first available velocity filename or the first 
+     image otherwise */
+  /*   sprintf( name, "Xflow %d.%d.%d", XFLOW_API_MAJOR, XFLOW_API_MINOR, 
+       XFLOW_API_RELEASE); */
+  for( data = api.data; data; data=data->next) {
+    if( data -> type == DATA_IMAGE)
+      sprintf( name, "%s", data->data.image.file->nom);
+    if( data -> type == DATA_XFLOW) {
+      sprintf( name, "%s", data->data.xflow.file->iuv->nom);
+      break;
+    }
+  }
   gtk_window_set_title( GTK_WINDOW(api.mainwindow), name);
   if(norma) gtk_button_clicked( GTK_BUTTON(lookup_widget( api.mainwindow, "xflow_normalize")));
   if(smooth) gtk_button_clicked( GTK_BUTTON(lookup_widget( api.mainwindow, "xflow_smooth")));

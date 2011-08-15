@@ -16,7 +16,7 @@
 
 # Makefile for xflow library
 # (c) 2002-2006 D.Béréziat
-# $Id: Makefile.in,v 1.6 2010/07/21 12:41:58 bereziat Exp $
+# $Id: Makefile.am,v 1.6 2010/01/24 22:08:21 bereziat Exp $
 
 VPATH = @srcdir@
 pkgdatadir = $(datadir)/@PACKAGE@

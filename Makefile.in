@@ -15,7 +15,7 @@
 @SET_MAKE@
 
 # Makefile for compile xflow and its utilities
-# $Id: Makefile.in,v 1.4 2010/07/21 12:41:57 bereziat Exp $
+# $Id: Makefile.am,v 1.5 2010/07/21 12:41:57 bereziat Exp $
 # (c) 2002-2006 D.Bereziat
 
 VPATH = @srcdir@
@@ -653,6 +653,10 @@ uninstall-am: uninstall-pkgdataDATA
 
 # target reached by 'make install'
 install-data-local:
+	@$(NORMAL_INSTALL)
+	$(mkinstalldirs) $(DESTDIR)$(docdir)
+	$(INSTALL_DATA) NEWS $(DESTDIR)$(docdir)
+	$(INSTALL_DATA) ChangeLog $(DESTDIR)$(docdir)
 
 # target reached by 'make dist'
 dist-hook:

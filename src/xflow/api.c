@@ -16,7 +16,7 @@ void xflow_api_update_widget( XFLOW_API *api) {
   float digit, normsup;
   XFLOW_DATA *pd;
   Fort_int lfmt[9];
-  
+
   normsup = 0;
   for( pd=api->data; pd; pd=pd->next)
     if( pd->type == DATA_XFLOW && normsup < pd->data.xflow.normsup) {
@@ -83,6 +83,8 @@ void xflow_api_update_widget( XFLOW_API *api) {
 
 
 void xflow_api_refresh_drawing_areas( XFLOW_API *api) {
+  gtk_widget_queue_draw( lookup_widget(api->mainwindow, "xflow_thresh"));
+  gtk_widget_queue_draw( lookup_widget(api->mainwindow, "xflow_thresh_high"));
   gtk_widget_queue_draw( lookup_widget(api->mainwindow, "xflow_drawing"));
   gtk_widget_queue_draw( lookup_widget(api->mainwindow, "xflow_mag"));
   gtk_widget_queue_draw( lookup_widget(api->mainwindow, "xflow_div"));
