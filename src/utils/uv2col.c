@@ -19,7 +19,6 @@ Magenta ---- Bleu
 
 #include <inrimage/xflow.h>
 
-
 int main( int argc, char **argv) {
   char nom[128];
   xflow *xf_in;
@@ -43,13 +42,13 @@ int main( int argc, char **argv) {
   EXP = 0;
   nf_out = image_( nom, "c", "", lfmt);
 
-  uv = (v2d *) i_malloc( sizeof(v2d) * NDIMX * NDIMY);
+  uv = (float *) i_malloc( sizeof(v2d) * NDIMX * NDIMY);
   magcol = (float *) i_malloc( 3 * sizeof(float) * NDIMX * NDIMY);
 
   for( i=0; i<NDIMZ; i++) {
     xflow_read_f_v2d( xf_in, 1, uv);
-
-    v2d_to_magcol( magcol, uv, NDIMX, NDIMY);
+    
+    to_magcol( magcol, uv, NDIMX, NDIMY, 2);
 
     c_ecrflt( nf_out, NDIMY, magcol);
   }
@@ -60,14 +59,12 @@ int main( int argc, char **argv) {
   return 0;
 }
 
-void v2d_to_magcol( float* magcol, vel2d *uv, int dimx, int dimy,
-		    float ltp, float htp) {
+void to_magcol( float* magcol, float *uv, int dimx, int dimy, int strip) {
   size_t count;
 
-  /* calcul magnétude */
-  for( count = dimx*dimy; count ; count --)
-    maguv[count] = vel2d[count].u * vel2d[count].u + vel2d[count].v * vel2d[count].v;
-  
+  for( count = dimx*dimy; count ; count --) {
+    magcol[3count] = vel2d[count].u * vel2d[count].u + vel2d[count].v * vel2d[count].v;  
+  }
 
   /* seuillage & min/max */
   ltp =* dimx*dimy;
