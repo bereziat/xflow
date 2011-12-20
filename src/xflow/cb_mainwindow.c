@@ -70,23 +70,21 @@ void alloc_for_resize ( XFLOW_API *api, int w, int h)
   }
 }
 
-static void get_moy_vois( vel2d *uv, float *u, float *v, int dimx, int sample, int smooth) {
+static void get_moy_vois( vel2d *uv, float *u, float *v, int dimx, int sample_x, int sample_y) {
   int i,j;
   
-  if( smooth) {
-    *u = *v = 0;
-    for( j=0; j<sample; j++)
-      for( i=0; i<sample; i++) {
-	*u += uv->u;
-	*v += uv->v;
-	uv ++;
-      }
-    *u /= sample*sample;
-    *v /= sample*sample;
-  } else {
-    *u = uv->u;
-    *v = uv->v;
+  *u = *v = 0;
+  for( j=0; j<sample_y; j++) {
+    for( i=0; i<sample_x; i++) {
+      *u += uv->u;
+      *v += uv->v;
+      uv ++;
+    }
+    uv += dimx-1;
   }
+  *u /= sample_x*sample_y;
+  *v /= sample_x*sample_y;
+
 }
 
 static void draw_vectors( GtkWidget *widget, XFLOW_DATA *pd) {
@@ -123,7 +121,22 @@ static void draw_vectors( GtkWidget *widget, XFLOW_DATA *pd) {
       vel2d *uv = pd->data.xflow.buf + i + j * w_img;
       float u,v,n;
 
-      get_moy_vois( uv, &u, &v, w_img, api.sample, pd->data.xflow.smooth);
+      if( pd->data.xflow.smooth) {
+	int sample_x = api.sample, sample_y = api.sample;
+	/* on lit i .. i+sample-1 
+	   0 1 2 3   (4 pixels), sample = 3
+	   0 1 2 3 4 5
+	   i=3 dimx=4
+	   i+3=6   3-3
+
+	*/
+	if( i + api.sample >= w_img) sample_x = w_img - i + 1;
+	if( j + api.sample >= h_img) sample_y = h_img - j + 1;
+	get_moy_vois( uv, &u, &v, w_img, sample_x, sample_y);
+      } else {
+	u = uv->u;
+	v = uv->v;
+      }
       n = u*u + v*v;
       if( n > tl && n < th ) {
 	utils_arrow(  widget->window, api . gc,			
