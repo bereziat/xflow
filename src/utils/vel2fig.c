@@ -56,7 +56,7 @@ char *rmext( char *name) {
   return name;
 }
 
-char version[]="1.2.5 $Id: vel2fig.c,v 1.14 2010/09/28 20:55:40 bereziat Exp $";
+char version[]="1.3.0 $Id: vel2fig.c,v 1.14 2010/09/28 20:55:40 bereziat Exp $";
 char cmd[] = "[global-options] file1 [file1-options] file2 [file2-options] ...";
 char help[]=
 "Create a Xfig output from an INRIMAGE sequence and one or several XFLOW data.\n\
@@ -81,6 +81,7 @@ Local options (they must be given after the targeted XFLOW filename) are:\n\
 \t-sample %d   : under-sampling step on vector field.\n\
 \t-threshold %f: threshold low on vector norm.\n\
 \t-smooth      : smooth the vector field (if sample>1).\n\
+\t-norma       : normalize the vector field.\n\
 \t-tl %f       : alias for -threshold.\n\
 \t-th %f       : threshold high for vector norm (defaut is 1O^5).\n\
 \t-acolor <col>: arrow color(black,blue,green,cyan,red,magneta,\n\
@@ -96,7 +97,9 @@ If -fig option is given, generic.fig can then edited using xfig.\n\
 SEE ALSO: xflow\n";
 
 
-char *tcolor[] = {"black", "blue", "green", "cyan", "red", "magenta", "yellow", "white", NULL};
+char *tcolor[] = {"black", "blue", "green", "cyan", "red", "magenta",
+		  "yellow", "white", NULL};
+
 char *tsize[] = {"small", "normal", "large", "big", NULL};
 int ttsize[][2] = {40,90,  // small
 		   60,120, // normal
@@ -139,6 +142,17 @@ void get_moy_vois( vel2d *uv, float *u, float *v, int dimx, int sample, int smoo
   }
 }
 
+float utils_normsup( vel2d *buf, int count) {
+  double a, max;
+  max = 0;
+  while( count --) {
+    a = buf->u * buf->u + buf->v * buf->v ;
+    if( a > max) max = a;
+    buf ++;
+  }
+  return sqrtf(max);
+}
+
 int main( int argc, char **argv) {
   char name[256],image[256]="", output[256];
   struct image *impt;
@@ -146,7 +160,7 @@ int main( int argc, char **argv) {
 
   float size   = 10; /* version 1 : inches */
   int   sample = 10; /* sous-echantillonage du champ de vecteur % a l'image */
-  int   smooth = 1;
+  int   smooth, norma;
   float scale  = 10; /* coef multiplication amplitude du champ de vecteur */ 
   int astyle = 0;    /* style des fleches 0=creux,1=triangle,2=intermedaire */
   float lscale;
@@ -160,6 +174,7 @@ int main( int argc, char **argv) {
   int awidth = 1;
   int asize = 1;
   float threshold = 0, TH=1e5;
+  float normsup = 1.;
 
   FILE *fp;
   XFLOW *xflow;
@@ -227,7 +242,7 @@ int main( int argc, char **argv) {
       xflow_get_lfmt( xflow, lfmt);
     }
 
-    /* Un cadre a fond blanc plus grand pour contenir les flèches 
+    /* Un cadre à fond blanc plus grand pour contenir les flèches 
      * et avoir une taille fixe d'image de sortie */
 
     w = size * 1200 * unit ;
@@ -272,7 +287,8 @@ int main( int argc, char **argv) {
       igetopt1( "-th", "%f", &TH);
       igetopt1( "-sample", "%d", &sample);  
       igetopt1( "-scale", "%f", &scale);
-      smooth = igetopt0( "-smooth");
+      smooth = igetopt0( "-smooth");      
+      norma = igetopt0( "-norma");
 
       threshold*=threshold;
       TH*=TH;
@@ -283,10 +299,12 @@ int main( int argc, char **argv) {
       /* lecture du bon plan */
       xflow_seek_f    ( xflow, frame);
       xflow_read_f_v2d( xflow, 1, uv);
-      
-      lscale = scale * w/NDIMX;
+
+      normsup = norma?utils_normsup(uv,NDIMX*NDIMY):1.;
+      lscale = scale * w/(NDIMX*normsup);
       // scale *= size;
       // scale /= 1200;
+
       
       /* Ecriture des vecteurs */
       for(j=0; j < NDIMY; j += sample)
@@ -310,7 +328,8 @@ int main( int argc, char **argv) {
 	      /* ligne d'attributs */
 	      fprintf( fp, "2 1 0 %d %d 7 50 0 -1 0.000 0 0 -1 1 0 2\n", awidth, acolor);
 	      /* attribut fleche: 0 0 epaisseur angle longueur */
-	      fprintf( fp, "  %d %d %d %d %d\n", astyle, astyle>0, awidth, ttsize[asize][0], ttsize[asize][1]);
+	      fprintf( fp, "  %d %d %d %d %d\n", astyle, astyle>0, awidth, 
+		       ttsize[asize][0], ttsize[asize][1]);
 	      /* coordonnées du vecteur */
 	      fprintf( fp, "  %d %d %d %d\n", (int)x+x_off, (int)y+y_off, x2+x_off, y2+y_off);
 	    }
