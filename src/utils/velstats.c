@@ -16,7 +16,7 @@ double angular_error(double ur, double vr, double ue, double ve, double delta) {
 	    sqrt( (ur * ur + vr * vr + delta * delta) * (ue * ue + ve * ve + delta * delta)));
 }
 
-
+float trn = 1e-4;
 
 
 int main( int argc, char **argv) {
@@ -30,6 +30,7 @@ int main( int argc, char **argv) {
 
   inr_init( argc, argv, "1.0", "ref est [options]", 
 	    "Compute and display statistics between two vector fields. Options are:\n"
+            "  -trn: threshold for computation of relative norms\n"
 	    "  -z : number of frame to process (all by default)\n"
 	    "  -iz : start at this frame (first is the default)\n"
 	    "  -f= : format of float number in latex output (%f is the default)\n" 
@@ -44,7 +45,7 @@ int main( int argc, char **argv) {
 	    "      oemin,oemean,oemax, oestd: orientation of <est> min,mean,...\n"
 	    "      corru, corrv: correlation between <ref> and <est> for component u, v\n"
 	    );
-
+  igetopt1("-trn","%f",&trn);
   igetopt1("-z","%d",&z);
   igetopt1("-iz","%d",&iz);
   igetopt0x("-f=","%s",format);
@@ -117,7 +118,7 @@ int main( int argc, char **argv) {
 
 
 	/* relative norme error */
-	if( norm_r > 1e-4) {
+	if( norm_r > trn) {
 	  // Ce seuil devrait être de l'ordre du 10ieme ou
 	  // du 100ieme de la norme moyenne du champ référence ?
 	  // Deux passes ? 
@@ -193,7 +194,7 @@ int main( int argc, char **argv) {
 	/* stdev de l'erreur en norme relative */
 	norm_r = hypot( u_r, v_r);
 
-	if( norm_r > 1e-4) {
+	if( norm_r > trn) {
 	  rne_rel = fabs(hypot( u_r, v_r)-hypot( u_e, v_e))/norm_r -  mean_rne_rel;
 	  sum_rne_rel += rne_rel * rne_rel;
 
