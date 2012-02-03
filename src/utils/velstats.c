@@ -11,10 +11,21 @@
 #define DEG(a) (180*(a)/M_PI)
 
 float *readi( char *fname, Fort_int lfmt[], int iz, int z, int verif);
-double angular_error(double ur, double vr, double ue, double ve, double delta) {
-  return acos( (ur * ue + vr * ve + delta * delta) / 
+
+double barron_angular_error(double ur, double vr, double ue, double ve, double delta) {
+  return acos( (ur * ue + vr * ve + delta*delta) / 
 	    sqrt( (ur * ur + vr * vr + delta * delta) * (ue * ue + ve * ve + delta * delta)));
 }
+
+double my_angular_error( double ur, double vr, double ue, double ve, double delta) {
+  return acos( (ur * ue + vr * ve) / 
+	       (sqrt( (ur * ur + vr * vr) * (ue * ue + ve * ve))+delta*delta));
+  // c'est pas top, faut faire du modulo  2pi
+  //  return atan(-ve/(ue+alpha )) - atan(-vr/(ur+alpha ));
+}
+
+
+double (*angular_error)(double,double,double,double,double);
 
 float trn = 1e-4;
 
@@ -25,12 +36,11 @@ int main( int argc, char **argv) {
   int z=0, iz=1;
   Fort_int lfmt[9];
   double delta = 1e-6;
-  double alpha = 1e-14;
+  double alpha = 1e-12;
   char format[10] = "%f";
 
   inr_init( argc, argv, "1.0", "ref est [options]", 
 	    "Compute and display statistics between two vector fields. Options are:\n"
-            "  -trn: threshold for computation of relative norms\n"
 	    "  -z : number of frame to process (all by default)\n"
 	    "  -iz : start at this frame (first is the default)\n"
 	    "  -f= : format of float number in latex output (%f is the default)\n" 
@@ -44,11 +54,18 @@ int main( int argc, char **argv) {
 	    "      nemin,nemean,nemax, nestd: norm of <est> min,mean,...\n"
 	    "      oemin,oemean,oemax, oestd: orientation of <est> min,mean,...\n"
 	    "      corru, corrv: correlation between <ref> and <est> for component u, v\n"
+	    "  -trn: threshold for computation of relative norms\n"
+	    "  -barron: use the Barron formulae to compute angular error\n"
 	    );
+
   igetopt1("-trn","%f",&trn);
   igetopt1("-z","%d",&z);
   igetopt1("-iz","%d",&iz);
   igetopt0x("-f=","%s",format);
+  if( igetopt0("-barron"))
+    angular_error = barron_angular_error;
+  else
+    angular_error = my_angular_error;
 
   infileopt( fname);
   w_r = readi( fname, lfmt, iz, z, 0);
