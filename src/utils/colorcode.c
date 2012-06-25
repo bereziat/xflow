@@ -15,6 +15,9 @@ int ncols = 0;
 #define MAXCOLS 60
 int colorwheel[MAXCOLS][3];
 
+#ifndef M_PI
+# define M_PI		3.14159265358979323846
+#endif
 
 void setcols(int r, int g, int b, int k)
 {

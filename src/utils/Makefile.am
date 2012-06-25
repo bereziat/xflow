@@ -16,5 +16,5 @@ bin_PROGRAMS = vel2fig vel2lic velpar velset uv2vel veldif velerr velnorm velang
 
 
 vel2col_SOURCES = vel2col.c colorcode.c	colorcode.h
-vel2col_CC = c99
+vel2col_CFLAGS = -std=c99
 
