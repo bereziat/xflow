@@ -38,7 +38,7 @@ int main( int argc, char **argv) {
   double alpha = 1e-12;
   char format[10] = "%f";
 
-  inr_init( argc, argv, "1.1", "ref est [options]", 
+  inr_init( argc, argv, "1.2", "ref est [options]", 
 	    "Compute and display statistics between two vector fields. Options are:\n"
 	    "  -z : number of frame to process (all by default)\n"
 	    "  -iz : start at this frame (first is the default)\n"
