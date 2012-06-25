@@ -17,6 +17,8 @@ AC_PROG_RANLIB
 
 dnl Check for an Ansi C compiler ...
 AM_PROG_CC_STDC
+AM_PROG_CC_C_O
+
 dnl ... and Posix. Is it necessary ?
 AC_ISC_POSIX
 
