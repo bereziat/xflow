@@ -5,6 +5,8 @@
  * (c) 2003 D.Béréziat LIP6/UPMC
  * genere aussi le eps et le tex a inclure dans LaTeX
  *
+ * Version 1.3.1 : controle absence d'argument, ajout option -nf (noframe)
+ * Version 1.3.0 : ajout option -norma
  * Version 1.2.5 : fixe bogue: image background couleur -v 3 correctement affichee
  * Version 1.2.4 : ajout option -sarrow
  * Version 1.2.3 : ajout option -smooth
@@ -56,7 +58,7 @@ char *rmext( char *name) {
   return name;
 }
 
-char version[]="1.3.0 $Id: vel2fig.c,v 1.14 2010/09/28 20:55:40 bereziat Exp $";
+char version[]="1.3.1";
 char cmd[] = "[global-options] file1 [file1-options] file2 [file2-options] ...";
 char help[]=
 "Create a Xfig output from an INRIMAGE sequence and one or several XFLOW data.\n\
@@ -76,6 +78,7 @@ Global options are:\n\
 \t           generate figures with the same size.\n\
 \t-bbo %s  : offset between the bounding box and the figure. An unit\n\
 \t           should be specified as for -size.\n\
+\t-nf      : no frame, do not insert a frame around the figure.\n\
 Local options (they must be given after the targeted XFLOW filename) are:\n\
 \t-scale %f    : scale factor for vector norm.\n\
 \t-sample %d   : under-sampling step on vector field.\n\
@@ -184,7 +187,7 @@ int main( int argc, char **argv) {
   float norm,x,y;
   int x_off, y_off;
   int x2, y2;
-  int nvo;
+  int nvo , nf;
 
   char jpeg_quality = 0;
 
@@ -211,21 +214,30 @@ int main( int argc, char **argv) {
     x_off = y_off = s*u*1200;
   } else
     x_off = y_off = 150;
-  
+  // NoFrame
+  nf = igetopt0( "-nf");
 
   /* NOUVELLE INTERFACE :
      xflow2fig  [options globales]  champ_1 [options_champ_1]  champ_2 [options_champ_2] ...
   */
 
+
+  if( !infileopt( name) )
+    iusage_( cmd, "Error: a filename is required. Type 'vel2fig -help' for details.\n");
+    
   /* Creation du fichier fig */
-  sprintf( name, "%s.fig", output);
-  fp = fopen( name, "w");
+  {
+    char name[256];
+    sprintf( name, "%s.fig", output);
+    fp = fopen( name, "w");
+  }
   fprintf( fp, "#FIG 3.2\nLandscape\nCenter\n%s\nLetter\n",
 	   (unit> .5)?"Inches":"Metric");
   fprintf( fp, "100.00\n");/* magnification (peut servir pour la taille) */
   fprintf( fp, "Single\n-2\n1200 2\n"); /* ici la resolution en ppi (1200) */
 
-  while( infileopt(name)) {
+  //  while( infileopt(name)) {
+  do {
     xflow = xflow_open( name);
 
     if( xflow == NULL && image_bg_read ) continue;
@@ -247,7 +259,7 @@ int main( int argc, char **argv) {
 
     w = size * 1200 * unit ;
     h = w * NDIMY / NDIMX;
-    fprintf( fp, "2 2 0 1 0 7 60 -1 20 0.000 0 0 -1 0 0 5\n");
+    fprintf( fp, "2 2 0 %d 0 7 60 -1 20 0.000 0 0 -1 0 0 5\n", 1-nf);
     fprintf( fp, "      %d %d %d %d %d %d %d %d %d %d\n",	     
 	     0, 0, 
 	     w + 2*x_off, 0,
@@ -341,7 +353,8 @@ int main( int argc, char **argv) {
     }
 
     /* Analyse du prochain fichier ... */
-  }
+  } while( infileopt(name));
+
   fclose( fp);
 
 

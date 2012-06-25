@@ -1,6 +1,7 @@
 /*
  * Calcul de diverses statistiques pour les champs de vecteurs
  * Sortie latex possible (ligne de tableau).
+ *
  */
 #include <inrimage/image.h>
 #include <stdlib.h>
@@ -24,11 +25,9 @@ double my_angular_error( double ur, double vr, double ue, double ve, double delt
   //  return atan(-ve/(ue+alpha )) - atan(-vr/(ur+alpha ));
 }
 
-
 double (*angular_error)(double,double,double,double,double);
 
 float trn = 1e-4;
-
 
 int main( int argc, char **argv) {
   char fname[256];
@@ -39,7 +38,7 @@ int main( int argc, char **argv) {
   double alpha = 1e-12;
   char format[10] = "%f";
 
-  inr_init( argc, argv, "1.0", "ref est [options]", 
+  inr_init( argc, argv, "1.1", "ref est [options]", 
 	    "Compute and display statistics between two vector fields. Options are:\n"
 	    "  -z : number of frame to process (all by default)\n"
 	    "  -iz : start at this frame (first is the default)\n"
@@ -48,8 +47,9 @@ int main( int argc, char **argv) {
 	    "            statistics to display, separated by a comma, possible \n"
 	    "            values are: \n"
 	    "      aemin,aemean,eastd: angular error min, mean, max and std dev.\n"
-	    "      rnemin,rnemean,rnemax, nestd: relative error min,mean,...\n"
-	    "      anemin,anemean,anemax, anestd: absolute error min,mean,...\n"
+	    "      rnemin,rnemean,rnemax, nestd: relative norm error min,mean,...\n"
+	    "      anemin,anemean,anemax, anestd: absolute norm error min,mean,...\n"
+	    "      epemean,epestd: end point error, mean, std-dev (MiddelBurry)\n"
 	    "      nrmean: mean norm of <ref>\n"
 	    "      nemin,nemean,nemax, nestd: norm of <est> min,mean,...\n"
 	    "      oemin,oemean,oemax, oestd: orientation of <est> min,mean,...\n"
@@ -57,21 +57,26 @@ int main( int argc, char **argv) {
 	    "  -trn: threshold for computation of relative norms\n"
 	    "  -barron: use the Barron formulae to compute angular error\n"
 	    );
-
   igetopt1("-trn","%f",&trn);
   igetopt1("-z","%d",&z);
   igetopt1("-iz","%d",&iz);
   igetopt0x("-f=","%s",format);
-  if( igetopt0("-barron"))
+  if( igetopt0("-barron")) {
     angular_error = barron_angular_error;
-  else
+    delta = 1;
+  } else
     angular_error = my_angular_error;
+
+  igetopt1("-delta","%lf",&delta);
+  igetopt1("-alpha","%lf",&alpha);
 
   infileopt( fname);
   w_r = readi( fname, lfmt, iz, z, 0);
 
   infileopt( fname);
   w_e = readi( fname, lfmt, iz, z, 1);  
+
+  /* FIXME: plein de variables inutiles */
 
   /* auxiliaires */
   double u_e, v_e, u_r, v_r;
@@ -94,6 +99,10 @@ int main( int argc, char **argv) {
   /* erreur angulaire */
   double sum_ang_err = 0;
   double min_ang_err = 1e11, max_ang_err = -1e11, mean_ang_err, stdv_ang_err;
+
+  /* end point error */
+  double sum_epe = 0;
+  double min_epe = 1e11, max_epe = 0, mean_epe = 0, stdv_epe = 0;
 
   /* angle */
   double sum_ang = 0;
@@ -129,9 +138,9 @@ int main( int argc, char **argv) {
 
 	/* absolute norme error */
 	ane = fabs(hypot( u_r, v_r)-hypot( u_e, v_e));
-	 sum_ane += ane;
-	 if( ane < min_ane) min_ane = ane;
-	 if( ane > max_ane) max_ane = ane;
+	sum_ane += ane;
+	if( ane < min_ane) min_ane = ane;
+	if( ane > max_ane) max_ane = ane;
 
 
 	/* relative norme error */
@@ -145,6 +154,12 @@ int main( int argc, char **argv) {
 	  if( rne_rel < min_rne_rel) min_rne_rel = rne_rel;
 	  n_rel ++;
 	}	
+
+	/* end point error */
+	ane = hypot( u_r-u_e, v_r-v_e);
+	sum_epe += ane;
+	if( ane < min_epe) min_epe = ane;
+	if( ane > max_epe) max_epe = ane;
 
 	/* Erreur angulaire */
 	ang_err = fabs(angular_error(u_r, v_r, u_e, v_e, delta));
@@ -170,7 +185,7 @@ int main( int argc, char **argv) {
       }
   n = NDIMX*NDIMY*NDIMZ;
 
-  mean_ane /= n;
+  mean_ane = sum_ane / n;
 
   mean_norm_r = sum_norm_r / n;
   mean_norm_e = sum_norm_e / n;
@@ -184,7 +199,8 @@ int main( int argc, char **argv) {
 
   mean_vr = sum_vr/n;
   mean_ve = sum_ve/n;
-  
+
+  mean_epe = sum_epe/n;
   
   /* Seconde passe */
   sum_ane = 0;
@@ -194,6 +210,7 @@ int main( int argc, char **argv) {
   sum_ang = 0;
   sum_ur = sum_ue = 0;
   sum_vr = sum_ve = 0;
+  sum_epe = 0;
 
   for( k = 0; k < NDIMZ; k++)
     for( j = 0; j < NDIMY; j++)
@@ -217,9 +234,12 @@ int main( int argc, char **argv) {
 
 	}
 
-	sum_ane += fabs(hypot( u_r, v_r)-hypot( u_e, v_e)) - mean_ane;
+	ane = fabs(hypot( u_r, v_r)-hypot( u_e, v_e)) - mean_ane;
+	sum_ane += ane*ane;
 	
-	
+	ane = hypot( u_r-u_e, v_r-v_e) - mean_epe;
+	sum_epe += ane*ane;
+
 	/* stdev de l'erreur angulaire */
 	ang_err = angular_error(u_r, v_r, u_e, v_e, delta) - mean_ang_err;
 	sum_ang_err += ang_err * ang_err;
@@ -242,6 +262,7 @@ int main( int argc, char **argv) {
   stdv_norm_e = sqrt( sum_norm_e / n);
   stdv_rne_rel = sqrt( sum_rne_rel / n_rel);
   stdv_ane = sqrt( sum_ane / n);
+  stdv_epe = sqrt( sum_epe / n);
   stdv_ang_err = sqrt( sum_ang_err / n);
   stdv_ang = sqrt( sum_ang/n);
   corr_u = sum_ur_ue / (n * sqrt(sum_ue/n) * sqrt(sum_ur/n));
@@ -271,11 +292,17 @@ int main( int argc, char **argv) {
     printf( "  StDv abs(||r|| - ||e||) / ||r|| : %g\n", stdv_rne_rel);
 
     printf( "* Absolute norm errors\n");
-    printf( "  Min  abs(||r|| - ||e||) / ||r|| : %g\n", min_ane);
-    printf( "  Max  abs(||r|| - ||e||) / ||r|| : %g\n", max_ane);
-    printf( "  Mean abs(||r|| - ||e||) / ||r|| : %g\n", mean_ane);
-    printf( "  StDv abs(||r|| - ||e||) / ||r|| : %g\n", stdv_ane);
+    printf( "  Min  abs(||r|| - ||e||) : %g\n", min_ane);
+    printf( "  Max  abs(||r|| - ||e||) : %g\n", max_ane);
+    printf( "  Mean abs(||r|| - ||e||) : %g\n", mean_ane);
+    printf( "  StDv abs(||r|| - ||e||) : %g\n", stdv_ane);
     
+    printf( "* End points errors\n");
+    printf( "  Min  abs(||r - e||) : %g\n", min_epe);
+    printf( "  Max  abs(||r - e||) : %g\n", max_epe);
+    printf( "  Mean abs(||r - e||) : %g\n", mean_epe);
+    printf( "  StDv abs(||r - e||) : %g\n", stdv_epe);
+
     printf( "* Angular errors\n");
     printf( "  Min  (|Theta_r - Theta_e|) : %g\n", DEG(min_ang_err));
     printf( "  Max  (|Theta_r - Theta_e|) : %g\n", DEG(max_ang_err));
@@ -310,6 +337,11 @@ int main( int argc, char **argv) {
       else if( strstr( parse, "nemax") == parse)  printf( format, max_norm_e);
       else if( strstr( parse, "nestd") == parse)  printf( format, stdv_norm_e);
 
+
+      else if( strstr( parse, "epemin") == parse)  printf( format, min_epe);
+      else if( strstr( parse, "epemax") == parse)  printf( format, max_epe);
+      else if( strstr( parse, "epemean") == parse)  printf( format, mean_epe);
+      else if( strstr( parse, "epestd") == parse)  printf( format, stdv_epe);
       
       else if( strstr( parse, "oemin") == parse)  printf( format, DEG(min_ang));
       else if( strstr( parse, "oemax") == parse)  printf( format, DEG(max_ang));

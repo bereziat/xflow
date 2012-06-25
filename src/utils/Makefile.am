@@ -8,11 +8,13 @@ AM_LDFLAGS = -L../lib/
 LDADD   = -lxflow -lm
 
 # list of programs to build
-bin_PROGRAMS = vel2fig vel2lic velpar velset uv2vel veldif velerr velnorm velang velstats
+bin_PROGRAMS = vel2fig vel2lic velpar velset uv2vel veldif velerr velnorm velang velstats vel2col
 
 # @todo move vel2grad in an example folder
 # @todo rename error into velerr or something like that
 # @todo program error has to be finished :-)
 
 
+vel2col_SOURCES = vel2col.c colorcode.c	colorcode.h
+vel2col_CC = c99
 
