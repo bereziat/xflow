@@ -7,7 +7,6 @@
 
 // DS 2/9/08 fixed bug in MotionToColor concerning reallocation of colim (thanks Yunpeng!)
 
-static char *usage = "\n  usage: %s [-quiet] in.flo out.png [maxmotion]\n";
 
 #include <inrimage/image.h>
 #include <stdio.h>
@@ -50,8 +49,8 @@ void vel2col( unsigned char *color, float *vel, int dimx, int dimy, float maxmot
 	  maxrad = fmax(maxrad, rad);
 	}
     }
-    printf("max motion: %.4f  motion range: u = %.3f .. %.3f;  v = %.3f .. %.3f\n",
-	   maxrad, minx, maxx, miny, maxy);
+    fprintf( stderr, "max motion: %.4f  motion range: u = %.3f .. %.3f;  v = %.3f .. %.3f\n",
+	     maxrad, minx, maxx, miny, maxy);
 
     
     if (maxmotion > 0) // i.e., specified on commandline
@@ -87,7 +86,7 @@ int main(int argc, char **argv) {
   float *vel, maxmotion;
   unsigned char *color;
 
-  inr_init( argc, argv, "", "", "");
+  inr_init( argc, argv, "1.01", "[velocityfile][colorimage] [-m maxmotion]", "Convert a 2D velocity file in a colored image using Middlebury algorithm.");
 
   igetopt1( "-m", "%f", &maxmotion);
   infileopt( nom);
