@@ -5,6 +5,7 @@
  * (c) 2003 D.Béréziat LIP6/UPMC
  * genere aussi le eps et le tex a inclure dans LaTeX
  *
+ * Version 1.3.2: ajout -asize huge et -ahead <width> <height>
  * Version 1.3.1 : controle absence d'argument, ajout option -nf (noframe)
  * Version 1.3.0 : ajout option -norma
  * Version 1.2.5 : fixe bogue: image background couleur -v 3 correctement affichee
@@ -58,7 +59,7 @@ char *rmext( char *name) {
   return name;
 }
 
-char version[]="1.3.1";
+char version[]="1.3.2";
 char cmd[] = "[global-options] file1 [file1-options] file2 [file2-options] ...";
 char help[]=
 "Create a Xfig output from an INRIMAGE sequence and one or several XFLOW data.\n\
@@ -74,8 +75,8 @@ Global options are:\n\
 \t-q %d    : jpeg quality (0--100) if -type jpeg has been specified\n\
 \t-fig     : only generate an xfig output file. In this case, the fig2dev\n\
 \t           command is not invoked.\n\
-\t-nvo     : remove vectors outside of the image background. This allows to\n\
-\t           generate figures with the same size.\n\
+\t-nvo     : remove vectors outside of the image background. This allows\n\
+\t           to generate figures with the same size.\n\
 \t-bbo %s  : offset between the bounding box and the figure. An unit\n\
 \t           should be specified as for -size.\n\
 \t-nf      : no frame, do not insert a frame around the figure.\n\
@@ -87,27 +88,33 @@ Local options (they must be given after the targeted XFLOW filename) are:\n\
 \t-norma       : normalize the vector field.\n\
 \t-tl %f       : alias for -threshold.\n\
 \t-th %f       : threshold high for vector norm (defaut is 1O^5).\n\
-\t-acolor <col>: arrow color(black,blue,green,cyan,red,magneta,\n\
+\t-acolor <col>: arrow color (black,blue,green,cyan,red,magneta,\n\
 \t               yellow,white).\n\
 \t-awidth %d   : arrow width.\n\
-\t-asize <size>: arrow size (small,normal,large,big).\n\
-\t-astyle %d   : arrow style (0-6).\n\
+\t-asize <size>: predefined arrow head size, possible are: small (40x90),\n\
+\t      normal (60x120), large (80x150), big (90x180) and huge (100x210).\n\
+\t-ahead <width> <height>: \n\
+\t               arrow head size, dimensions must be explicitly given.\n\
+\t-astyle <style> : arrow style (0-6).\n\
 \n\
 The vel2fig command produces two files 'generic.fig' and 'generic.gif' (image\n\
 background). The fig2dev command is then called (unless -fig is specified) and\n\
 produces the final output in the specified format (-type).\n\
-If -fig option is given, generic.fig can then edited using xfig.\n\
+If -fig option is given, generic.fig can be edited using xfig.\n\
 SEE ALSO: xflow\n";
 
 
 char *tcolor[] = {"black", "blue", "green", "cyan", "red", "magenta",
 		  "yellow", "white", NULL};
 
-char *tsize[] = {"small", "normal", "large", "big", NULL};
+char *tsize[] = {"small", "normal", "large", "big", "huge", NULL};
 int ttsize[][2] = {40,90,  // small
 		   60,120, // normal
 		   80,150, // large
-		   90,180  // big
+		   90,180,  // big
+		   100,210,   // huge
+#define MANUAL    5   
+		   0, 0       // manual
 };
 
 int getind( char **table, char *key) {
@@ -291,6 +298,11 @@ int main( int argc, char **argv) {
 	acolor = getind( tcolor, name);
       if( igetopt1( "-asize", "%s", name))
 	asize = getind( tsize, name);  
+      if( igetopt2( "-ahead", "%d", &awidth, "%d", &astyle)) {
+	asize = MANUAL;
+	ttsize[MANUAL][0] = awidth ;
+	ttsize[MANUAL][1] = astyle;
+      }
       igetopt1( "-awidth", "%d", &awidth);
       igetopt1( "-astyle", "%d", &astyle);
       
