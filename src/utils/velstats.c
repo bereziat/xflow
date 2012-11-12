@@ -2,6 +2,8 @@
  * Calcul de diverses statistiques pour les champs de vecteurs
  * Sortie latex possible (ligne de tableau).
  *
+ * 1.3: - meilleur calcul de l'orientation d'un champ (avec atan2)
+ *      - un mauvais calcul de l'écart-type de l'orientation a été fixé
  */
 #include <inrimage/image.h>
 #include <stdlib.h>
@@ -38,7 +40,7 @@ int main( int argc, char **argv) {
   double alpha = 1e-12;
   char format[10] = "%f";
 
-  inr_init( argc, argv, "1.2", "ref est [options]", 
+  inr_init( argc, argv, "1.3", "ref est [options]", 
 	    "Compute and display statistics between two vector fields. Options are:\n"
 	    "  -z : number of frame to process (all by default)\n"
 	    "  -iz : start at this frame (first is the default)\n"
@@ -168,7 +170,8 @@ int main( int argc, char **argv) {
 	if( ang_err < min_ang_err) min_ang_err = ang_err; 
 	
 	/* Orientation estime */
-	ang = -atan(v_e/(u_e+alpha));
+	// ang = -atan(v_e/(u_e+alpha));
+	ang = -atan2(v_e,u_e);
 	sum_ang += ang;
 	if( ang>max_ang) max_ang = ang;
 	if( ang<min_ang) min_ang = ang;
@@ -245,7 +248,8 @@ int main( int argc, char **argv) {
 	sum_ang_err += ang_err * ang_err;
 
 	/* stdev de l'orientation */
-	ang = -atan(v_e/(u_e+alpha));
+	// ang = -atan(v_e/(u_e+alpha));
+	ang = -atan2(v_e,u_e) - mean_ang;
 	sum_ang += ang * ang;
 
 	/* corr sur u */
