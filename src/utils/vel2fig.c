@@ -5,7 +5,7 @@
  * (c) 2003 D.Béréziat LIP6/UPMC
  * genere aussi le eps et le tex a inclure dans LaTeX
  *
- * Version 1.4: ajout seuil relatif (postfixe %) + Fix temporaire image couleurs & inr2gif
+ * Version 1.3.3: ajout seuil relatif (postfixe %) + Fix temporaire image couleurs & inr2gif
  * Version 1.3.2: ajout -asize huge et -ahead <width> <height>
  * Version 1.3.1 : controle absence d'argument, ajout option -nf (noframe)
  * Version 1.3.0 : ajout option -norma
@@ -60,7 +60,7 @@ char *rmext( char *name) {
   return name;
 }
 
-char version[]="1.3.2";
+char version[]="1.3.3";
 char cmd[] = "[global-options] file1 [file1-options] file2 [file2-options] ...";
 char help[]=
 "Create a Xfig output from an INRIMAGE sequence and one or several XFLOW data.\n\
@@ -85,10 +85,12 @@ Local options (they must be given after the targeted XFLOW filename) are:\n\
 \t-scale %f    : scale factor for vector norm.\n\
 \t-sample %d   : under-sampling step on vector field.\n\
 \t-threshold %f: threshold low on vector norm.\n\
+\t               a percentage value (eg. 10%) may be given \n\
 \t-smooth      : smooth the vector field (if sample>1).\n\
 \t-norma       : normalize the vector field.\n\
 \t-tl %f       : alias for -threshold.\n\
 \t-th %f       : threshold high for vector norm (defaut is 1O^5).\n\
+\t               a percentage value (eg. 90%) may be given \n\
 \t-acolor <col>: arrow color (black,blue,green,cyan,red,magneta,\n\
 \t               yellow,white).\n\
 \t-awidth %d   : arrow width.\n\
