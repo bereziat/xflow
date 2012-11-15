@@ -5,6 +5,7 @@
  * (c) 2003 D.Béréziat LIP6/UPMC
  * genere aussi le eps et le tex a inclure dans LaTeX
  *
+ * Version 1.4: ajout seuil relatif (postfixe %) + Fix temporaire image couleurs & inr2gif
  * Version 1.3.2: ajout -asize huge et -ahead <width> <height>
  * Version 1.3.1 : controle absence d'argument, ajout option -nf (noframe)
  * Version 1.3.0 : ajout option -norma
@@ -195,6 +196,7 @@ int main( int argc, char **argv) {
   int x_off, y_off;
   int x2, y2;
   int nvo , nf;
+  char seuil[40];
 
   char jpeg_quality = 0;
 
@@ -306,26 +308,41 @@ int main( int argc, char **argv) {
       igetopt1( "-awidth", "%d", &awidth);
       igetopt1( "-astyle", "%d", &astyle);
       
-      igetopt1( "-threshold", "%f", &threshold);
-      igetopt1( "-tl", "%f", &threshold);
-      igetopt1( "-th", "%f", &TH);
       igetopt1( "-sample", "%d", &sample);  
       igetopt1( "-scale", "%f", &scale);
       smooth = igetopt0( "-smooth");      
       norma = igetopt0( "-norma");
-
-      threshold*=threshold;
-      TH*=TH;
-
-       /* lecture du champ */
-      uv = (vel2d *)malloc( NDIMX*NDIMY*sizeof(vel2d));
       
       /* lecture du bon plan */
+      uv = (vel2d *)malloc( NDIMX*NDIMY*sizeof(vel2d));
       xflow_seek_f    ( xflow, frame);
       xflow_read_f_v2d( xflow, 1, uv);
 
       normsup = norma?utils_normsup(uv,NDIMX*NDIMY):1.;
       lscale = scale * w/(NDIMX*normsup);
+
+      /* seuil, et calcul des seuils relatifs */
+      normsup = utils_normsup(uv,NDIMX*NDIMY);
+
+      if( igetopt1( "-threshold", "%s", seuil) || 
+	  igetopt1( "-tl", "%s", seuil)) {
+	sscanf( seuil, "%f", &threshold);
+	if( seuil[strlen(seuil)-1] == '%')
+	  threshold *= (normsup/100);
+      }
+      if( igetopt1( "-th", "%s", seuil)) {
+	sscanf( seuil, "%f", &TH);
+	if( seuil[strlen(seuil)-1] == '%')
+	  TH *= (normsup/100);
+      }
+
+      fprintf(stdout, "*** DEBUG: normsup=%f tl=%f th=%f\n",
+	      normsup, threshold, TH);
+
+
+      threshold*=threshold;
+      TH*=TH;
+
       // scale *= size;
       // scale /= 1200;
 
@@ -400,11 +417,16 @@ int main( int argc, char **argv) {
 	  system( name);
 	}
      
-      sprintf( name, "inr2gif %s %s %s.gif", 
-	       /* @FIXME : cas des couleurs -z 3 et à palette */
-	       NDIMV==3?"-C":"",
-	       tmpname,
-	       output);
+	/* inr2gif plante en couleur ... */
+	if( NDIMV == 3) 
+	  sprintf( name, "inr2png %s %s.png; convert %s.png %s.gif; rm %s.png",
+		   tmpname, tmpname, tmpname, output, tmpname);
+	else
+	  sprintf( name, "inr2gif %s %s %s.gif", 
+		   /* @FIXME : cas des couleurs -z 3 et à palette */
+		   NDIMV==3?"-C":"",
+		   tmpname,
+		   output);
       }
       
       if(debug_)fprintf( stderr, "system: %s\n", name);
@@ -422,6 +444,7 @@ int main( int argc, char **argv) {
 	       type, jpeg_quality, output, output, type);
     else
       sprintf( name, "fig2dev -L %s %s.fig > %s.%s", type, output, output, type);
+    if(debug_)fprintf( stderr, "system: %s\n", name);
     system( name);
     /* La sortie LaTeX ne me convinc pas */
     // sprintf( name, "fig2ps2tex %s%d.eps > %s%d.tex", generic, frame, generic, frame);

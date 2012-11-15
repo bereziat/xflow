@@ -4,6 +4,7 @@
  *
  * 1.3: - meilleur calcul de l'orientation d'un champ (avec atan2)
  *      - un mauvais calcul de l'écart-type de l'orientation a été fixé
+ *      - ajout d'un seuil sur la norme (absolue) du champs estimé (voir pour champs référent)
  */
 #include <inrimage/image.h>
 #include <stdlib.h>
@@ -38,6 +39,7 @@ int main( int argc, char **argv) {
   Fort_int lfmt[9];
   double delta = 1e-6;
   double alpha = 1e-12;
+  double thresh = 0;
   char format[10] = "%f";
 
   inr_init( argc, argv, "1.3", "ref est [options]", 
@@ -58,6 +60,8 @@ int main( int argc, char **argv) {
 	    "      corru, corrv: correlation between <ref> and <est> for component u, v\n"
 	    "  -trn: threshold for computation of relative norms\n"
 	    "  -barron: use the Barron formulae to compute angular error\n"
+	    "  -thresh: only consider vector whose norm is greater or equal to\n" 
+	    "           thresh (0 by default).\n"
 	    );
   igetopt1("-trn","%f",&trn);
   igetopt1("-z","%d",&z);
@@ -71,6 +75,8 @@ int main( int argc, char **argv) {
 
   igetopt1("-delta","%lf",&delta);
   igetopt1("-alpha","%lf",&alpha);
+  if( igetopt1("-thresh","%lf",&thresh))
+    thresh *= thresh;
 
   infileopt( fname);
   w_r = readi( fname, lfmt, iz, z, 0);
@@ -120,6 +126,7 @@ int main( int argc, char **argv) {
   double mean_vr, mean_ve;
   double corr_v;
 
+  n = 0;
   /* Premiere passe */  
   for( k = 0; k < NDIMZ; k++)
     for( j = 0; j < NDIMY; j++)
@@ -130,10 +137,13 @@ int main( int argc, char **argv) {
 	u_e = PIX(w_e, i, j, k, 0);
 	v_e = PIX(w_e, i, j, k, 1);
 	
+	norm_e = hypot( u_e, v_e);
+
+	if( norm_e >= thresh) {
+
 	/* norme des vecteurs */
 	norm_r = hypot( u_r, v_r);
-	sum_norm_r += norm_r;
-	norm_e = hypot( u_e, v_e);
+	sum_norm_r += norm_r;	
 	sum_norm_e += norm_e;
 	if( norm_e > max_norm_e) max_norm_e = norm_e;
 	if( norm_e < min_norm_e) min_norm_e = norm_e;
@@ -184,9 +194,11 @@ int main( int argc, char **argv) {
 	sum_vr += v_r;
 	sum_ve += v_e;
 	
+	n ++;
 
-      }
-  n = NDIMX*NDIMY*NDIMZ;
+	} /* if norm_e */
+      } /* for */
+  //  n = NDIMX*NDIMY*NDIMZ;
 
   mean_ane = sum_ane / n;
 
@@ -223,6 +235,8 @@ int main( int argc, char **argv) {
 	v_r = PIX(w_r, i, j, k, 1);
 	u_e = PIX(w_e, i, j, k, 0);
 	v_e = PIX(w_e, i, j, k, 1);
+
+	if( hypot(u_e, v_e) >= thresh ) {
 
 	/* stdev sur norm_e */
 	norm_e = hypot( u_e, v_e) - mean_norm_e;
@@ -261,7 +275,8 @@ int main( int argc, char **argv) {
 	sum_vr += (v_r - mean_vr) * (v_r - mean_vr);
 	sum_ve += (v_e - mean_ve) * (v_e - mean_ve);
 	sum_vr_ve += (v_r - mean_vr)*(v_e - mean_ve);
-      }
+	} /* if norm_e */
+      } /* for */
 
   stdv_norm_e = sqrt( sum_norm_e / n);
   stdv_rne_rel = sqrt( sum_rne_rel / n_rel);
