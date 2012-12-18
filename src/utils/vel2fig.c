@@ -5,7 +5,7 @@
  * (c) 2003 D.Béréziat LIP6/UPMC
  * genere aussi le eps et le tex a inclure dans LaTeX
  *
- * Version 1.3.3: ajout seuil relatif (postfixe %) + Fix temporaire image couleurs & inr2gif
+ * Version 1.3.3: ajout seuil relatif (postfixe %) + Fix temporaire image couleurs & inr2gif + fix bug vitesse a composante nulle
  * Version 1.3.2: ajout -asize huge et -ahead <width> <height>
  * Version 1.3.1 : controle absence d'argument, ajout option -nf (noframe)
  * Version 1.3.0 : ajout option -norma
@@ -338,8 +338,8 @@ int main( int argc, char **argv) {
 	  TH *= (normsup/100);
       }
 
-      fprintf(stdout, "*** DEBUG: normsup=%f tl=%f th=%f\n",
-	      normsup, threshold, TH);
+      if( debug_) fprintf(stdout, "*** DEBUG: normsup=%f tl=%f th=%f\n",
+	normsup, threshold, TH); 
 
 
       threshold*=threshold;
@@ -355,29 +355,26 @@ int main( int argc, char **argv) {
 	  float u,v;
 
 	  get_moy_vois( uv + i + j*NDIMX, &u ,&v, NDIMX, sample, smooth);
+	    
+	  x = i*w/NDIMX;
+	  y = j*h/NDIMY;
+	  x2 = (int)(x + lscale*u);
+	  y2 = (int)(y + lscale*v);
 	  
-	  if( u != 0 && v != 0) {
-	    
-	    x = i*w/NDIMX;
-	    y = j*h/NDIMY;
-	    x2 = (int)(x + lscale*u);
-	    y2 = (int)(y + lscale*v);
-
-	    norm = u*u + v*v;
-	    
-	    if( norm > threshold  && norm < TH &&
-		(!nvo || (x2 >= 0 && y2 >=0 && x2 < w && y2 < h))
-		) {
-	      /* ligne d'attributs */
-	      fprintf( fp, "2 1 0 %d %d 7 50 0 -1 0.000 0 0 -1 1 0 2\n", awidth, acolor);
-	      /* attribut fleche: 0 0 epaisseur angle longueur */
-	      fprintf( fp, "  %d %d %d %d %d\n", astyle, astyle>0, awidth, 
-		       ttsize[asize][0], ttsize[asize][1]);
-	      /* coordonnées du vecteur */
-	      fprintf( fp, "  %d %d %d %d\n", (int)x+x_off, (int)y+y_off, x2+x_off, y2+y_off);
-	    }
-	  } 
-	}
+	  norm = u*u + v*v;
+	  
+	  if( norm > threshold  && norm < TH &&
+	      (!nvo || (x2 >= 0 && y2 >=0 && x2 < w && y2 < h))
+	      ) {
+	    /* ligne d'attributs */
+	    fprintf( fp, "2 1 0 %d %d 7 50 0 -1 0.000 0 0 -1 1 0 2\n", awidth, acolor);
+	    /* attribut fleche: 0 0 epaisseur angle longueur */
+	    fprintf( fp, "  %d %d %d %d %d\n", astyle, astyle>0, awidth, 
+		     ttsize[asize][0], ttsize[asize][1]);
+	    /* coordonnées du vecteur */
+	    fprintf( fp, "  %d %d %d %d\n", (int)x+x_off, (int)y+y_off, x2+x_off, y2+y_off);
+	  }
+	} 
       free( uv);
       xflow_close( xflow);
       xflow = NULL;
