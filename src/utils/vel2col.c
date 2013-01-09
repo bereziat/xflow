@@ -1,11 +1,7 @@
-/* Réécriture inrimage du color_flow.cpp de Middlebury */
-
-
-// color_flow.cpp 
-// color-code motion field
-// normalizes based on specified value, or on maximum motion present otherwise
-
-// DS 2/9/08 fixed bug in MotionToColor concerning reallocation of colim (thanks Yunpeng!)
+/* 
+ * Réécriture inrimage du color_flow.cpp de Middlebury
+ * + modifs locales. 
+ */
 
 
 #include <inrimage/image.h>
@@ -86,7 +82,12 @@ int main(int argc, char **argv) {
   float *vel, maxmotion;
   unsigned char *color;
 
-  inr_init( argc, argv, "1.01", "[velocityfile][colorimage] [-m maxmotion]", "Convert a 2D velocity file in a colored image using Middlebury algorithm.");
+  inr_init( argc, argv, "1.01", "[velocityfile][colorimage] [-m maxmotion]", 
+	    "Convert a 2D velocity file in a colored image using Middlebury algorithm."
+	    "Parameter -m: the algorithm normalizes (in norm) the vector field in order\n"
+	    "the vector with the highest norm has the more saturated color, the lowest \n"
+	    "is white. The vector field may be divided by maxmotion to change the \n"
+	    "threshold of the maximal saturation.\n");
 
   igetopt1( "-m", "%f", &maxmotion);
   infileopt( nom);

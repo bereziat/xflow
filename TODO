@@ -6,8 +6,12 @@
 
 Par ordre de priorite
 
-XFLOW 
+BUGS
+ - xflow plante lorsqu'on exporte sous MacOS
+ - il faut tester la version de gcc pour l'option -fnested-function (ou
+ se débarasser des fonctions imbriquées, au choix)
 
+XFLOW 
  - Intégrer les trajectoires (ordre4 en réécriture)
  - Seuillage des champs : critere sur le nombre : afficher 80% des champs les plus petits par exemple.
  - reallocation des images de fond inutile sur les onglet M,D et R.

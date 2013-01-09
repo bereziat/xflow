@@ -2,14 +2,13 @@ AC_PREREQ(2.59)
 
 AC_INIT(configure.ac)
 dnl Init some automake stuff. Evaluates @PACKAGE@ and @VERSION@ macros
-AM_INIT_AUTOMAKE(xflow,2.3.1)
+AM_INIT_AUTOMAKE(xflow,2.3.2)
 dnl ...
 AM_CONFIG_HEADER(config.h)
 dnl A macro makes autotools happy with CVS
 AM_MAINTAINER_MODE
 
 # Checks for programs.
-AC_PROG_CXX
 AC_PROG_CC
 AC_PROG_INSTALL
 AC_PROG_MAKE_SET

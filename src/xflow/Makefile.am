@@ -14,6 +14,7 @@ xflow_SOURCES = interface.c interface.h support.c support.h \
 	        lecscrn.c lecscrn.h utils.c utils.h api.c api.h
 #		trajs.c (pas encore)
 
+# pose probleme avec gcc 4.7
 xflow_CFLAGS = -fnested-functions
 xflow_LDADD = @PACKAGE_LIBS@ -lxflow
 xflow_LDFLAGS = -L../lib/ 

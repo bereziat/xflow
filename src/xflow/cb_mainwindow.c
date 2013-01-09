@@ -421,10 +421,15 @@ static void xflow_div_notify( int ev_x, int ev_y, char mes[]) {
   float d=0;
   XFLOW_DATA *pd;
   vel2d *f;
-  
+
+  /* gestion différente dans gcc 2.7 des fonctions imbriquées sans le switch -fnested-functions
+   * plutôt que tester dans configure, je préfère me débarrasser de ces fonctions
+   * pas vraiment utiles  ici
   inline float div( vel2d *f, int dimx) {
     return ((f+1)->u - (f-1)->u + (f+dimx)->v - (f-dimx)->v)/2;
   }
+  */
+#define div(f,dimx) ((f+1)->u - (f-1)->u + (f+dimx)->v - (f-dimx)->v)/2
 
   for( pd = api.data; pd; pd=pd->next) {
     if( pd->type == DATA_XFLOW) {
@@ -491,10 +496,12 @@ static void xflow_rot_notify( int ev_x, int ev_y, char mes[])
   float d=0;
   XFLOW_DATA *pd;
   vel2d *f;
-  
+
+  /*  
   inline float rot( vel2d *f, int dimx) {
     return ((f+1)->v - (f-1)->v - (f+dimx)->u + (f-dimx)->u)/2;
-  }
+    } */
+#define rot(f,dimx)  ((f+1)->v - (f-1)->v - (f+dimx)->u + (f-dimx)->u)/2
 
   for( pd = api.data; pd; pd=pd->next) {
     if( pd->type == DATA_XFLOW) {
@@ -563,12 +570,13 @@ on_xflow_notebook_switch_page          (GtkNotebook     *notebook,
   int w,h,d;
   int nw, nh;
   GtkWidget *widget;
-  
+
+  /*  
   void get_size( GtkWidget *widget, char *name, int *w, int *h) {
     widget = lookup_widget( widget, name);
     *w = widget->allocation.width;
     *h = widget->allocation.height;
-  }
+    }*/
 
   if(debug) fprintf( stderr, "Selection onglet %d\n", page_num);
   

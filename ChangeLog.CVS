@@ -1,3 +1,87 @@
+ChangeLog xflow sous CVS et avant le passage sous SVN
+
+2010-10-18 21:47  bereziat
+
+	* src/: doxydoc.c, xflow.doxy, xflow/api.c, xflow/cb_about.c,
+	  xflow/cb_mainwindow.c, xflow/data.h, xflow/main.c,
+	  xflow/xflow.glade: Quelques améliorations significatives (voir
+	  NEWS, october 2010)  - bug du fichier non image spécifié en
+	  ligne de commande fixé  - option -zoom pour piloter le zoom
+	  depuis la ligne de commande  - buf fix pour -tlow et -thigh  - on
+	  peut zoomer jusqu'à 20 (inclu)  - ajout des boutons normalize et
+	  smooth dans la barre d'outil	  qui agit globalement. Ces options
+	  sont également activables depuis    la ligne de commande.   -
+	  les options -scale et -sample sont mieux vérifiées.   - on
+	  passe xflow en 2.3.0
+
+2010-09-28 22:55  bereziat
+
+	* NEWS, src/utils/vel2fig.c, src/xflow/cb_mainwindow.c,
+	  src/xflow/utils.c: - xflow zooms correctement les images -v 3 -
+	  vel2fig traite correctement les images -v 3
+
+2010-07-23 11:37  bereziat
+
+	* debian/: control, copyright: correction dans debian
+
+2010-07-21 14:41  bereziat
+
+	* Makefile.am, Makefile.in, config.status, debian/README.Debian,
+	  debian/changelog, debian/compat, debian/control,
+	  debian/copyright, debian/dirs, debian/docs, debian/rules,
+	  src/Makefile.in, src/lib/Makefile.in, src/utils/Makefile.in,
+	  src/xflow/Makefile.in: ajout packaging debian + des trucs oublies
+
+2010-01-24 23:08  bereziat
+
+	* src/lib/: Makefile.am, Makefile.in, xflow_create.c, xflow_get.c,
+	  xflow_read.c, xflow_set.c, xflow_write.c: il manquait des trucs
+	  lors de la migration...
+
+2010-01-20 14:14  bereziat
+
+	* src/lib/: Makefile.am, xflow.c, xflow_close.c, xflow_get.c,
+	  xflow_open.c, xflow_read.c, xflow_read_value.c, xflow_seek.c,
+	  xflow_write.c, xflow_write_value.c: decoupage de lib en modules.
+
+2009-07-17 11:38  bereziat
+
+	* src/: inrimage/xflow.h, lib/xflow.c: L'adpatation fortran est
+	  trop chiante a faire (et puis peu utile): on laisse tomber.
+
+2009-07-16 19:42  bereziat
+
+	* src/inrimage/xflow.h: emplacement definitif. modifs pour link
+	  fortran.
+
+2009-07-16 19:40  bereziat
+
+	* src/inrimage/xflow.h: double definition de xflow.h, on en garde
+	  une
+
+2009-07-16 19:40  bereziat
+
+	* src/lib/xflow.h: double definition de xflow.h; on n'en garde
+	  qu'une
+
+2009-06-02 23:41  bereziat
+
+	* ChangeLog, Makefile.in, configure, src/Makefile.in,
+	  src/lib/Makefile.in, src/utils/Makefile.in,
+	  src/xflow/Makefile.in: maj automake .
+
+2009-06-02 23:34  bereziat
+
+	* src/xflow/: callbacks.h, interface.c, interface.h, support.c,
+	  xflow.gladep: ces fichiers sont generes par glade, le package
+	  construire par les autotools a besoin de construire de toute
+	  facon ces fichiers.
+
+2009-06-02 23:19  bereziat
+
+	* Makefile.INRIA, color.c, configure.ac: on elimine les fichiers
+	  obsoletes. configure indique explicitement qu'il manque fig2dev.
+
 2009-06-02 22:34  bereziat
 
 	* src/xflow/Makefile.am: le module arrow.sh est maintenant dans la
@@ -23,10 +107,8 @@
 
 	* src/xflow/: Makefile.am, Makefile.in, arrow.sh, callbacks.h,
 	  cb_export.c, cb_mainwindow.c, cb_prefs.c, data.h, interface.c,
-	  main.c, utils.c, utils.h, xflow.glade, pixmaps/arrow0.png,
-	  pixmaps/arrow1.png, pixmaps/arrow2.png, pixmaps/arrow3.png,
-	  pixmaps/arrow4.png, pixmaps/arrow5.png, pixmaps/arrow6.png:
-	  gestion des options -awidth & -astyle de la commande vel2fig
+	  main.c, utils.c, utils.h, xflow.glade: gestion des options
+	  -awidth & -astyle de la commande vel2fig
 
 2009-03-11 15:18  bereziat
 
@@ -365,7 +447,7 @@
 	* ChangeLog, HISTORIC, scripts/velimg, scripts/velpar,
 	  src/utils/vel2fig.c, src/xflow/cb_export.c,
 	  src/xflow/xflow.glade: bug fixe in velpar (J.-P. Berroir) adding
-	  $Id$ tag in velimg and velpar velfig.c normalize background image
+	  $Id: ChangeLog,v 1.15 2010/10/18 19:49:24 bereziat Exp $ tag in velimg and velpar velfig.c normalize background image
 	  as xflow xflow exports the right background image
 
 2004-07-19 15:42  bereziat

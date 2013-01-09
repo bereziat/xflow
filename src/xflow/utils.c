@@ -186,10 +186,12 @@ void utils_mag( vel2d *in,         // image d'entrée
   vel2d *pin;
   float w_offset, h_offset;
   size_t pos;
-  
+
+  /*  
   inline float norm( vel2d *f) {
     return sqrtf(f->u*f->u + f->v*f->v);
-  }
+    } */
+# define norm(f) sqrtf((f)->u*(f)->u + (f)->v*(f)->v)
   
   w_sc = (float) iw / (float) ow;
   h_sc = (float) ih / (float) oh;
@@ -217,9 +219,11 @@ void utils_div( vel2d *in, unsigned char *out, int iw, int ih, int ow, int oh) {
   float min, max;
   float *bufdiv, *pbufdiv;
 
+  /*
   inline float div( vel2d *f, int dimx) {
     return ((f+1)->u - (f-1)->u + (f+dimx)->v - (f-dimx)->v)/2;
-  }
+    }*/
+#define div(f,dimx) ((f+1)->u - (f-1)->u + (f+dimx)->v - (f-dimx)->v)/2
 
   w_sc = (float) iw / (float) ow;
   h_sc = (float) ih / (float) oh;
@@ -277,9 +281,11 @@ void utils_rot( vel2d *in, unsigned char *out, int iw, int ih, int ow, int oh) {
   float min, max;
   float *bufrot, *pbufrot;
 
+  /*
   inline float rot( vel2d *f, int dimx) {
     return ((f+1)->v - (f-1)->v - (f+dimx)->u + (f-dimx)->u)/2;
-  }
+    }*/
+#define rot(f,dimx) ((f+1)->v - (f-1)->v - (f+dimx)->u + (f-dimx)->u)/2
 
   w_sc = (float) iw / (float) ow;
   h_sc = (float) ih / (float) oh;
