@@ -81,21 +81,23 @@ create_export (void)
   GtkWidget *label18;
   GtkWidget *label19;
   GtkWidget *export_file;
-  GtkWidget *export_inter;
   GtkObject *export_size_adj;
   GtkWidget *export_size;
-  GtkWidget *export_codec_label;
-  GtkWidget *export_vbitrate_label;
-  GtkWidget *export_jpeg_label;
-  GtkObject *export_vbitrate_adj;
-  GtkWidget *export_vbitrate;
-  GtkObject *export_jpeg_quality_adj;
-  GtkWidget *export_jpeg_quality;
   GtkWidget *export_separ2;
   GtkWidget *export_separ1;
   GtkWidget *export_unit;
   GtkWidget *export_type;
+  GtkWidget *export_codec_label;
   GtkWidget *export_codec;
+  GtkWidget *export_vbitrate_label;
+  GtkObject *export_vbitrate_adj;
+  GtkWidget *export_vbitrate;
+  GtkObject *export_jpeg_quality_adj;
+  GtkWidget *export_jpeg_quality;
+  GtkWidget *export_jpeg_label;
+  GtkWidget *export_inter;
+  GtkWidget *export_nf;
+  GtkWidget *export_nvo;
   GtkWidget *hseparator2;
   GtkWidget *hbuttonbox1;
   GtkWidget *export_apply;
@@ -114,7 +116,7 @@ create_export (void)
   gtk_widget_show (vbox3);
   gtk_container_add (GTK_CONTAINER (export), vbox3);
 
-  table3 = gtk_table_new (9, 2, FALSE);
+  table3 = gtk_table_new (11, 2, FALSE);
   gtk_widget_show (table3);
   gtk_box_pack_start (GTK_BOX (vbox3), table3, TRUE, TRUE, 1);
   gtk_container_set_border_width (GTK_CONTAINER (table3), 4);
@@ -157,13 +159,6 @@ create_export (void)
   gtk_tooltips_set_tip (tooltips, export_file, _("Set the generic output filename. An extension with a frame number will eventually added."), NULL);
   gtk_entry_set_invisible_char (GTK_ENTRY (export_file), 8226);
 
-  export_inter = gtk_check_button_new_with_mnemonic (_("keep intermediar xfig files"));
-  gtk_widget_show (export_inter);
-  gtk_table_attach (GTK_TABLE (table3), export_inter, 1, 2, 4, 5,
-                    (GtkAttachOptions) (0),
-                    (GtkAttachOptions) (0), 0, 0);
-  gtk_tooltips_set_tip (tooltips, export_inter, _("Don't remove the xfig file used to build the export data (see documentation for details)."), NULL);
-
   export_size_adj = gtk_adjustment_new (20, 0, 100, 1, 10, 0);
   export_size = gtk_spin_button_new (GTK_ADJUSTMENT (export_size_adj), 1, 0);
   gtk_widget_show (export_size);
@@ -172,45 +167,6 @@ create_export (void)
                     (GtkAttachOptions) (0), 0, 0);
   gtk_tooltips_set_tip (tooltips, export_size, _("Set the size of exported data."), NULL);
   gtk_spin_button_set_numeric (GTK_SPIN_BUTTON (export_size), TRUE);
-
-  export_codec_label = gtk_label_new (_("Codec"));
-  gtk_widget_show (export_codec_label);
-  gtk_table_attach (GTK_TABLE (table3), export_codec_label, 0, 1, 8, 9,
-                    (GtkAttachOptions) (0),
-                    (GtkAttachOptions) (0), 0, 0);
-  gtk_misc_set_alignment (GTK_MISC (export_codec_label), 0, 0.5);
-
-  export_vbitrate_label = gtk_label_new (_("Video bitrate"));
-  gtk_widget_show (export_vbitrate_label);
-  gtk_table_attach (GTK_TABLE (table3), export_vbitrate_label, 0, 1, 7, 8,
-                    (GtkAttachOptions) (0),
-                    (GtkAttachOptions) (0), 0, 0);
-  gtk_misc_set_alignment (GTK_MISC (export_vbitrate_label), 0, 0.5);
-
-  export_jpeg_label = gtk_label_new (_("Jpeg quality"));
-  gtk_widget_show (export_jpeg_label);
-  gtk_table_attach (GTK_TABLE (table3), export_jpeg_label, 0, 1, 6, 7,
-                    (GtkAttachOptions) (0),
-                    (GtkAttachOptions) (0), 0, 0);
-  gtk_misc_set_alignment (GTK_MISC (export_jpeg_label), 0, 0.5);
-
-  export_vbitrate_adj = gtk_adjustment_new (100, 100, 1000, 10, 100, 0);
-  export_vbitrate = gtk_spin_button_new (GTK_ADJUSTMENT (export_vbitrate_adj), 1, 0);
-  gtk_widget_show (export_vbitrate);
-  gtk_table_attach (GTK_TABLE (table3), export_vbitrate, 1, 2, 7, 8,
-                    (GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
-                    (GtkAttachOptions) (0), 0, 0);
-  gtk_tooltips_set_tip (tooltips, export_vbitrate, _("Select the video bitrate (100-1000 bit per second) "), NULL);
-  gtk_spin_button_set_numeric (GTK_SPIN_BUTTON (export_vbitrate), TRUE);
-
-  export_jpeg_quality_adj = gtk_adjustment_new (75, 0, 100, 1, 10, 0);
-  export_jpeg_quality = gtk_spin_button_new (GTK_ADJUSTMENT (export_jpeg_quality_adj), 1, 0);
-  gtk_widget_show (export_jpeg_quality);
-  gtk_table_attach (GTK_TABLE (table3), export_jpeg_quality, 1, 2, 6, 7,
-                    (GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
-                    (GtkAttachOptions) (0), 0, 0);
-  gtk_tooltips_set_tip (tooltips, export_jpeg_quality, _("Select the Jpeg compression (0-100). 100 is no compression."), NULL);
-  gtk_spin_button_set_numeric (GTK_SPIN_BUTTON (export_jpeg_quality), TRUE);
 
   export_separ2 = gtk_hseparator_new ();
   gtk_widget_show (export_separ2);
@@ -237,6 +193,7 @@ create_export (void)
   gtk_table_attach (GTK_TABLE (table3), export_type, 1, 2, 1, 2,
                     (GtkAttachOptions) (0),
                     (GtkAttachOptions) (0), 0, 0);
+  gtk_combo_box_append_text (GTK_COMBO_BOX (export_type), _("Pdf"));
   gtk_combo_box_append_text (GTK_COMBO_BOX (export_type), _("Encapsuled postscript"));
   gtk_combo_box_append_text (GTK_COMBO_BOX (export_type), _("Postscript"));
   gtk_combo_box_append_text (GTK_COMBO_BOX (export_type), _("Tiff"));
@@ -246,9 +203,16 @@ create_export (void)
   gtk_combo_box_append_text (GTK_COMBO_BOX (export_type), _("Avi sequence"));
   gtk_combo_box_append_text (GTK_COMBO_BOX (export_type), _("Gif89 animation"));
 
+  export_codec_label = gtk_label_new (_("Codec"));
+  gtk_widget_show (export_codec_label);
+  gtk_table_attach (GTK_TABLE (table3), export_codec_label, 0, 1, 10, 11,
+                    (GtkAttachOptions) (0),
+                    (GtkAttachOptions) (0), 0, 0);
+  gtk_misc_set_alignment (GTK_MISC (export_codec_label), 0, 0.5);
+
   export_codec = gtk_combo_box_new_text ();
   gtk_widget_show (export_codec);
-  gtk_table_attach (GTK_TABLE (table3), export_codec, 1, 2, 8, 9,
+  gtk_table_attach (GTK_TABLE (table3), export_codec, 1, 2, 10, 11,
                     (GtkAttachOptions) (0),
                     (GtkAttachOptions) (0), 0, 0);
   gtk_combo_box_append_text (GTK_COMBO_BOX (export_codec), _("Mjpeg"));
@@ -256,6 +220,59 @@ create_export (void)
   gtk_combo_box_append_text (GTK_COMBO_BOX (export_codec), _("Mpeg 2"));
   gtk_combo_box_append_text (GTK_COMBO_BOX (export_codec), _("Divx 3"));
   gtk_combo_box_append_text (GTK_COMBO_BOX (export_codec), _("Divx 4/5"));
+
+  export_vbitrate_label = gtk_label_new (_("Video bitrate"));
+  gtk_widget_show (export_vbitrate_label);
+  gtk_table_attach (GTK_TABLE (table3), export_vbitrate_label, 0, 1, 9, 10,
+                    (GtkAttachOptions) (0),
+                    (GtkAttachOptions) (0), 0, 0);
+  gtk_misc_set_alignment (GTK_MISC (export_vbitrate_label), 0, 0.5);
+
+  export_vbitrate_adj = gtk_adjustment_new (100, 100, 1000, 10, 100, 0);
+  export_vbitrate = gtk_spin_button_new (GTK_ADJUSTMENT (export_vbitrate_adj), 1, 0);
+  gtk_widget_show (export_vbitrate);
+  gtk_table_attach (GTK_TABLE (table3), export_vbitrate, 1, 2, 9, 10,
+                    (GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
+                    (GtkAttachOptions) (0), 0, 0);
+  gtk_tooltips_set_tip (tooltips, export_vbitrate, _("Select the video bitrate (100-1000 bit per second) "), NULL);
+  gtk_spin_button_set_numeric (GTK_SPIN_BUTTON (export_vbitrate), TRUE);
+
+  export_jpeg_quality_adj = gtk_adjustment_new (75, 0, 100, 1, 10, 0);
+  export_jpeg_quality = gtk_spin_button_new (GTK_ADJUSTMENT (export_jpeg_quality_adj), 1, 0);
+  gtk_widget_show (export_jpeg_quality);
+  gtk_table_attach (GTK_TABLE (table3), export_jpeg_quality, 1, 2, 8, 9,
+                    (GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
+                    (GtkAttachOptions) (0), 0, 0);
+  gtk_tooltips_set_tip (tooltips, export_jpeg_quality, _("Select the Jpeg compression (0-100). 100 is no compression."), NULL);
+  gtk_spin_button_set_numeric (GTK_SPIN_BUTTON (export_jpeg_quality), TRUE);
+
+  export_jpeg_label = gtk_label_new (_("Jpeg quality"));
+  gtk_widget_show (export_jpeg_label);
+  gtk_table_attach (GTK_TABLE (table3), export_jpeg_label, 0, 1, 8, 9,
+                    (GtkAttachOptions) (0),
+                    (GtkAttachOptions) (0), 0, 0);
+  gtk_misc_set_alignment (GTK_MISC (export_jpeg_label), 0, 0.5);
+
+  export_inter = gtk_check_button_new_with_mnemonic (_("keep intermediar xfig files"));
+  gtk_widget_show (export_inter);
+  gtk_table_attach (GTK_TABLE (table3), export_inter, 1, 2, 4, 5,
+                    (GtkAttachOptions) (GTK_FILL),
+                    (GtkAttachOptions) (0), 0, 0);
+  gtk_tooltips_set_tip (tooltips, export_inter, _("Don't remove the xfig file used to build the export data (see documentation for details)."), NULL);
+
+  export_nf = gtk_check_button_new_with_mnemonic (_("do not display a frame (-nf)"));
+  gtk_widget_show (export_nf);
+  gtk_table_attach (GTK_TABLE (table3), export_nf, 1, 2, 6, 7,
+                    (GtkAttachOptions) (GTK_FILL),
+                    (GtkAttachOptions) (0), 0, 0);
+  gtk_tooltips_set_tip (tooltips, export_nf, _("Don't remove the xfig file used to build the export data (see documentation for details)."), NULL);
+
+  export_nvo = gtk_check_button_new_with_mnemonic (_("remove vectors outside (-nvo)"));
+  gtk_widget_show (export_nvo);
+  gtk_table_attach (GTK_TABLE (table3), export_nvo, 1, 2, 7, 8,
+                    (GtkAttachOptions) (GTK_FILL),
+                    (GtkAttachOptions) (0), 0, 0);
+  gtk_tooltips_set_tip (tooltips, export_nvo, _("Don't remove the xfig file used to build the export data (see documentation for details)."), NULL);
 
   hseparator2 = gtk_hseparator_new ();
   gtk_widget_show (hseparator2);
@@ -309,18 +326,20 @@ create_export (void)
   GLADE_HOOKUP_OBJECT (export, label18, "label18");
   GLADE_HOOKUP_OBJECT (export, label19, "label19");
   GLADE_HOOKUP_OBJECT (export, export_file, "export_file");
-  GLADE_HOOKUP_OBJECT (export, export_inter, "export_inter");
   GLADE_HOOKUP_OBJECT (export, export_size, "export_size");
-  GLADE_HOOKUP_OBJECT (export, export_codec_label, "export_codec_label");
-  GLADE_HOOKUP_OBJECT (export, export_vbitrate_label, "export_vbitrate_label");
-  GLADE_HOOKUP_OBJECT (export, export_jpeg_label, "export_jpeg_label");
-  GLADE_HOOKUP_OBJECT (export, export_vbitrate, "export_vbitrate");
-  GLADE_HOOKUP_OBJECT (export, export_jpeg_quality, "export_jpeg_quality");
   GLADE_HOOKUP_OBJECT (export, export_separ2, "export_separ2");
   GLADE_HOOKUP_OBJECT (export, export_separ1, "export_separ1");
   GLADE_HOOKUP_OBJECT (export, export_unit, "export_unit");
   GLADE_HOOKUP_OBJECT (export, export_type, "export_type");
+  GLADE_HOOKUP_OBJECT (export, export_codec_label, "export_codec_label");
   GLADE_HOOKUP_OBJECT (export, export_codec, "export_codec");
+  GLADE_HOOKUP_OBJECT (export, export_vbitrate_label, "export_vbitrate_label");
+  GLADE_HOOKUP_OBJECT (export, export_vbitrate, "export_vbitrate");
+  GLADE_HOOKUP_OBJECT (export, export_jpeg_quality, "export_jpeg_quality");
+  GLADE_HOOKUP_OBJECT (export, export_jpeg_label, "export_jpeg_label");
+  GLADE_HOOKUP_OBJECT (export, export_inter, "export_inter");
+  GLADE_HOOKUP_OBJECT (export, export_nf, "export_nf");
+  GLADE_HOOKUP_OBJECT (export, export_nvo, "export_nvo");
   GLADE_HOOKUP_OBJECT (export, hseparator2, "hseparator2");
   GLADE_HOOKUP_OBJECT (export, hbuttonbox1, "hbuttonbox1");
   GLADE_HOOKUP_OBJECT (export, export_apply, "export_apply");
@@ -1750,7 +1769,7 @@ create_xflow_mainwindow (void)
   xflow_thresh_high = gtk_hscale_new (GTK_ADJUSTMENT (gtk_adjustment_new (-1, -1, 10, 1, 1, 0)));
   gtk_widget_show (xflow_thresh_high);
   gtk_table_attach (GTK_TABLE (table4), xflow_thresh_high, 0, 1, 1, 2,
-                    (GtkAttachOptions) (0),
+                    (GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
                     (GtkAttachOptions) (GTK_EXPAND | GTK_FILL), 0, 0);
   gtk_scale_set_digits (GTK_SCALE (xflow_thresh_high), 2);
 

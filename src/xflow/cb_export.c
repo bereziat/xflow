@@ -80,7 +80,7 @@ on_export_apply_clicked                (GtkButton       *button,
   char command[512];
   const gchar *p;
   Fort_int *lfmt;
-  char *type[] = { "eps", "ps", "tiff", "jpeg"};
+  char *type[] = { "pdf", "eps", "ps", "tiff", "jpeg"};
   int size;
   char *unit[] = { "cm", "in"};
   char *codec[] = { "mpjeg", "mpegvideo1", "mpegvideo1", "msmpeg4", "mpeg4"};
@@ -94,22 +94,23 @@ on_export_apply_clicked                (GtkButton       *button,
     /* options globales */
     widget = lookup_widget( GTK_WIDGET(button), "export_type");
     export_type = gtk_combo_box_get_active( GTK_COMBO_BOX(widget));
-    // printf( "export_type=%d\n", export_type);
+    //    printf( "export_type=%d\n", export_type);
+    //    printf("%s\n", gtk_combo_box_get_active_text(GTK_COMBO_BOX(widget)));
 
     switch( export_type) {
-    case 4:
+    case 5:
       sprintf( command, "vel2mpg -o %s.mpg", p);
       break;
-    case 5:
+    case 6:
       sprintf( command, "vel2mpg -o %s.inr", p);      
       break;
-    case 6:
+    case 7:
       sprintf( command, "vel2mpg -o %s.avi -codec %s -vbr %d", p, 
 	       codec[gtk_combo_box_get_active( GTK_COMBO_BOX( lookup_widget( GTK_WIDGET(button), "export_codec")))],
 	       gtk_spin_button_get_value_as_int( GTK_SPIN_BUTTON( lookup_widget( GTK_WIDGET(button), "export_vbitrate")))
 	       );      
       break;
-    case 7:
+    case 8:
       sprintf( command, "vel2mpg -o %s.gif", p);
       break;
     default:
@@ -117,7 +118,7 @@ on_export_apply_clicked                (GtkButton       *button,
     }
 
     /* ces options peuvent passer en locale */
-    sprintf( command, "%s -scale %f -sample %d -tl %f -th %f", command,
+    sprintf( command, "%s -scale %f -sample %d -tl %f -th %f ", command,
 	     api.scale, api.sample, api.thresh, api.thresh_high);
     
     /* autres options globales */
@@ -125,35 +126,44 @@ on_export_apply_clicked                (GtkButton       *button,
     widget = lookup_widget( GTK_WIDGET(button), "export_jpeg_quality");
     p = gtk_entry_get_text( GTK_ENTRY(widget));
     size = atoi( p);
-    if( size) sprintf( command, "%s -q %d", command, size);
+    if( size) sprintf( command, "%s -q %d ", command, size);
     
     widget = lookup_widget( GTK_WIDGET(button), "export_size");
     p = gtk_entry_get_text( GTK_ENTRY(widget));
     size = atoi( p);
     if( size) {
       widget = lookup_widget( GTK_WIDGET(button), "export_unit");
-      sprintf( command, "%s -size %d%s", command, size, 
+      sprintf( command, "%s -size %d%s ", command, size, 
 	       unit[gtk_combo_box_get_active( GTK_COMBO_BOX(widget))]);
     }
-    strcat( command, " ");
+
+    if( gtk_toggle_button_get_active( GTK_TOGGLE_BUTTON(lookup_widget(GTK_WIDGET(button),"export_nf"))))
+      strcat( command, "-nf ");
     
+    if( gtk_toggle_button_get_active( GTK_TOGGLE_BUTTON(lookup_widget(GTK_WIDGET(button),"export_nvo"))))
+      strcat( command, "-nvo ");
+
     for( pd = api.data; pd; pd  = pd->next) {   
       switch( pd->type) {
       case DATA_IMAGE:
 	if( bgimg == 0 ) {
 	  lfmt = pd->data.image.file->lfmt;
-	  sprintf( command, "%s %s", command, pd->data.image.file->nom);
+	  sprintf( command, "%s %s ", command, pd->data.image.file->nom);
 	  bgimg = 1;
 	}
 	break;
       case DATA_XFLOW:
 	if( pd->data.xflow.hide) continue;
-	sprintf( command, "%s %s -acolor %s -asize %s -awidth %d -astyle %d %s", command,
+
+	sprintf( command, "%s %s -acolor %s -asize %s -awidth %d -astyle %d %s %s ", command,
 		 pd->data.xflow.file->iuv->nom, 
 		 color_name( &api, pd->data.xflow.arrowcolor),
 		 size_name( &api, pd->data.xflow.arrowsize),
 		 pd->data.xflow.arrowwidth, pd->data.xflow.arrowstyle,
-		 pd->data.xflow.smooth?"-smooth":"");
+		 pd->data.xflow.smooth?"-smooth":"",
+		 pd->data.xflow.norma?"-norma":""
+		 
+		 );
 		
 
 	break;
@@ -209,22 +219,8 @@ on_export_type_changed                 (GtkComboBox     *combobox,
                                         gpointer         user_data)
 {
   switch( gtk_combo_box_get_active (combobox)) {
-  case 0: /* eps */
-  case 1: /* ps */
-  case 2: /* tiff */
-  case 4: /* mpeg */
-  case 5: /* inr */
-    gtk_widget_hide( lookup_widget( GTK_WIDGET( combobox), "export_separ1"));
-    gtk_widget_hide( lookup_widget( GTK_WIDGET( combobox), "export_separ2"));
-
-    gtk_widget_hide( lookup_widget( GTK_WIDGET( combobox), "export_jpeg_quality"));
-    gtk_widget_hide( lookup_widget( GTK_WIDGET( combobox), "export_jpeg_label"));
-    gtk_widget_hide( lookup_widget( GTK_WIDGET( combobox), "export_vbitrate"));
-    gtk_widget_hide( lookup_widget( GTK_WIDGET( combobox), "export_vbitrate_label"));
-    gtk_widget_hide( lookup_widget( GTK_WIDGET( combobox), "export_codec"));
-    gtk_widget_hide( lookup_widget( GTK_WIDGET( combobox), "export_codec_label"));
-    break;
-  case 3: /* jpeg */
+   
+  case 4: /* jpeg */
     gtk_widget_show( lookup_widget( GTK_WIDGET( combobox), "export_separ1"));
     gtk_widget_show( lookup_widget( GTK_WIDGET( combobox), "export_separ2"));
 
@@ -235,7 +231,8 @@ on_export_type_changed                 (GtkComboBox     *combobox,
     gtk_widget_hide( lookup_widget( GTK_WIDGET( combobox), "export_codec"));
     gtk_widget_hide( lookup_widget( GTK_WIDGET( combobox), "export_codec_label"));
     break;
-  case 6: /* avi */
+
+  case 7: /* avi */
     gtk_widget_show( lookup_widget( GTK_WIDGET( combobox), "export_separ1"));
     gtk_widget_show( lookup_widget( GTK_WIDGET( combobox), "export_separ2"));
 
@@ -245,6 +242,18 @@ on_export_type_changed                 (GtkComboBox     *combobox,
     gtk_widget_show( lookup_widget( GTK_WIDGET( combobox), "export_vbitrate_label"));
     gtk_widget_show( lookup_widget( GTK_WIDGET( combobox), "export_codec"));
     gtk_widget_show( lookup_widget( GTK_WIDGET( combobox), "export_codec_label"));
+    break;
+
+  default:
+    gtk_widget_hide( lookup_widget( GTK_WIDGET( combobox), "export_separ1"));
+    gtk_widget_hide( lookup_widget( GTK_WIDGET( combobox), "export_separ2"));
+
+    gtk_widget_hide( lookup_widget( GTK_WIDGET( combobox), "export_jpeg_quality"));
+    gtk_widget_hide( lookup_widget( GTK_WIDGET( combobox), "export_jpeg_label"));
+    gtk_widget_hide( lookup_widget( GTK_WIDGET( combobox), "export_vbitrate"));
+    gtk_widget_hide( lookup_widget( GTK_WIDGET( combobox), "export_vbitrate_label"));
+    gtk_widget_hide( lookup_widget( GTK_WIDGET( combobox), "export_codec"));
+    gtk_widget_hide( lookup_widget( GTK_WIDGET( combobox), "export_codec_label"));
     break;
   }
 }

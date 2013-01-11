@@ -1,6 +1,61 @@
+2013-01-11 12:13  bereziat
+
+	* [r50] Makefile.in, aclocal.m4, config.h.in, configure,
+	  configure.ac, scripts/Makefile.in, src/Makefile.in,
+	  src/img/Makefile.in, src/inrimage/Makefile.in,
+	  src/lib/Makefile.am, src/lib/Makefile.in, src/utils/Makefile.am,
+	  src/utils/Makefile.in, src/xflow/Makefile.am,
+	  src/xflow/Makefile.in, src/xflow/cb_export.c, src/xflow/utils.c:
+	  maj autoconf + bug fix sous mac os (export plantait)
+
+2013-01-09 22:06  bereziat
+
+	* [r49] ChangeLog, ChangeLog.CVS[ADD], ChangeLog.bak[DEL],
+	  Makefile.in, TODO, aclocal.m4, compile, configure, configure.ac,
+	  debian/changelog, scripts/Makefile.in, src/Makefile.in,
+	  src/img/Makefile.in, src/img/main-window.png,
+	  src/inrimage/Makefile.in, src/lib/Makefile.in,
+	  src/utils/Makefile.in, src/utils/vel2col.c,
+	  src/xflow/Makefile.am, src/xflow/Makefile.in,
+	  src/xflow/callbacks.c, src/xflow/callbacks.h,
+	  src/xflow/cb_mainwindow.c, src/xflow/interface.c,
+	  src/xflow/interface.h, src/xflow/utils.c, src/xflow/xflow.glade:
+	  Commit général pour la version 2.3.2 de xflow. Les nouveautés
+	  concernent surtout les commandes vel2fig et vel2col
+
+2012-12-18 21:13  bereziat
+
+	* [r47] src/utils/vel2fig.c: correction bug composante nulle
+
+2012-11-15 09:22  bereziat
+
+	* [r46] src/utils/vel2fig.c: maj vel2fig help
+
+2012-11-15 09:16  bereziat
+
+	* [r45] src/utils/vel2fig.c, src/utils/velstats.c: amelioration
+	  vel2fig et velstats
+
+2012-11-12 21:19  bereziat
+
+	* [r44] src/utils/velstats.c: velstats.c 1.3 : deux bogs fixes
+
+2012-08-28 08:44  bereziat
+
+	* [r27] src/utils/vel2fig.c: improvement of vel2fig
+
+2012-07-10 13:22  bereziat
+
+	* [r26] src/utils/Makefile.in, src/utils/vel2col.c: vel2col: ajout
+	  doc -help
+
+2012-06-25 21:04  bereziat
+
+	* [r25] src/utils/velstats.c: velstats version 1.2
+
 2012-06-25 21:02  bereziat
 
-	* [r24] compile: ajout compile
+	* [r24] compile[ADD]: ajout compile
 
 2012-06-25 21:01  bereziat
 
@@ -13,9 +68,10 @@
 
 2012-06-25 20:49  bereziat
 
-	* [r21] src/utils/Makefile.am, src/utils/colorcode.c,
-	  src/utils/colorcode.h, src/utils/vel2col.c, src/utils/vel2fig.c,
-	  src/utils/velstats.c: vel2fig: nouvelle option -nf (noframe)
+	* [r21] src/utils/Makefile.am, src/utils/colorcode.c[ADD],
+	  src/utils/colorcode.h[ADD], src/utils/vel2col.c[ADD],
+	  src/utils/vel2fig.c, src/utils/velstats.c: vel2fig: nouvelle
+	  option -nf (noframe)
 	  ajout de la commande vel2col (colorisation a la middlebury)
 	  2 fix bug dans velstats (Yann Lepoittevin)
 
@@ -33,7 +89,7 @@
 
 	* [r17] Makefile.in, aclocal.m4, config.h.in, configure,
 	  scripts/Makefile.in, src/Makefile.in, src/img/Makefile.in,
-	  src/img/main-window.png, src/inrimage/Makefile.in,
+	  src/img/main-window.png[ADD], src/inrimage/Makefile.in,
 	  src/lib/Makefile.in, src/xflow/Makefile.in: maj autotools
 
 2011-12-20 12:53  bereziat
@@ -44,13 +100,13 @@
 2011-12-20 12:51  bereziat
 
 	* [r15] src/utils/Makefile.in, src/utils/uv2col.c,
-	  src/utils/velang.c, src/utils/velerr.c, src/utils/velnorm.c:
-	  ajout velang.c velnorm.c
+	  src/utils/velang.c[ADD], src/utils/velerr.c,
+	  src/utils/velnorm.c[ADD]: ajout velang.c velnorm.c
 
 2011-12-20 12:48  bereziat
 
 	* [r14] src/utils/Makefile.am, src/utils/vel2fig.c,
-	  src/utils/velstats.c: Ajout -norma dans vel2fig, nouvelle
+	  src/utils/velstats.c[ADD]: Ajout -norma dans vel2fig, nouvelle
 	  commande velstats
 
 2011-08-15 09:39  bereziat
@@ -70,77 +126,94 @@
 2011-06-21 18:52  bereziat
 
 	* [r12] src/utils/Makefile.am, src/utils/Makefile.in,
-	  src/utils/vel2fig.c, src/utils/veldif.c, src/utils/velerr.c:
+	  src/utils/vel2fig.c, src/utils/veldif.c, src/utils/velerr.c[ADD]:
 	  vel2fig: on utilise mkstemp() generer le nom des fichiers
 	  temporaires
 	  ajout de velerr et veldif devient obsolete (il faudra l'enlever)
 
 2010-10-26 19:37  bereziat
 
-	* [r3] CVS, debian/CVS, doc/CVS, scripts/CVS, src/CVS,
-	  src/examples/CVS, src/img/CVS, src/inrimage/CVS, src/lib/CVS,
-	  src/utils/CVS, src/xflow/CVS, src/xflow/t.uv,
-	  src/xflow/taxi.inr.gz: Nettoyage du repertoire apres l'import un
-	  peu rapide !
+	* [r3] CVS[DEL], debian/CVS[DEL], doc/CVS[DEL], scripts/CVS[DEL],
+	  src/CVS[DEL], src/examples/CVS[DEL], src/img/CVS[DEL],
+	  src/inrimage/CVS[DEL], src/lib/CVS[DEL], src/utils/CVS[DEL],
+	  src/xflow/CVS[DEL], src/xflow/t.uv[DEL],
+	  src/xflow/taxi.inr.gz[DEL]: Nettoyage du repertoire apres
+	  l'import un peu rapide !
 
 2010-10-26 19:29  bereziat
 
-	* [r2] ., AUTHORS, COPYING, CVS, CVS/Entries, CVS/Repository,
-	  CVS/Root, ChangeLog, ChangeLog.bak, INSTALL, Makefile.am,
-	  Makefile.in, NEWS, README, TODO, aclocal.m4, acsite.m4,
-	  config.h.in, configure, configure.ac, debian, debian/CVS,
-	  debian/CVS/Entries, debian/CVS/Repository, debian/CVS/Root,
-	  debian/README.Debian, debian/changelog, debian/compat,
-	  debian/control, debian/copyright, debian/dirs, debian/docs,
-	  debian/rules, depcomp, doc, doc/CVS, doc/CVS/Entries,
-	  doc/CVS/Repository, doc/CVS/Root, install-sh, missing, scripts,
-	  scripts/CVS, scripts/CVS/Entries, scripts/CVS/Repository,
-	  scripts/CVS/Root, scripts/Makefile.am, scripts/Makefile.in,
-	  scripts/vel2curl, scripts/vel2div, scripts/vel2mpg,
-	  scripts/vel2uv.sh, scripts/velimg, src, src/CVS, src/CVS/Entries,
-	  src/CVS/Repository, src/CVS/Root, src/Makefile.am,
-	  src/Makefile.in, src/doxydoc.c, src/examples, src/examples/CVS,
-	  src/examples/CVS/Entries, src/examples/CVS/Repository,
-	  src/examples/CVS/Root, src/examples/c, src/examples/c/CVS,
-	  src/examples/c/CVS/Entries, src/examples/c/CVS/Repository,
-	  src/examples/c/CVS/Root, src/examples/c/Makefile.in,
-	  src/examples/c/gradvel.c, src/examples/sh, src/examples/sh/CVS,
-	  src/examples/sh/CVS/Entries, src/examples/sh/CVS/Repository,
-	  src/examples/sh/CVS/Root, src/examples/sh/Makefile.in,
-	  src/examples/sh/gradvel.sh, src/examples/sh/uv2vel.sh,
-	  src/examples/sh/velpar.sh, src/examples/sh/velset.sh,
-	  src/examples/xflow.m4, src/img, src/img/CVS, src/img/CVS/Entries,
-	  src/img/CVS/Repository, src/img/CVS/Root, src/img/Makefile.am,
-	  src/img/Makefile.in, src/img/main-window.fig,
-	  src/img/pref-window.png, src/img/xflow-1.png, src/inrimage,
-	  src/inrimage/CVS, src/inrimage/CVS/Entries,
-	  src/inrimage/CVS/Repository, src/inrimage/CVS/Root,
-	  src/inrimage/Makefile.am, src/inrimage/Makefile.in,
-	  src/inrimage/xflow.h, src/lib, src/lib/CVS, src/lib/CVS/Entries,
-	  src/lib/CVS/Repository, src/lib/CVS/Root, src/lib/Makefile.am,
-	  src/lib/Makefile.in, src/lib/xflow.c, src/lib/xflow_close.c,
-	  src/lib/xflow_create.c, src/lib/xflow_get.c,
-	  src/lib/xflow_open.c, src/lib/xflow_read.c,
-	  src/lib/xflow_read_value.c, src/lib/xflow_seek.c,
-	  src/lib/xflow_set.c, src/lib/xflow_write.c,
-	  src/lib/xflow_write_value.c, src/utils, src/utils/CVS,
-	  src/utils/CVS/Entries, src/utils/CVS/Repository,
-	  src/utils/CVS/Root, src/utils/Makefile.am, src/utils/Makefile.in,
-	  src/utils/uv2col.c, src/utils/uv2vel.c, src/utils/vel2fig.c,
-	  src/utils/vel2lic.c, src/utils/veldif.c, src/utils/velpar.c,
-	  src/utils/velset.c, src/xflow, src/xflow.doxy,
-	  src/xflow.doxy.bak, src/xflow/CVS, src/xflow/CVS/Entries,
-	  src/xflow/CVS/Repository, src/xflow/CVS/Root,
-	  src/xflow/Makefile.am, src/xflow/Makefile.in, src/xflow/api.c,
-	  src/xflow/api.h, src/xflow/arrow.sh, src/xflow/callbacks.c,
-	  src/xflow/callbacks.h, src/xflow/cb_about.c,
-	  src/xflow/cb_export.c, src/xflow/cb_mainwindow.c,
-	  src/xflow/cb_prefs.c, src/xflow/data.c, src/xflow/data.h,
-	  src/xflow/interface.c, src/xflow/interface.h,
-	  src/xflow/lecscrn.c, src/xflow/lecscrn.h, src/xflow/main.c,
-	  src/xflow/support.c, src/xflow/support.h, src/xflow/t.uv,
-	  src/xflow/taxi.inr.gz, src/xflow/utils.c, src/xflow/utils.h,
-	  src/xflow/xflow.glade, src/xflow/xflow.glade.bak,
-	  src/xflow/xflow.gladep, src/xflow/xflow.gladep.bak: Initial
-	  import (from CVS)
+	* [r2] .[ADD], AUTHORS[ADD], COPYING[ADD], CVS[ADD],
+	  CVS/Entries[ADD], CVS/Repository[ADD], CVS/Root[ADD],
+	  ChangeLog[ADD], ChangeLog.bak[ADD], INSTALL[ADD],
+	  Makefile.am[ADD], Makefile.in[ADD], NEWS[ADD], README[ADD],
+	  TODO[ADD], aclocal.m4[ADD], acsite.m4[ADD], config.h.in[ADD],
+	  configure[ADD], configure.ac[ADD], debian[ADD], debian/CVS[ADD],
+	  debian/CVS/Entries[ADD], debian/CVS/Repository[ADD],
+	  debian/CVS/Root[ADD], debian/README.Debian[ADD],
+	  debian/changelog[ADD], debian/compat[ADD], debian/control[ADD],
+	  debian/copyright[ADD], debian/dirs[ADD], debian/docs[ADD],
+	  debian/rules[ADD], depcomp[ADD], doc[ADD], doc/CVS[ADD],
+	  doc/CVS/Entries[ADD], doc/CVS/Repository[ADD], doc/CVS/Root[ADD],
+	  install-sh[ADD], missing[ADD], scripts[ADD], scripts/CVS[ADD],
+	  scripts/CVS/Entries[ADD], scripts/CVS/Repository[ADD],
+	  scripts/CVS/Root[ADD], scripts/Makefile.am[ADD],
+	  scripts/Makefile.in[ADD], scripts/vel2curl[ADD],
+	  scripts/vel2div[ADD], scripts/vel2mpg[ADD],
+	  scripts/vel2uv.sh[ADD], scripts/velimg[ADD], src[ADD],
+	  src/CVS[ADD], src/CVS/Entries[ADD], src/CVS/Repository[ADD],
+	  src/CVS/Root[ADD], src/Makefile.am[ADD], src/Makefile.in[ADD],
+	  src/doxydoc.c[ADD], src/examples[ADD], src/examples/CVS[ADD],
+	  src/examples/CVS/Entries[ADD], src/examples/CVS/Repository[ADD],
+	  src/examples/CVS/Root[ADD], src/examples/c[ADD],
+	  src/examples/c/CVS[ADD], src/examples/c/CVS/Entries[ADD],
+	  src/examples/c/CVS/Repository[ADD], src/examples/c/CVS/Root[ADD],
+	  src/examples/c/Makefile.in[ADD], src/examples/c/gradvel.c[ADD],
+	  src/examples/sh[ADD], src/examples/sh/CVS[ADD],
+	  src/examples/sh/CVS/Entries[ADD],
+	  src/examples/sh/CVS/Repository[ADD],
+	  src/examples/sh/CVS/Root[ADD], src/examples/sh/Makefile.in[ADD],
+	  src/examples/sh/gradvel.sh[ADD], src/examples/sh/uv2vel.sh[ADD],
+	  src/examples/sh/velpar.sh[ADD], src/examples/sh/velset.sh[ADD],
+	  src/examples/xflow.m4[ADD], src/img[ADD], src/img/CVS[ADD],
+	  src/img/CVS/Entries[ADD], src/img/CVS/Repository[ADD],
+	  src/img/CVS/Root[ADD], src/img/Makefile.am[ADD],
+	  src/img/Makefile.in[ADD], src/img/main-window.fig[ADD],
+	  src/img/pref-window.png[ADD], src/img/xflow-1.png[ADD],
+	  src/inrimage[ADD], src/inrimage/CVS[ADD],
+	  src/inrimage/CVS/Entries[ADD], src/inrimage/CVS/Repository[ADD],
+	  src/inrimage/CVS/Root[ADD], src/inrimage/Makefile.am[ADD],
+	  src/inrimage/Makefile.in[ADD], src/inrimage/xflow.h[ADD],
+	  src/lib[ADD], src/lib/CVS[ADD], src/lib/CVS/Entries[ADD],
+	  src/lib/CVS/Repository[ADD], src/lib/CVS/Root[ADD],
+	  src/lib/Makefile.am[ADD], src/lib/Makefile.in[ADD],
+	  src/lib/xflow.c[ADD], src/lib/xflow_close.c[ADD],
+	  src/lib/xflow_create.c[ADD], src/lib/xflow_get.c[ADD],
+	  src/lib/xflow_open.c[ADD], src/lib/xflow_read.c[ADD],
+	  src/lib/xflow_read_value.c[ADD], src/lib/xflow_seek.c[ADD],
+	  src/lib/xflow_set.c[ADD], src/lib/xflow_write.c[ADD],
+	  src/lib/xflow_write_value.c[ADD], src/utils[ADD],
+	  src/utils/CVS[ADD], src/utils/CVS/Entries[ADD],
+	  src/utils/CVS/Repository[ADD], src/utils/CVS/Root[ADD],
+	  src/utils/Makefile.am[ADD], src/utils/Makefile.in[ADD],
+	  src/utils/uv2col.c[ADD], src/utils/uv2vel.c[ADD],
+	  src/utils/vel2fig.c[ADD], src/utils/vel2lic.c[ADD],
+	  src/utils/veldif.c[ADD], src/utils/velpar.c[ADD],
+	  src/utils/velset.c[ADD], src/xflow[ADD], src/xflow.doxy[ADD],
+	  src/xflow.doxy.bak[ADD], src/xflow/CVS[ADD],
+	  src/xflow/CVS/Entries[ADD], src/xflow/CVS/Repository[ADD],
+	  src/xflow/CVS/Root[ADD], src/xflow/Makefile.am[ADD],
+	  src/xflow/Makefile.in[ADD], src/xflow/api.c[ADD],
+	  src/xflow/api.h[ADD], src/xflow/arrow.sh[ADD],
+	  src/xflow/callbacks.c[ADD], src/xflow/callbacks.h[ADD],
+	  src/xflow/cb_about.c[ADD], src/xflow/cb_export.c[ADD],
+	  src/xflow/cb_mainwindow.c[ADD], src/xflow/cb_prefs.c[ADD],
+	  src/xflow/data.c[ADD], src/xflow/data.h[ADD],
+	  src/xflow/interface.c[ADD], src/xflow/interface.h[ADD],
+	  src/xflow/lecscrn.c[ADD], src/xflow/lecscrn.h[ADD],
+	  src/xflow/main.c[ADD], src/xflow/support.c[ADD],
+	  src/xflow/support.h[ADD], src/xflow/t.uv[ADD],
+	  src/xflow/taxi.inr.gz[ADD], src/xflow/utils.c[ADD],
+	  src/xflow/utils.h[ADD], src/xflow/xflow.glade[ADD],
+	  src/xflow/xflow.glade.bak[ADD], src/xflow/xflow.gladep[ADD],
+	  src/xflow/xflow.gladep.bak[ADD]: Initial import (from CVS)
 

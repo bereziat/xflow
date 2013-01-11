@@ -10,7 +10,7 @@
 
 #define XFLOW_API_MAJOR   2
 #define XFLOW_API_MINOR   3
-#define XFLOW_API_RELEASE 2
+#define XFLOW_API_RELEASE 3
 
 #define XFLOW_API_BETA    0
 

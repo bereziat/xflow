@@ -1,6 +1,15 @@
 Fichier historique du projet xflow
 (c) D.Bereziat  $Id: NEWS,v 1.8 2010/10/20 16:11:08 bereziat Exp $
 
+* January 2013 (2.3.3)
+  - bug fix and improvements in xflow-export
+  - some improvements in vel2fig:
+    + new options -norma and -nf
+    + bug fixes
+    + thresholds may be given in percentage
+  - new command vel2col
+  - new command velstats
+
 * July 2011 (2.3.2)
   - threshold sliders are now correctly refreshed (if a frame change
     occur)
