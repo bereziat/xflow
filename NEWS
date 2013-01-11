@@ -2,7 +2,7 @@ Fichier historique du projet xflow
 (c) D.Bereziat  $Id: NEWS,v 1.8 2010/10/20 16:11:08 bereziat Exp $
 
 * January 2013 (2.3.3)
-  - bug fix and improvements in xflow-export
+  - bug fix and improvements in xflow-export (export pdf, more options)
   - some improvements in vel2fig:
     + new options -norma and -nf
     + bug fixes
