@@ -419,7 +419,9 @@ void color_set_by_name( XFLOW_API *api, char *name) {
 void size_set_by_name();
 void size_set_by_id();
 
-static char *tcolor[] = {"black", "blue", "green", "cyan", "red", "magenta", "yellow", "white", NULL};
+static 
+char *tcolor[] = {"black", "blue", "green", "cyan", "red", 
+		  "magenta", "yellow", "white", NULL};
 char *color_name( XFLOW_API *api, int color) {
   if( color == -1) color = api->arrowcolor;
   return tcolor[color];

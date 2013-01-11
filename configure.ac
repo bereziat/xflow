@@ -1,8 +1,9 @@
 AC_PREREQ(2.59)
 
-AC_INIT(configure.ac)
-dnl Init some automake stuff. Evaluates @PACKAGE@ and @VERSION@ macros
-AM_INIT_AUTOMAKE(xflow,2.3.2)
+AC_INIT([xflow],[2.3.2])
+AC_CONFIG_SRCDIR([src/lib/xflow_open.c])
+AM_INIT_AUTOMAKE
+
 dnl ...
 AM_CONFIG_HEADER(config.h)
 dnl A macro makes autotools happy with CVS

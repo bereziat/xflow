@@ -4,11 +4,12 @@
 
 #include <gtk/gtk.h>
 #include <math.h>
+#include <string.h>
 #include "callbacks.h"
 #include "interface.h"
 #include "support.h"
 #include "data.h"
-
+#include "utils.h"
 
 extern XFLOW_API api;
 
@@ -147,14 +148,14 @@ on_export_apply_clicked                (GtkButton       *button,
 	break;
       case DATA_XFLOW:
 	if( pd->data.xflow.hide) continue;
-	
 	sprintf( command, "%s %s -acolor %s -asize %s -awidth %d -astyle %d %s", command,
 		 pd->data.xflow.file->iuv->nom, 
 		 color_name( &api, pd->data.xflow.arrowcolor),
 		 size_name( &api, pd->data.xflow.arrowsize),
 		 pd->data.xflow.arrowwidth, pd->data.xflow.arrowstyle,
 		 pd->data.xflow.smooth?"-smooth":"");
-	
+		
+
 	break;
       }
     }
