@@ -191,9 +191,8 @@ main (int argc, char *argv[])
       data_insert( &api, data, 1);  
     }
     
-  } while ( infileopt(name)) ;
-  
-  
+  } while ( infileopt(name)) ; 
+
   /*
    * The following code was added by Glade to create one of each component
    * (except popup menus), just so that you see something after building

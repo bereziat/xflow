@@ -15,8 +15,8 @@ xflow_SOURCES = interface.c interface.h support.c support.h \
 #		trajs.c (pas encore)
 
 xflow_CFLAGS = -O2
-xflow_LDADD = @PACKAGE_LIBS@ -lxflow
-xflow_LDFLAGS = -L../lib/ 
+xflow_LDADD = @PACKAGE_LIBS@ ../lib/libxflow.a
+xflow_LDFLAGS = 
 
 # installer les pixmaps dans $prefix/share/PACKAGE/pixmaps
 nobase_pkgdata_DATA = pixmaps/arrow0.png pixmaps/arrow1.png pixmaps/arrow2.png \

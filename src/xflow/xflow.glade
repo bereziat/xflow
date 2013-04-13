@@ -878,18 +878,21 @@ Divx 4/5</property>
 		  </child>
 
 		  <child>
-		    <widget class="GtkDrawingArea" id="drawingarea7">
-		      <property name="width_request">60</property>
-		      <property name="height_request">20</property>
+		    <widget class="GtkImage" id="image85">
 		      <property name="visible">True</property>
+		      <property name="pixbuf">arrow0.png</property>
+		      <property name="xalign">0.5</property>
+		      <property name="yalign">0.5</property>
+		      <property name="xpad">0</property>
+		      <property name="ypad">0</property>
 		    </widget>
 		    <packing>
 		      <property name="left_attach">0</property>
 		      <property name="right_attach">1</property>
 		      <property name="top_attach">4</property>
 		      <property name="bottom_attach">5</property>
-		      <property name="x_options"></property>
-		      <property name="y_options"></property>
+		      <property name="x_options">fill</property>
+		      <property name="y_options">fill</property>
 		    </packing>
 		  </child>
 		</widget>

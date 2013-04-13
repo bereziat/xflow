@@ -5,7 +5,7 @@ AC_CONFIG_SRCDIR([src/lib/xflow_open.c])
 AM_INIT_AUTOMAKE
 
 dnl ...
-AM_CONFIG_HEADER(config.h)
+AC_CONFIG_HEADERS(config.h)
 dnl A macro makes autotools happy with CVS
 AM_MAINTAINER_MODE
 
@@ -15,12 +15,11 @@ AC_PROG_INSTALL
 AC_PROG_MAKE_SET
 AC_PROG_RANLIB
 
-dnl Check for an Ansi C compiler ...
-AM_PROG_CC_STDC
+# Check c compiler capabilities
 AM_PROG_CC_C_O
 
-dnl ... and Posix. Is it necessary ?
-AC_ISC_POSIX
+dnl Is it neccary ??
+dnl AC_ISC_POSIX
 
 # Checks for libraries.
 

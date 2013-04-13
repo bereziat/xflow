@@ -10,7 +10,7 @@
 #include "data.h"
 #include "support.h"
 #include "utils.h"
-#include "interface.h"
+//#include "interface.h"
 
 // extern XFLOW_API api;
 
@@ -263,7 +263,7 @@ void utils_div( vel2d *in, unsigned char *out, int iw, int ih, int ow, int oh) {
 
   for(j=0; j<oh; j++) {
     for(i=0; i<ow; i++) {
-      *out++ = 255*(*(pbufdiv + (int)floor(w_offset)) - min / max);
+      *out++ = 255*((*(pbufdiv + (int)floor(w_offset)) - min) / max);
       w_offset += w_sc;
     } 
     w_offset = 0;
@@ -281,10 +281,6 @@ void utils_rot( vel2d *in, unsigned char *out, int iw, int ih, int ow, int oh) {
   float min, max;
   float *bufrot, *pbufrot;
 
-  /*
-  inline float rot( vel2d *f, int dimx) {
-    return ((f+1)->v - (f-1)->v - (f+dimx)->u + (f-dimx)->u)/2;
-    }*/
 #define rot(f,dimx) ((f+1)->v - (f-1)->v - (f+dimx)->u + (f-dimx)->u)/2
 
   w_sc = (float) iw / (float) ow;
@@ -325,7 +321,7 @@ void utils_rot( vel2d *in, unsigned char *out, int iw, int ih, int ow, int oh) {
 
   for(j=0; j<oh; j++) {
     for(i=0; i<ow; i++) {
-      *out++ = 255*(*(pbufrot + (int)floor(w_offset)) - min / max);
+      *out++ = 255*((*(pbufrot + (int)floor(w_offset)) - min) / max);
       w_offset += w_sc;
     } 
     w_offset = 0;

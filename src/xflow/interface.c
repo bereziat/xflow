@@ -368,7 +368,7 @@ create_legendes (void)
   GtkWidget *drawingarea4;
   GtkWidget *drawingarea5;
   GtkWidget *drawingarea6;
-  GtkWidget *drawingarea7;
+  GtkWidget *image85;
   GtkWidget *label31;
   GtkWidget *hbuttonbox4;
   GtkWidget *button1;
@@ -456,12 +456,11 @@ create_legendes (void)
                     (GtkAttachOptions) (0), 0, 0);
   gtk_widget_set_size_request (drawingarea6, 60, 20);
 
-  drawingarea7 = gtk_drawing_area_new ();
-  gtk_widget_show (drawingarea7);
-  gtk_table_attach (GTK_TABLE (table6), drawingarea7, 0, 1, 4, 5,
-                    (GtkAttachOptions) (0),
-                    (GtkAttachOptions) (0), 0, 0);
-  gtk_widget_set_size_request (drawingarea7, 60, 20);
+  image85 = create_pixmap (legendes, "arrow0.png");
+  gtk_widget_show (image85);
+  gtk_table_attach (GTK_TABLE (table6), image85, 0, 1, 4, 5,
+                    (GtkAttachOptions) (GTK_FILL),
+                    (GtkAttachOptions) (GTK_FILL), 0, 0);
 
   label31 = gtk_label_new (_("<b>L\303\251gendes</b>"));
   gtk_widget_show (label31);
@@ -492,7 +491,7 @@ create_legendes (void)
   GLADE_HOOKUP_OBJECT (legendes, drawingarea4, "drawingarea4");
   GLADE_HOOKUP_OBJECT (legendes, drawingarea5, "drawingarea5");
   GLADE_HOOKUP_OBJECT (legendes, drawingarea6, "drawingarea6");
-  GLADE_HOOKUP_OBJECT (legendes, drawingarea7, "drawingarea7");
+  GLADE_HOOKUP_OBJECT (legendes, image85, "image85");
   GLADE_HOOKUP_OBJECT (legendes, label31, "label31");
   GLADE_HOOKUP_OBJECT (legendes, hbuttonbox4, "hbuttonbox4");
   GLADE_HOOKUP_OBJECT (legendes, button1, "button1");

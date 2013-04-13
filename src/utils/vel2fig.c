@@ -5,6 +5,7 @@
  * (c) 2003 D.Béréziat LIP6/UPMC
  * genere aussi le eps et le tex a inclure dans LaTeX
  *
+ * Version 1.4.0: ajout option -roi='ix,iy,x,y,w,col' mettre 0 a w pour extraire le ROI
  * Version 1.3.3: ajout seuil relatif (postfixe %) + Fix temporaire image couleurs & inr2gif + fix bug vitesse a composante nulle
  * Version 1.3.2: ajout -asize huge et -ahead <width> <height>
  * Version 1.3.1 : controle absence d'argument, ajout option -nf (noframe)
@@ -81,6 +82,7 @@ Global options are:\n\
 \t-bbo %s  : offset between the bounding box and the figure. An unit\n\
 \t           should be specified as for -size.\n\
 \t-nf      : no frame, do not insert a frame around the figure.\n\
+\t-roi=ix,iy,x,y,width,col: print a region of interest\n\
 Local options (they must be given after the targeted XFLOW filename) are:\n\
 \t-scale %f    : scale factor for vector norm.\n\
 \t-sample %d   : under-sampling step on vector field.\n\
@@ -166,6 +168,17 @@ float utils_normsup( vel2d *buf, int count) {
   return sqrtf(max);
 }
 
+void getopt_roi( int roi[6]) {
+  char str[128];
+
+  if( igetopt0x( "-roi=","%s", str)) {
+    char col[10];
+    sscanf( str, "%d,%d,%d,%d,%d,%s", roi, roi+1, roi+2, roi+3,
+	    roi+4, col);
+    roi[5] = getind( tcolor, col);
+  }
+}
+
 int main( int argc, char **argv) {
   char name[256],image[256]="", output[256];
   struct image *impt;
@@ -201,8 +214,9 @@ int main( int argc, char **argv) {
   char seuil[40];
 
   char jpeg_quality = 0;
-
+  int roi[6] = {0};
   inr_init( argc, argv, version, cmd, help);
+
 
   /* Lecture des options globales */
   /* largeur et unité (cm/in) de la figure dans le document LaTeX */
@@ -228,6 +242,8 @@ int main( int argc, char **argv) {
   // NoFrame
   nf = igetopt0( "-nf");
 
+  // Roi to draw
+  getopt_roi( roi);
   /* NOUVELLE INTERFACE :
      xflow2fig  [options globales]  champ_1 [options_champ_1]  champ_2 [options_champ_2] ...
   */
@@ -249,6 +265,7 @@ int main( int argc, char **argv) {
 
   //  while( infileopt(name)) {
   do {
+    static int bg_frame = 0;
     xflow = xflow_open( name);
 
     if( xflow == NULL && image_bg_read ) continue;
@@ -267,34 +284,53 @@ int main( int argc, char **argv) {
 
     /* Un cadre à fond blanc plus grand pour contenir les flèches 
      * et avoir une taille fixe d'image de sortie */
-
-    w = size * 1200 * unit ;
-    h = w * NDIMY / NDIMX;
-    fprintf( fp, "2 2 0 %d 0 7 60 -1 20 0.000 0 0 -1 0 0 5\n", 1-nf);
-    fprintf( fp, "      %d %d %d %d %d %d %d %d %d %d\n",	     
-	     0, 0, 
-	     w + 2*x_off, 0,
-	     w + 2*x_off, h + 2*y_off,
-	     0 , h + 2*y_off,
-	     0, 0);
+    if( !bg_frame) {
+      bg_frame = 1;
+    
+      fprintf( fp, "# White box as background\n");
+      w = size * 1200 * unit ;
+      h = w * NDIMY / NDIMX;
+      fprintf( fp, "2 2 0 %d 0 7 60 -1 20 0.000 0 0 -1 0 0 5\n", 1-nf);
+      fprintf( fp, "      %d %d %d %d %d %d %d %d %d %d\n",	     
+	       0, 0, 
+	       w + 2*x_off, 0,
+	       w + 2*x_off, h + 2*y_off,
+	       0 , h + 2*y_off,
+	       0, 0);
+    }
 
     /* Image : en gif pour gain de place */
     /* le 59 : la profondeur */
     if( impt) {
-       fprintf( fp, "2 5 0 2 0 -1 59 0 -1 0.000 0 0 -1 0 0 5 \n");
-       fprintf( fp, "  0 %s.gif\n", output);
-       w = size * 1200 * unit ;
-       h = w * NDIMY / NDIMX;
-                   // x  y  w  y  w  h  x  h  x  y
-       fprintf( fp, "  %d %d %d %d %d %d %d %d %d %d\n", 
-		x_off,    y_off,
-		x_off+w,  y_off,
-		x_off+w,  y_off+h,
-		x_off,    y_off+h,
-		x_off,    y_off);
-       fermnf_( &impt);
+      fprintf( fp, "# Image %s\n", output);
+      fprintf( fp, "2 5 0 2 0 -1 59 0 -1 0.000 0 0 -1 0 0 5 \n");
+      fprintf( fp, "  0 %s.gif\n", output);
+      w = size * 1200 * unit ;
+      h = w * NDIMY / NDIMX;
+      // x  y  w  y  w  h  x  h  x  y
+      fprintf( fp, "  %d %d %d %d %d %d %d %d %d %d\n", 
+	       x_off,    y_off,
+	       x_off+w,  y_off,
+	       x_off+w,  y_off+h,
+	       x_off,    y_off+h,
+	       x_off,    y_off);
+      fermnf_( &impt);
     }
  
+
+    /* Cadre Region of Interest */
+    if( *roi) {
+      fprintf( fp, "# Region of interest\n");
+      int x1, y1, x2, y2;
+      fprintf( fp, "2 1 0 %d %d 7 58 -1 -1 0.000 0 0 -1 0 0 5\n", roi[4], roi[5]);
+      x1 = x_off + roi[0] * w / NDIMX;
+      y1 = y_off + roi[1] * h / NDIMY;
+      x2 = x1 + roi[2] * w / NDIMX;
+      y2 = y1 + roi[3] * h / NDIMY;
+      fprintf( fp, "  %d %d %d %d %d %d %d %d %d %d\n", x1, y1, x2, y1, x2, y2, x1, y2, x1, y1);
+      *roi = 0;
+    }
+
     /* Champ de vecteur */
     if( xflow) {
       /* Options locales */
@@ -348,7 +384,7 @@ int main( int argc, char **argv) {
       // scale *= size;
       // scale /= 1200;
 
-      
+      fprintf(fp,"# List of vectors\n");
       /* Ecriture des vecteurs */
       for(j=0; j < NDIMY; j += sample)
 	for(i=0; i < NDIMX; i += sample) {
