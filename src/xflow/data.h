@@ -1,6 +1,5 @@
 /*
  * xflow - (c) 2005 Dominique Bereziat 
- * $Id: data.h,v 1.16 2010/10/20 16:11:08 bereziat Exp $
  */
 
 #include <gtk/gtk.h>
@@ -10,7 +9,7 @@
 
 #define XFLOW_API_MAJOR   2
 #define XFLOW_API_MINOR   3
-#define XFLOW_API_RELEASE 3
+#define XFLOW_API_RELEASE 4
 
 #define XFLOW_API_BETA    0
 
