@@ -1,6 +1,5 @@
 /*
  * Lecture inrimage avec conversion pour affichage à l'écran.
- * $Id: lecscrn.c,v 1.4 2005/04/08 15:05:41 bereziat Exp $
  */
 
 #include <inrimage/image.h>

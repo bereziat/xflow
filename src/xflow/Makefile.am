@@ -8,13 +8,13 @@ AM_CPPFLAGS = -I.. @PACKAGE_CFLAGS@ \
 	      -DPACKAGE_DATA_DIR=\""$(datadir)"\"
 
 bin_PROGRAMS = xflow
-xflow_SOURCES = interface.c interface.h support.c support.h \
-	        callbacks.h xflow.glade main.c cb_mainwindow.c \
-                cb_prefs.c cb_export.c cb_about.c data.c data.h \
-	        lecscrn.c lecscrn.h utils.c utils.h api.c api.h
+xflow_SOURCES = xflow.glade main.c cb_mainwindow.c lecscrn.c lecscrn.h \
+		data.c data.h utils.c utils.h api.c api.h \
+		middlebury.c middlebury.h cb_export.c
+#                cb_prefs.c cb_export.c cb_about.c 
 #		trajs.c (pas encore)
 
-xflow_CFLAGS = -O2
+xflow_CFLAGS = -g
 xflow_LDADD = @PACKAGE_LIBS@ ../lib/libxflow.a
 xflow_LDFLAGS = 
 
@@ -27,21 +27,9 @@ pixmaps:; mkdir $@
 $(nobase_pkgdata_DATA): pixmaps arrow.sh
 	cd pixmaps && ../arrow.sh
 
-if GLADE
-# genere uniquement les fichiers sources GTK a partir du fichier glade
-# (ne sert que pour le developpeur)
-interface.c interface.h support.c callbacks.h: xflow.glade
-	mkdir -p tempo_glade && cp xflow.glade tempo_glade
-	if test -d tempo_glade ; then \
-	  cd tempo_glade; \
-	  glade-2 --write-source $< ; \
-	  cp src/interface.* src/support.* src/callbacks.* .. ; \
-	fi
-	rm -rf tempo_glade
-
 glade:
-	glade-2 xflow.glade
-endif
+	glade-3 xflow.glade
+
 
 clean-local:
 	$(RM) -r pixmaps

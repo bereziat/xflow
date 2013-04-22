@@ -67,12 +67,10 @@ CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)" "$(DESTDIR)$(pkgdatadir)"
 PROGRAMS = $(bin_PROGRAMS)
-am_xflow_OBJECTS = xflow-interface.$(OBJEXT) xflow-support.$(OBJEXT) \
-	xflow-main.$(OBJEXT) xflow-cb_mainwindow.$(OBJEXT) \
-	xflow-cb_prefs.$(OBJEXT) xflow-cb_export.$(OBJEXT) \
-	xflow-cb_about.$(OBJEXT) xflow-data.$(OBJEXT) \
-	xflow-lecscrn.$(OBJEXT) xflow-utils.$(OBJEXT) \
-	xflow-api.$(OBJEXT)
+am_xflow_OBJECTS = xflow-main.$(OBJEXT) xflow-cb_mainwindow.$(OBJEXT) \
+	xflow-lecscrn.$(OBJEXT) xflow-data.$(OBJEXT) \
+	xflow-utils.$(OBJEXT) xflow-api.$(OBJEXT) \
+	xflow-middlebury.$(OBJEXT) xflow-cb_export.$(OBJEXT)
 xflow_OBJECTS = $(am_xflow_OBJECTS)
 xflow_DEPENDENCIES = ../lib/libxflow.a
 xflow_LINK = $(CCLD) $(xflow_CFLAGS) $(CFLAGS) $(xflow_LDFLAGS) \
@@ -268,13 +266,13 @@ top_srcdir = @top_srcdir@
 AM_CPPFLAGS = -I.. @PACKAGE_CFLAGS@ \
 	      -DPACKAGE_DATA_DIR=\""$(datadir)"\"
 
-xflow_SOURCES = interface.c interface.h support.c support.h \
-	        callbacks.h xflow.glade main.c cb_mainwindow.c \
-                cb_prefs.c cb_export.c cb_about.c data.c data.h \
-	        lecscrn.c lecscrn.h utils.c utils.h api.c api.h
+xflow_SOURCES = xflow.glade main.c cb_mainwindow.c lecscrn.c lecscrn.h \
+		data.c data.h utils.c utils.h api.c api.h \
+		middlebury.c middlebury.h cb_export.c
 
+#                cb_prefs.c cb_export.c cb_about.c 
 #		trajs.c (pas encore)
-xflow_CFLAGS = -O2
+xflow_CFLAGS = -g
 xflow_LDADD = @PACKAGE_LIBS@ ../lib/libxflow.a
 xflow_LDFLAGS = 
 
@@ -370,15 +368,12 @@ distclean-compile:
 	-rm -f *.tab.c
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/xflow-api.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/xflow-cb_about.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/xflow-cb_export.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/xflow-cb_mainwindow.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/xflow-cb_prefs.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/xflow-data.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/xflow-interface.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/xflow-lecscrn.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/xflow-main.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/xflow-support.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/xflow-middlebury.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/xflow-utils.Po@am__quote@
 
 .c.o:
@@ -394,34 +389,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(COMPILE) -c `$(CYGPATH_W) '$<'`
-
-xflow-interface.o: interface.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xflow_CFLAGS) $(CFLAGS) -MT xflow-interface.o -MD -MP -MF $(DEPDIR)/xflow-interface.Tpo -c -o xflow-interface.o `test -f 'interface.c' || echo '$(srcdir)/'`interface.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/xflow-interface.Tpo $(DEPDIR)/xflow-interface.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='interface.c' object='xflow-interface.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xflow_CFLAGS) $(CFLAGS) -c -o xflow-interface.o `test -f 'interface.c' || echo '$(srcdir)/'`interface.c
-
-xflow-interface.obj: interface.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xflow_CFLAGS) $(CFLAGS) -MT xflow-interface.obj -MD -MP -MF $(DEPDIR)/xflow-interface.Tpo -c -o xflow-interface.obj `if test -f 'interface.c'; then $(CYGPATH_W) 'interface.c'; else $(CYGPATH_W) '$(srcdir)/interface.c'; fi`
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/xflow-interface.Tpo $(DEPDIR)/xflow-interface.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='interface.c' object='xflow-interface.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xflow_CFLAGS) $(CFLAGS) -c -o xflow-interface.obj `if test -f 'interface.c'; then $(CYGPATH_W) 'interface.c'; else $(CYGPATH_W) '$(srcdir)/interface.c'; fi`
-
-xflow-support.o: support.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xflow_CFLAGS) $(CFLAGS) -MT xflow-support.o -MD -MP -MF $(DEPDIR)/xflow-support.Tpo -c -o xflow-support.o `test -f 'support.c' || echo '$(srcdir)/'`support.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/xflow-support.Tpo $(DEPDIR)/xflow-support.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='support.c' object='xflow-support.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xflow_CFLAGS) $(CFLAGS) -c -o xflow-support.o `test -f 'support.c' || echo '$(srcdir)/'`support.c
-
-xflow-support.obj: support.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xflow_CFLAGS) $(CFLAGS) -MT xflow-support.obj -MD -MP -MF $(DEPDIR)/xflow-support.Tpo -c -o xflow-support.obj `if test -f 'support.c'; then $(CYGPATH_W) 'support.c'; else $(CYGPATH_W) '$(srcdir)/support.c'; fi`
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/xflow-support.Tpo $(DEPDIR)/xflow-support.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='support.c' object='xflow-support.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xflow_CFLAGS) $(CFLAGS) -c -o xflow-support.obj `if test -f 'support.c'; then $(CYGPATH_W) 'support.c'; else $(CYGPATH_W) '$(srcdir)/support.c'; fi`
 
 xflow-main.o: main.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xflow_CFLAGS) $(CFLAGS) -MT xflow-main.o -MD -MP -MF $(DEPDIR)/xflow-main.Tpo -c -o xflow-main.o `test -f 'main.c' || echo '$(srcdir)/'`main.c
@@ -451,47 +418,19 @@ xflow-cb_mainwindow.obj: cb_mainwindow.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xflow_CFLAGS) $(CFLAGS) -c -o xflow-cb_mainwindow.obj `if test -f 'cb_mainwindow.c'; then $(CYGPATH_W) 'cb_mainwindow.c'; else $(CYGPATH_W) '$(srcdir)/cb_mainwindow.c'; fi`
 
-xflow-cb_prefs.o: cb_prefs.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xflow_CFLAGS) $(CFLAGS) -MT xflow-cb_prefs.o -MD -MP -MF $(DEPDIR)/xflow-cb_prefs.Tpo -c -o xflow-cb_prefs.o `test -f 'cb_prefs.c' || echo '$(srcdir)/'`cb_prefs.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/xflow-cb_prefs.Tpo $(DEPDIR)/xflow-cb_prefs.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='cb_prefs.c' object='xflow-cb_prefs.o' libtool=no @AMDEPBACKSLASH@
+xflow-lecscrn.o: lecscrn.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xflow_CFLAGS) $(CFLAGS) -MT xflow-lecscrn.o -MD -MP -MF $(DEPDIR)/xflow-lecscrn.Tpo -c -o xflow-lecscrn.o `test -f 'lecscrn.c' || echo '$(srcdir)/'`lecscrn.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/xflow-lecscrn.Tpo $(DEPDIR)/xflow-lecscrn.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='lecscrn.c' object='xflow-lecscrn.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xflow_CFLAGS) $(CFLAGS) -c -o xflow-cb_prefs.o `test -f 'cb_prefs.c' || echo '$(srcdir)/'`cb_prefs.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xflow_CFLAGS) $(CFLAGS) -c -o xflow-lecscrn.o `test -f 'lecscrn.c' || echo '$(srcdir)/'`lecscrn.c
 
-xflow-cb_prefs.obj: cb_prefs.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xflow_CFLAGS) $(CFLAGS) -MT xflow-cb_prefs.obj -MD -MP -MF $(DEPDIR)/xflow-cb_prefs.Tpo -c -o xflow-cb_prefs.obj `if test -f 'cb_prefs.c'; then $(CYGPATH_W) 'cb_prefs.c'; else $(CYGPATH_W) '$(srcdir)/cb_prefs.c'; fi`
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/xflow-cb_prefs.Tpo $(DEPDIR)/xflow-cb_prefs.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='cb_prefs.c' object='xflow-cb_prefs.obj' libtool=no @AMDEPBACKSLASH@
+xflow-lecscrn.obj: lecscrn.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xflow_CFLAGS) $(CFLAGS) -MT xflow-lecscrn.obj -MD -MP -MF $(DEPDIR)/xflow-lecscrn.Tpo -c -o xflow-lecscrn.obj `if test -f 'lecscrn.c'; then $(CYGPATH_W) 'lecscrn.c'; else $(CYGPATH_W) '$(srcdir)/lecscrn.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/xflow-lecscrn.Tpo $(DEPDIR)/xflow-lecscrn.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='lecscrn.c' object='xflow-lecscrn.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xflow_CFLAGS) $(CFLAGS) -c -o xflow-cb_prefs.obj `if test -f 'cb_prefs.c'; then $(CYGPATH_W) 'cb_prefs.c'; else $(CYGPATH_W) '$(srcdir)/cb_prefs.c'; fi`
-
-xflow-cb_export.o: cb_export.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xflow_CFLAGS) $(CFLAGS) -MT xflow-cb_export.o -MD -MP -MF $(DEPDIR)/xflow-cb_export.Tpo -c -o xflow-cb_export.o `test -f 'cb_export.c' || echo '$(srcdir)/'`cb_export.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/xflow-cb_export.Tpo $(DEPDIR)/xflow-cb_export.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='cb_export.c' object='xflow-cb_export.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xflow_CFLAGS) $(CFLAGS) -c -o xflow-cb_export.o `test -f 'cb_export.c' || echo '$(srcdir)/'`cb_export.c
-
-xflow-cb_export.obj: cb_export.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xflow_CFLAGS) $(CFLAGS) -MT xflow-cb_export.obj -MD -MP -MF $(DEPDIR)/xflow-cb_export.Tpo -c -o xflow-cb_export.obj `if test -f 'cb_export.c'; then $(CYGPATH_W) 'cb_export.c'; else $(CYGPATH_W) '$(srcdir)/cb_export.c'; fi`
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/xflow-cb_export.Tpo $(DEPDIR)/xflow-cb_export.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='cb_export.c' object='xflow-cb_export.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xflow_CFLAGS) $(CFLAGS) -c -o xflow-cb_export.obj `if test -f 'cb_export.c'; then $(CYGPATH_W) 'cb_export.c'; else $(CYGPATH_W) '$(srcdir)/cb_export.c'; fi`
-
-xflow-cb_about.o: cb_about.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xflow_CFLAGS) $(CFLAGS) -MT xflow-cb_about.o -MD -MP -MF $(DEPDIR)/xflow-cb_about.Tpo -c -o xflow-cb_about.o `test -f 'cb_about.c' || echo '$(srcdir)/'`cb_about.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/xflow-cb_about.Tpo $(DEPDIR)/xflow-cb_about.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='cb_about.c' object='xflow-cb_about.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xflow_CFLAGS) $(CFLAGS) -c -o xflow-cb_about.o `test -f 'cb_about.c' || echo '$(srcdir)/'`cb_about.c
-
-xflow-cb_about.obj: cb_about.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xflow_CFLAGS) $(CFLAGS) -MT xflow-cb_about.obj -MD -MP -MF $(DEPDIR)/xflow-cb_about.Tpo -c -o xflow-cb_about.obj `if test -f 'cb_about.c'; then $(CYGPATH_W) 'cb_about.c'; else $(CYGPATH_W) '$(srcdir)/cb_about.c'; fi`
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/xflow-cb_about.Tpo $(DEPDIR)/xflow-cb_about.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='cb_about.c' object='xflow-cb_about.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xflow_CFLAGS) $(CFLAGS) -c -o xflow-cb_about.obj `if test -f 'cb_about.c'; then $(CYGPATH_W) 'cb_about.c'; else $(CYGPATH_W) '$(srcdir)/cb_about.c'; fi`
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xflow_CFLAGS) $(CFLAGS) -c -o xflow-lecscrn.obj `if test -f 'lecscrn.c'; then $(CYGPATH_W) 'lecscrn.c'; else $(CYGPATH_W) '$(srcdir)/lecscrn.c'; fi`
 
 xflow-data.o: data.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xflow_CFLAGS) $(CFLAGS) -MT xflow-data.o -MD -MP -MF $(DEPDIR)/xflow-data.Tpo -c -o xflow-data.o `test -f 'data.c' || echo '$(srcdir)/'`data.c
@@ -506,20 +445,6 @@ xflow-data.obj: data.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='data.c' object='xflow-data.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xflow_CFLAGS) $(CFLAGS) -c -o xflow-data.obj `if test -f 'data.c'; then $(CYGPATH_W) 'data.c'; else $(CYGPATH_W) '$(srcdir)/data.c'; fi`
-
-xflow-lecscrn.o: lecscrn.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xflow_CFLAGS) $(CFLAGS) -MT xflow-lecscrn.o -MD -MP -MF $(DEPDIR)/xflow-lecscrn.Tpo -c -o xflow-lecscrn.o `test -f 'lecscrn.c' || echo '$(srcdir)/'`lecscrn.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/xflow-lecscrn.Tpo $(DEPDIR)/xflow-lecscrn.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='lecscrn.c' object='xflow-lecscrn.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xflow_CFLAGS) $(CFLAGS) -c -o xflow-lecscrn.o `test -f 'lecscrn.c' || echo '$(srcdir)/'`lecscrn.c
-
-xflow-lecscrn.obj: lecscrn.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xflow_CFLAGS) $(CFLAGS) -MT xflow-lecscrn.obj -MD -MP -MF $(DEPDIR)/xflow-lecscrn.Tpo -c -o xflow-lecscrn.obj `if test -f 'lecscrn.c'; then $(CYGPATH_W) 'lecscrn.c'; else $(CYGPATH_W) '$(srcdir)/lecscrn.c'; fi`
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/xflow-lecscrn.Tpo $(DEPDIR)/xflow-lecscrn.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='lecscrn.c' object='xflow-lecscrn.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xflow_CFLAGS) $(CFLAGS) -c -o xflow-lecscrn.obj `if test -f 'lecscrn.c'; then $(CYGPATH_W) 'lecscrn.c'; else $(CYGPATH_W) '$(srcdir)/lecscrn.c'; fi`
 
 xflow-utils.o: utils.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xflow_CFLAGS) $(CFLAGS) -MT xflow-utils.o -MD -MP -MF $(DEPDIR)/xflow-utils.Tpo -c -o xflow-utils.o `test -f 'utils.c' || echo '$(srcdir)/'`utils.c
@@ -548,6 +473,34 @@ xflow-api.obj: api.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='api.c' object='xflow-api.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xflow_CFLAGS) $(CFLAGS) -c -o xflow-api.obj `if test -f 'api.c'; then $(CYGPATH_W) 'api.c'; else $(CYGPATH_W) '$(srcdir)/api.c'; fi`
+
+xflow-middlebury.o: middlebury.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xflow_CFLAGS) $(CFLAGS) -MT xflow-middlebury.o -MD -MP -MF $(DEPDIR)/xflow-middlebury.Tpo -c -o xflow-middlebury.o `test -f 'middlebury.c' || echo '$(srcdir)/'`middlebury.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/xflow-middlebury.Tpo $(DEPDIR)/xflow-middlebury.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='middlebury.c' object='xflow-middlebury.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xflow_CFLAGS) $(CFLAGS) -c -o xflow-middlebury.o `test -f 'middlebury.c' || echo '$(srcdir)/'`middlebury.c
+
+xflow-middlebury.obj: middlebury.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xflow_CFLAGS) $(CFLAGS) -MT xflow-middlebury.obj -MD -MP -MF $(DEPDIR)/xflow-middlebury.Tpo -c -o xflow-middlebury.obj `if test -f 'middlebury.c'; then $(CYGPATH_W) 'middlebury.c'; else $(CYGPATH_W) '$(srcdir)/middlebury.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/xflow-middlebury.Tpo $(DEPDIR)/xflow-middlebury.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='middlebury.c' object='xflow-middlebury.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xflow_CFLAGS) $(CFLAGS) -c -o xflow-middlebury.obj `if test -f 'middlebury.c'; then $(CYGPATH_W) 'middlebury.c'; else $(CYGPATH_W) '$(srcdir)/middlebury.c'; fi`
+
+xflow-cb_export.o: cb_export.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xflow_CFLAGS) $(CFLAGS) -MT xflow-cb_export.o -MD -MP -MF $(DEPDIR)/xflow-cb_export.Tpo -c -o xflow-cb_export.o `test -f 'cb_export.c' || echo '$(srcdir)/'`cb_export.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/xflow-cb_export.Tpo $(DEPDIR)/xflow-cb_export.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='cb_export.c' object='xflow-cb_export.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xflow_CFLAGS) $(CFLAGS) -c -o xflow-cb_export.o `test -f 'cb_export.c' || echo '$(srcdir)/'`cb_export.c
+
+xflow-cb_export.obj: cb_export.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xflow_CFLAGS) $(CFLAGS) -MT xflow-cb_export.obj -MD -MP -MF $(DEPDIR)/xflow-cb_export.Tpo -c -o xflow-cb_export.obj `if test -f 'cb_export.c'; then $(CYGPATH_W) 'cb_export.c'; else $(CYGPATH_W) '$(srcdir)/cb_export.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/xflow-cb_export.Tpo $(DEPDIR)/xflow-cb_export.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='cb_export.c' object='xflow-cb_export.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xflow_CFLAGS) $(CFLAGS) -c -o xflow-cb_export.obj `if test -f 'cb_export.c'; then $(CYGPATH_W) 'cb_export.c'; else $(CYGPATH_W) '$(srcdir)/cb_export.c'; fi`
 install-nobase_pkgdataDATA: $(nobase_pkgdata_DATA)
 	@$(NORMAL_INSTALL)
 	@list='$(nobase_pkgdata_DATA)'; test -n "$(pkgdatadir)" || list=; \
@@ -783,19 +736,8 @@ pixmaps:; mkdir $@
 $(nobase_pkgdata_DATA): pixmaps arrow.sh
 	cd pixmaps && ../arrow.sh
 
-# genere uniquement les fichiers sources GTK a partir du fichier glade
-# (ne sert que pour le developpeur)
-@GLADE_TRUE@interface.c interface.h support.c callbacks.h: xflow.glade
-@GLADE_TRUE@	mkdir -p tempo_glade && cp xflow.glade tempo_glade
-@GLADE_TRUE@	if test -d tempo_glade ; then \
-@GLADE_TRUE@	  cd tempo_glade; \
-@GLADE_TRUE@	  glade-2 --write-source $< ; \
-@GLADE_TRUE@	  cp src/interface.* src/support.* src/callbacks.* .. ; \
-@GLADE_TRUE@	fi
-@GLADE_TRUE@	rm -rf tempo_glade
-
-@GLADE_TRUE@glade:
-@GLADE_TRUE@	glade-2 xflow.glade
+glade:
+	glade-3 xflow.glade
 
 clean-local:
 	$(RM) -r pixmaps
