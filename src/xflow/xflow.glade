@@ -444,6 +444,7 @@
                         <property name="can_focus">False</property>
                         <property name="use_underline">True</property>
                         <property name="use_stock">True</property>
+                        <signal name="activate" handler="on_about_activate" swapped="no"/>
                       </object>
                     </child>
                   </object>
@@ -998,7 +999,7 @@
                             <property name="tooltip_text" translatable="yes">Middlebury representation: color stands for orientation, saturation stands for magnetude</property>
                             <property name="xpad">5</property>
                             <property name="ypad">1</property>
-                            <property name="pixbuf">middlebury.png</property>
+                            <property name="pixbuf">pixmaps/middlebury.png</property>
                           </object>
                           <packing>
                             <property name="expand">False</property>

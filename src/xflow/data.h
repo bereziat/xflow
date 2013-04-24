@@ -60,7 +60,7 @@ typedef struct xflow_api {
   int   wwin, hwin;   ///> Dimension de l'image dans le widget
   int   zpos;         ///> Index des plans en mémoire ou 0
   int   zmax;
-  GtkBuilder *mainwindow, *export;
+  GtkBuilder *mainwindow, *export, *about;
   GdkGC *gc;          ///> Contexte graphique pour la drawing area
   XFLOW_DATA *data;   ///> Liste des images
   XFLOW_DATA *background;   ///> Image d'arriere plan courant

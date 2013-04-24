@@ -26,6 +26,7 @@ XFLOW_API *xflow_api_new( void) {
   api -> sample = 4;
   
   api -> mainwindow = NULL;
+  api -> about = NULL;
   api -> export = NULL;
 
   api -> background = NULL;
