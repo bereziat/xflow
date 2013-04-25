@@ -167,6 +167,23 @@ void xflow_api_show_window( XFLOW_API *api) {
     }
   }
 
+  /* Paned positions */
+  {
+    GtkWidget *paned = lookup_widget( api->mainwindow, "xflow_main_vectors_paned");
+    GtkAllocation alloc;
+    
+    gtk_widget_get_allocation (paned, &alloc);
+    gtk_paned_set_position( GTK_PANED(paned), 0);
+    api->paned = 0;
+
+    /* Ne fonctionne pas
+    paned = gtk_paned_get_child1(GTK_PANED(paned));
+    g_object_set( paned, "shrink", FALSE);
+    g_object_set( paned, "resize", FALSE);
+    */
+
+  }
+
 
   /* Création d'un contexte graphique pour dessiner dans les drawing areas */
   {

@@ -819,14 +819,51 @@ on_xflow_main_notebook_switch_page          (GtkNotebook     *notebook,
   int nw, nh;
   GtkWidget *widget;
 
+
+  switch( api->paned) {
+  case 0:
+    widget = lookup_widget( api->mainwindow, "xflow_main_vectors_paned");
+    break;
+  case 1:
+    widget = lookup_widget( api->mainwindow, "xflow_main_mag_paned");
+    break;
+  case 2:
+    widget = lookup_widget( api->mainwindow, "xflow_main_div_paned");
+    break;
+  case 3:
+    widget = lookup_widget( api->mainwindow, "xflow_main_curl_paned");
+    break;
+  case 4:
+    widget = lookup_widget( api->mainwindow, "xflow_main_hsv_paned");
+    break;
+  }
+  d = gtk_paned_get_position( GTK_PANED(widget));
+  api->paned = page_num;
+  switch( api->paned) {
+  case 0:
+    widget = lookup_widget( api->mainwindow, "xflow_main_vectors_paned");
+    break;
+  case 1:
+    widget = lookup_widget( api->mainwindow, "xflow_main_mag_paned");
+    break;
+  case 2:
+    widget = lookup_widget( api->mainwindow, "xflow_main_div_paned");
+    break;
+  case 3:
+    widget = lookup_widget( api->mainwindow, "xflow_main_curl_paned");
+    break;
+  case 4:
+    widget = lookup_widget( api->mainwindow, "xflow_main_hsv_paned");
+    break;
+  }
+  gtk_paned_set_position( GTK_PANED(widget), d);
+
   /*  
   void get_size( GtkWidget *widget, char *name, int *w, int *h) {
     widget = lookup_widget( widget, name);
     *w = widget->allocation.width;
     *h = widget->allocation.height;
     }*/
-
-  if(debug) fprintf( stderr, "Selection onglet %d\n", page_num);
 
   /* FIXME: pour le moment tout est alloué dans data_read()
      il n'y a rien a faire lorsqu'on change d'onglet
@@ -882,7 +919,11 @@ on_xflow_main_notebook_switch_page          (GtkNotebook     *notebook,
     break;
   }
 }
+/******/
 
+void on_vbox4_size_request( ){
+  puts("check-resize");
+}
 
 /************************* Menu callbacks ************************************/
 

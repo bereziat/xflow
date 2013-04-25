@@ -711,9 +711,34 @@
                 <property name="can_focus">True</property>
                 <signal name="switch-page" handler="on_xflow_main_notebook_switch_page" swapped="no"/>
                 <child>
-                  <object class="GtkHBox" id="hbox8">
+                  <object class="GtkHPaned" id="xflow_main_vectors_paned">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
+                    <property name="can_focus">True</property>
+                    <child>
+                      <object class="GtkVBox" id="vbox4">
+                        <property name="width_request">123</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <child>
+                          <object class="GtkVBox" id="xflow_main_vectors_checks">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <child>
+                              <placeholder/>
+                            </child>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">True</property>
+                            <property name="position">0</property>
+                          </packing>
+                        </child>
+                      </object>
+                      <packing>
+                        <property name="resize">False</property>
+                        <property name="shrink">True</property>
+                      </packing>
+                    </child>
                     <child>
                       <object class="GtkScrolledWindow" id="scrolledwindow1">
                         <property name="visible">True</property>
@@ -738,35 +763,8 @@
                         </child>
                       </object>
                       <packing>
-                        <property name="expand">True</property>
-                        <property name="fill">True</property>
-                        <property name="position">0</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkVBox" id="vbox4">
-                        <property name="width_request">123</property>
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <child>
-                          <object class="GtkVBox" id="xflow_main_vectors_checks">
-                            <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <child>
-                              <placeholder/>
-                            </child>
-                          </object>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">True</property>
-                            <property name="position">0</property>
-                          </packing>
-                        </child>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">1</property>
+                        <property name="resize">False</property>
+                        <property name="shrink">True</property>
                       </packing>
                     </child>
                   </object>
@@ -783,9 +781,21 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkHBox" id="hbox5">
+                  <object class="GtkHPaned" id="xflow_main_mag_paned">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
+                    <property name="can_focus">True</property>
+                    <child>
+                      <object class="GtkDrawingArea" id="xflow_main_mag_legend">
+                        <property name="width_request">123</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <signal name="expose-event" handler="on_xflow_main_mag_legend_expose_event" swapped="no"/>
+                      </object>
+                      <packing>
+                        <property name="resize">False</property>
+                        <property name="shrink">True</property>
+                      </packing>
+                    </child>
                     <child>
                       <object class="GtkScrolledWindow" id="scrolledwindow2">
                         <property name="visible">True</property>
@@ -810,22 +820,8 @@
                         </child>
                       </object>
                       <packing>
-                        <property name="expand">True</property>
-                        <property name="fill">True</property>
-                        <property name="position">0</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkDrawingArea" id="xflow_main_mag_legend">
-                        <property name="width_request">123</property>
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <signal name="expose-event" handler="on_xflow_main_mag_legend_expose_event" swapped="no"/>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">False</property>
-                        <property name="position">1</property>
+                        <property name="resize">True</property>
+                        <property name="shrink">True</property>
                       </packing>
                     </child>
                   </object>
@@ -846,9 +842,21 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkHBox" id="hbox4">
+                  <object class="GtkHPaned" id="xflow_main_div_paned">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
+                    <property name="can_focus">True</property>
+                    <child>
+                      <object class="GtkDrawingArea" id="xflow_main_div_legend">
+                        <property name="width_request">123</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <signal name="expose-event" handler="on_xflow_main_div_legend_expose_event" swapped="no"/>
+                      </object>
+                      <packing>
+                        <property name="resize">False</property>
+                        <property name="shrink">True</property>
+                      </packing>
+                    </child>
                     <child>
                       <object class="GtkScrolledWindow" id="scrolledwindow3">
                         <property name="visible">True</property>
@@ -873,22 +881,8 @@
                         </child>
                       </object>
                       <packing>
-                        <property name="expand">True</property>
-                        <property name="fill">True</property>
-                        <property name="position">0</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkDrawingArea" id="xflow_main_div_legend">
-                        <property name="width_request">123</property>
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <signal name="expose-event" handler="on_xflow_main_div_legend_expose_event" swapped="no"/>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">False</property>
-                        <property name="position">1</property>
+                        <property name="resize">True</property>
+                        <property name="shrink">True</property>
                       </packing>
                     </child>
                   </object>
@@ -909,9 +903,21 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkHBox" id="hbox3">
+                  <object class="GtkHPaned" id="xflow_main_curl_paned">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
+                    <property name="can_focus">True</property>
+                    <child>
+                      <object class="GtkDrawingArea" id="xflow_main_curl_legend">
+                        <property name="width_request">123</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <signal name="expose-event" handler="on_xflow_main_curl_legend_expose_event" swapped="no"/>
+                      </object>
+                      <packing>
+                        <property name="resize">False</property>
+                        <property name="shrink">True</property>
+                      </packing>
+                    </child>
                     <child>
                       <object class="GtkScrolledWindow" id="scrolledwindow4">
                         <property name="visible">True</property>
@@ -936,22 +942,8 @@
                         </child>
                       </object>
                       <packing>
-                        <property name="expand">True</property>
-                        <property name="fill">True</property>
-                        <property name="position">0</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkDrawingArea" id="xflow_main_curl_legend">
-                        <property name="width_request">123</property>
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <signal name="expose-event" handler="on_xflow_main_curl_legend_expose_event" swapped="no"/>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">False</property>
-                        <property name="position">1</property>
+                        <property name="resize">True</property>
+                        <property name="shrink">True</property>
                       </packing>
                     </child>
                   </object>
@@ -972,35 +964,9 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkHBox" id="hbox2">
+                  <object class="GtkHPaned" id="xflow_main_hsv_paned">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <child>
-                      <object class="GtkScrolledWindow" id="scrolledwindow5">
-                        <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="hscrollbar_policy">automatic</property>
-                        <property name="vscrollbar_policy">automatic</property>
-                        <child>
-                          <object class="GtkViewport" id="viewport5">
-                            <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <child>
-                              <object class="GtkDrawingArea" id="xflow_main_hsv_draw">
-                                <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <signal name="expose-event" handler="on_xflow_main_hsv_draw_expose_event" swapped="no"/>
-                              </object>
-                            </child>
-                          </object>
-                        </child>
-                      </object>
-                      <packing>
-                        <property name="expand">True</property>
-                        <property name="fill">True</property>
-                        <property name="position">0</property>
-                      </packing>
-                    </child>
+                    <property name="can_focus">True</property>
                     <child>
                       <object class="GtkVBox" id="vbox3">
                         <property name="visible">True</property>
@@ -1024,10 +990,9 @@
                           <object class="GtkHScale" id="xflow_main_hsv_saturation">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
-                            <property name="tooltip_text" translatable="yes">controls the color saturation</property>
                             <property name="update_policy">delayed</property>
                             <property name="adjustment">saturation</property>
-                            <property name="round_digits">1</property>
+                            <property name="round_digits">3</property>
                             <property name="digits">3</property>
                             <signal name="value-changed" handler="on_xflow_main_hsv_saturation_value_changed" swapped="no"/>
                           </object>
@@ -1042,9 +1007,33 @@
                         </child>
                       </object>
                       <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">1</property>
+                        <property name="resize">False</property>
+                        <property name="shrink">True</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkScrolledWindow" id="scrolledwindow5">
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="hscrollbar_policy">automatic</property>
+                        <property name="vscrollbar_policy">automatic</property>
+                        <child>
+                          <object class="GtkViewport" id="viewport5">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <child>
+                              <object class="GtkDrawingArea" id="xflow_main_hsv_draw">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <signal name="expose-event" handler="on_xflow_main_hsv_draw_expose_event" swapped="no"/>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                      <packing>
+                        <property name="resize">True</property>
+                        <property name="shrink">True</property>
                       </packing>
                     </child>
                   </object>
