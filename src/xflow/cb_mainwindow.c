@@ -781,11 +781,10 @@ void
 on_xflow_main_vectors_checks_toggled  (GtkToggleButton *button, gpointer user_data) {
   XFLOW_API *api = (XFLOW_API *) user_data;
   XFLOW_DATA *pd;
-  char *g = gtk_button_get_label( GTK_BUTTON(button));
 
   for( pd = api->data; pd; pd=pd->next) 
     if( pd->type == DATA_XFLOW &&
-	strcasecmp( g, g_path_get_basename(pd->data.xflow.file->iuv->nom)) == 0
+	pd->data.xflow.check == GTK_WIDGET(button)
 	) {
       pd->data.xflow.hide = 1- pd->data.xflow.hide;      
     }

@@ -65,7 +65,8 @@ mkinstalldirs = $(install_sh) -d
 CONFIG_HEADER = $(top_builddir)/config.h
 CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
-am__installdirs = "$(DESTDIR)$(bindir)" "$(DESTDIR)$(pkgdatadir)"
+am__installdirs = "$(DESTDIR)$(bindir)" "$(DESTDIR)$(pkgdatadir)" \
+	"$(DESTDIR)$(pkgdatadir)"
 PROGRAMS = $(bin_PROGRAMS)
 am_xflow_OBJECTS = xflow-main.$(OBJEXT) xflow-cb_mainwindow.$(OBJEXT) \
 	xflow-lecscrn.$(OBJEXT) xflow-data.$(OBJEXT) \
@@ -142,7 +143,7 @@ am__uninstall_files_from_dir = { \
     || { echo " ( cd '$$dir' && rm -f" $$files ")"; \
          $(am__cd) "$$dir" && rm -f $$files; }; \
   }
-DATA = $(nobase_pkgdata_DATA)
+DATA = $(nobase_pkgdata_DATA) $(pkgdata_DATA)
 am__tagged_files = $(HEADERS) $(SOURCES) $(TAGS_FILES) $(LISP)
 # Read a list of newline-separated strings from the standard input,
 # and print each of them once, without duplicates.  Input order is
@@ -261,9 +262,6 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-
-# @STUFF@ are autoconf macros: they are evaluated by configure
-#         to produce Makefile.in
 AM_CPPFLAGS = -I.. @PACKAGE_CFLAGS@ \
 	      -DPACKAGE_DATA_DIR=\""$(datadir)"\"
 
@@ -271,7 +269,7 @@ xflow_SOURCES = xflow.glade main.c cb_mainwindow.c lecscrn.c lecscrn.h \
 		data.c data.h utils.c utils.h api.c api.h \
 		middlebury.c middlebury.h cb_export.c cb_about.c
 
-#                cb_prefs.c cb_export.c cb_about.c 
+#               cb_prefs.c
 #		trajs.c (pas encore)
 xflow_CFLAGS = -g
 xflow_LDADD = @PACKAGE_LIBS@ ../lib/libxflow.a
@@ -279,9 +277,11 @@ xflow_LDFLAGS =
 
 # installer les pixmaps dans $prefix/share/PACKAGE/pixmaps
 nobase_pkgdata_DATA = pixmaps/arrow0.png pixmaps/arrow1.png pixmaps/arrow2.png \
-		      pixmaps/arrow3.png pixmaps/arrow4.png pixmaps/arrow5.png pixmaps/arrow6.png
+		      pixmaps/arrow3.png pixmaps/arrow4.png pixmaps/arrow5.png \
+		      pixmaps/arrow6.png pixmaps/middlebury.png
 
-EXTRA_DIST = arrow.sh
+pkgdata_DATA = xflow.glade export.glade about.glade
+EXTRA_DIST = arrow.sh 
 all: all-am
 
 .SUFFIXES:
@@ -541,6 +541,27 @@ uninstall-nobase_pkgdataDATA:
 	@list='$(nobase_pkgdata_DATA)'; test -n "$(pkgdatadir)" || list=; \
 	$(am__nobase_strip_setup); files=`$(am__nobase_strip)`; \
 	dir='$(DESTDIR)$(pkgdatadir)'; $(am__uninstall_files_from_dir)
+install-pkgdataDATA: $(pkgdata_DATA)
+	@$(NORMAL_INSTALL)
+	@list='$(pkgdata_DATA)'; test -n "$(pkgdatadir)" || list=; \
+	if test -n "$$list"; then \
+	  echo " $(MKDIR_P) '$(DESTDIR)$(pkgdatadir)'"; \
+	  $(MKDIR_P) "$(DESTDIR)$(pkgdatadir)" || exit 1; \
+	fi; \
+	for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  echo "$$d$$p"; \
+	done | $(am__base_list) | \
+	while read files; do \
+	  echo " $(INSTALL_DATA) $$files '$(DESTDIR)$(pkgdatadir)'"; \
+	  $(INSTALL_DATA) $$files "$(DESTDIR)$(pkgdatadir)" || exit $$?; \
+	done
+
+uninstall-pkgdataDATA:
+	@$(NORMAL_UNINSTALL)
+	@list='$(pkgdata_DATA)'; test -n "$(pkgdatadir)" || list=; \
+	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
+	dir='$(DESTDIR)$(pkgdatadir)'; $(am__uninstall_files_from_dir)
 
 ID: $(am__tagged_files)
 	$(am__define_uniq_tagged_files); mkid -fID $$unique
@@ -628,7 +649,7 @@ check-am: all-am
 check: check-am
 all-am: Makefile $(PROGRAMS) $(DATA)
 installdirs:
-	for dir in "$(DESTDIR)$(bindir)" "$(DESTDIR)$(pkgdatadir)"; do \
+	for dir in "$(DESTDIR)$(bindir)" "$(DESTDIR)$(pkgdatadir)" "$(DESTDIR)$(pkgdatadir)"; do \
 	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
 	done
 install: install-am
@@ -683,7 +704,7 @@ info: info-am
 
 info-am:
 
-install-data-am: install-nobase_pkgdataDATA
+install-data-am: install-nobase_pkgdataDATA install-pkgdataDATA
 
 install-dvi: install-dvi-am
 
@@ -728,7 +749,8 @@ ps: ps-am
 
 ps-am:
 
-uninstall-am: uninstall-binPROGRAMS uninstall-nobase_pkgdataDATA
+uninstall-am: uninstall-binPROGRAMS uninstall-nobase_pkgdataDATA \
+	uninstall-pkgdataDATA
 
 .MAKE: install-am install-strip
 
@@ -740,23 +762,25 @@ uninstall-am: uninstall-binPROGRAMS uninstall-nobase_pkgdataDATA
 	install-data-am install-dvi install-dvi-am install-exec \
 	install-exec-am install-html install-html-am install-info \
 	install-info-am install-man install-nobase_pkgdataDATA \
-	install-pdf install-pdf-am install-ps install-ps-am \
-	install-strip installcheck installcheck-am installdirs \
-	maintainer-clean maintainer-clean-generic mostlyclean \
-	mostlyclean-compile mostlyclean-generic pdf pdf-am ps ps-am \
-	tags tags-am uninstall uninstall-am uninstall-binPROGRAMS \
-	uninstall-nobase_pkgdataDATA
+	install-pdf install-pdf-am install-pkgdataDATA install-ps \
+	install-ps-am install-strip installcheck installcheck-am \
+	installdirs maintainer-clean maintainer-clean-generic \
+	mostlyclean mostlyclean-compile mostlyclean-generic pdf pdf-am \
+	ps ps-am tags tags-am uninstall uninstall-am \
+	uninstall-binPROGRAMS uninstall-nobase_pkgdataDATA \
+	uninstall-pkgdataDATA
 
 
-pixmaps:; mkdir $@
-$(nobase_pkgdata_DATA): pixmaps arrow.sh
+$(nobase_pkgdata_DATA): arrow.sh makewheel
+	mkdir -p pixmaps
 	cd pixmaps && ../arrow.sh
+	./makewheel -x 120 -y 120 | ../utils/vel2col | inr2png > pixmaps/middlebury.png
 
 glade:
-	glade-3 xflow.glade
+	glade-3 xflow.glade export.glade about.glade
 
 clean-local:
-	$(RM) -r pixmaps
+	$(RM) -r pixmaps makewheel
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

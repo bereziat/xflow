@@ -485,11 +485,11 @@ struct xflow_colors {
   char *name;
   GdkColor gdkcolor;
 } list_colors [] = {
-  "black",   { 0, 0, 0, 0},
+  "red",     { 0, 65535, 0, 0},
   "blue",    { 0, 0, 0, 65535},
   "green",   { 0, 0, 65535, 0},
   "cyan",    { 0, 0, 65535, 65535},
-  "red",     { 0, 65535, 0, 0},
+  "black",   { 0, 0, 0, 0},
   "magenta", { 0, 65535, 0, 65535},
   "yellow",  { 0, 65535, 65535, 0},
   "white",   { 0, 65535, 65535, 65535},
@@ -502,7 +502,6 @@ void color_init( XFLOW_API *api) {
   GtkWidget *widget = lookup_widget( api->mainwindow, "xflow_main_vectors_draw");
 
   cmap = gdk_window_get_colormap( widget->window);
-  //  for( i=0; datacolor[i]; gdk_color_alloc (cmap, datacolor[i++]));
   for( i=0; list_colors[i].name; gdk_color_alloc (cmap, &list_colors[i++].gdkcolor));
 }
 

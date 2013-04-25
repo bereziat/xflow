@@ -1,6 +1,7 @@
 /**
  * Fonctions pour l'API xflow
  */
+#include <config.h>  /* Pour la macro PACKAGE */
 #include <stdlib.h>
 #include <math.h>
 #include "data.h"
@@ -64,7 +65,7 @@ void xflow_api_show_window( XFLOW_API *api) {
   
   if( gtk_builder_add_from_file (api->mainwindow, "xflow.glade", NULL) == 0 &&
       gtk_builder_add_from_file (api->mainwindow, 
-				 PACKAGE_DATA_DIR "/xflow/xflow.glade", 
+				 PACKAGE_DATA_DIR "/" PACKAGE "/xflow.glade", 
 				 &error) == 0 ) {
     printf("gtk_builder:fatal error:%d:%s\n", error->code, error->message);
     exit(error->code);

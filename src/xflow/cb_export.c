@@ -18,7 +18,7 @@ on_export_destroy                      (GtkObject       *object,
 {
   XFLOW_API *api = (XFLOW_API*)user_data;
   g_object_unref( api->export);
-  api->export = FALSE;
+  api->export = NULL;
 }
 
 void
@@ -30,7 +30,7 @@ on_xflow_main_menu_export_activate    (GtkMenuItem     *menuitem,
   GtkWidget *obj;
   XFLOW_DATA *pd;
   char name[256], *p;
-  GError *error;
+  GError *error = NULL;
 
   if( api->export) {
     gtk_window_present( GTK_WINDOW(lookup_widget(api->export,"export")));
@@ -127,6 +127,11 @@ on_xflow_main_menu_export_activate    (GtkMenuItem     *menuitem,
   gtk_widget_show(widget); 
 }
 
+GtkWidget *firstchild( GtkWidget *wid) {
+  GList *l = gtk_container_get_children( GTK_CONTAINER(wid));
+  return l->data;
+}
+
 void
 on_export_apply_clicked                (GtkButton       *button,
                                         gpointer         user_data)
@@ -134,49 +139,48 @@ on_export_apply_clicked                (GtkButton       *button,
   XFLOW_API *api = (XFLOW_API*)user_data;
   XFLOW_DATA *pd;
   GtkWidget *widget;
-
-  char command[512];
+#define MAXLEN 1024
+  char *command = NEW(char,MAXLEN);
   const gchar *p;
-  Fort_int *lfmt;
+  //  Fort_int *lfmt;
   char *type[] = { "pdf", "eps", "ps", "tiff", "jpeg"};
   int size;
   char *unit[] = { "cm", "in"};
   char *codec[] = { "mpjeg", "mpegvideo1", "mpegvideo1", "msmpeg4", "mpeg4"};
-  int bgimg = 0;
-
+  
   widget = lookup_widget( api->export, "export_file");
   p = gtk_entry_get_text( GTK_ENTRY(widget));
   if( *p) {
     int export_type;
     
     /* options globales */
-    widget = lookup_widget( api->export, "export_type");
+    widget = firstchild(lookup_widget( api->export, "export_type_vbox"));
     export_type = gtk_combo_box_get_active( GTK_COMBO_BOX(widget));
     //    printf( "export_type=%d\n", export_type);
     //    printf("%s\n", gtk_combo_box_get_active_text(GTK_COMBO_BOX(widget)));
 
     switch( export_type) {
     case 5:
-      sprintf( command, "vel2mpg -o %s.mpg", p);
+      snprintf( command, MAXLEN, "vel2mpg -o %s.mpg", p);
       break;
     case 6:
-      sprintf( command, "vel2mpg -o %s.inr", p);      
+      snprintf( command, MAXLEN, "vel2mpg -o %s.inr", p);      
       break;
     case 7:
-      sprintf( command, "vel2mpg -o %s.avi -codec %s -vbr %d", p, 
-	       codec[gtk_combo_box_get_active( GTK_COMBO_BOX( lookup_widget( api->export, "export_codec")))],
-	       gtk_spin_button_get_value_as_int( GTK_SPIN_BUTTON( lookup_widget( api->export, "export_vbitrate")))
+      snprintf( command, MAXLEN, "vel2mpg -o %s.avi -codec %s -vbr %d", p, 
+		codec[gtk_combo_box_get_active( GTK_COMBO_BOX( lookup_widget( api->export, "export_codec")))],
+		gtk_spin_button_get_value_as_int( GTK_SPIN_BUTTON( lookup_widget( api->export, "export_vbitrate")))
 	       );      
       break;
     case 8:
-      sprintf( command, "vel2mpg -o %s.gif", p);
+      snprintf( command, MAXLEN, "vel2mpg -o %s.gif", p);
       break;
     default:
-      sprintf( command, "vel2fig -o %s -iz %d -type %s", p, api->zpos, type[export_type]);
+      snprintf( command, MAXLEN, "vel2fig -o %s -iz %d -type %s", p, api->zpos, type[export_type]);
     }
 
     /* ces options peuvent passer en locale */
-    sprintf( command, "%s -scale %f -sample %d -tl %f -th %f ", command,
+    snprintf( command, MAXLEN, "%s -scale %f -sample %d -tl %f -th %f ", command,
 	     api->scale, api->sample, api->thresh, api->thresh_high);
     
     /* autres options globales */
@@ -184,53 +188,57 @@ on_export_apply_clicked                (GtkButton       *button,
     widget = lookup_widget( api->export, "export_jpeg_quality");
     p = gtk_entry_get_text( GTK_ENTRY(widget));
     size = atoi( p);
-    if( size) sprintf( command, "%s -q %d ", command, size);
+    if( size) snprintf( command, MAXLEN, "%s -q %d ", command, size);
     
     widget = lookup_widget( api->export, "export_size");
     p = gtk_entry_get_text( GTK_ENTRY(widget));
     size = atoi( p);
     if( size) {
-      widget = lookup_widget( api->export, "export_unit");
-      sprintf( command, "%s -size %d%s ", command, size, 
+      widget = firstchild(lookup_widget( api->export, "export_unit_vbox"));
+      snprintf( command, MAXLEN, "%s -size %d%s ", command, size, 
 	       unit[gtk_combo_box_get_active( GTK_COMBO_BOX(widget))]);
     }
     
     if( gtk_toggle_button_get_active( GTK_TOGGLE_BUTTON(lookup_widget(api->export,"export_nf"))))
-      strcat( command, "-nf ");
+      snprintf( command, MAXLEN, "%s -nf ", command);
     
     if( gtk_toggle_button_get_active( GTK_TOGGLE_BUTTON(lookup_widget(api->export,"export_nvo"))))
-      strcat( command, "-nvo ");
-
-    for( pd = api->data; pd; pd  = pd->next) {   
-      switch( pd->type) {
-      case DATA_IMAGE:
-	if( bgimg == 0 ) {
-	  lfmt = pd->data.image.file->lfmt;
-	  sprintf( command, "%s %s ", command, pd->data.image.file->nom);
-	  bgimg = 1;
-	}
-	break;
-      case DATA_XFLOW:
-	if( pd->data.xflow.hide) continue;
-	
-	sprintf( command, "%s %s -acolor %s -asize %s -awidth %d -astyle %d %s %s ", command,
-		 pd->data.xflow.file->iuv->nom, 
-		 color_name( pd->data.xflow.arrowcolor),
-		 size_name( pd->data.xflow.arrowsize),
-		 pd->data.xflow.arrowwidth, pd->data.xflow.arrowstyle,
-		 pd->data.xflow.smooth?"-smooth":"",
-		 pd->data.xflow.norma?"-norma":""
-		 
-		 );
-		
-
-	break;
-      }
-    }
+      snprintf( command, MAXLEN, "-nvo ", command);
     
+    widget = lookup_widget( api->mainwindow, "xflow_main_notebook");
+    
+    switch( gtk_notebook_get_current_page( GTK_NOTEBOOK(widget))) {
+    case 0:
+      if( api->background)
+	snprintf( command, MAXLEN, "%s %s ", command, api->background->data.image.file->nom);
+      for( pd=api->data; pd; pd = pd->next)
+	if( pd->type == DATA_XFLOW &&
+	    pd->data.xflow.hide == FALSE
+	    ) 
+	  snprintf( command, MAXLEN, "%s %s -acolor %s -asize %s -awidth %d -astyle %d %s %s ", command,
+		    pd->data.xflow.file->iuv->nom, 
+		  color_name( pd->data.xflow.arrowcolor),
+		    size_name( pd->data.xflow.arrowsize),
+		    pd->data.xflow.arrowwidth, pd->data.xflow.arrowstyle,
+		    pd->data.xflow.smooth?"-smooth":"",
+		    pd->data.xflow.norma?"-norma":""
+		    );
+      break;
+    default:
+      pd = api->active;
+      snprintf( command, MAXLEN, "%s %s -acolor %s -asize %s -awidth %d -astyle %d %s %s ", command,
+		pd->data.xflow.file->iuv->nom, 
+		color_name( pd->data.xflow.arrowcolor),
+		size_name( pd->data.xflow.arrowsize),
+		pd->data.xflow.arrowwidth, pd->data.xflow.arrowstyle,
+		pd->data.xflow.smooth?"-smooth":"",
+		pd->data.xflow.norma?"-norma":""
+		);
+    }
+
     puts( command);
     system ( command);
-    
+  
     /* Post traitement */
     
     widget = lookup_widget( api->export, "export_inter");
@@ -242,12 +250,9 @@ on_export_apply_clicked                (GtkButton       *button,
       sprintf( command, "%s-%d.fig", p, api->zpos);
       unlink( command);      
     }
-    
   } else
     puts( "DONNEZ UN NOM DE FICHIER");
-  
-  // widget = lookup_widget( GTK_WIDGET(button), "export");
-  // gtk_widget_destroy( widget);
+  DELETE(command);
 }
 
 void

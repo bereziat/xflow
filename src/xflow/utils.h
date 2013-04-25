@@ -26,11 +26,11 @@ extern UTILS_DATA utils_data;
 /* Gestion des couleurs */
 #define MAX_COLORS 8
 enum color {
-  BLACK,
+  RED,
   BLUE,
   GREEN,
   CYAN,
-  RED,
+  BLACK,
   MAGENTA,
   YELLOW,
   WHITE

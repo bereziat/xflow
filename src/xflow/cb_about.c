@@ -8,11 +8,18 @@
 #include "utils.h"
 
 void
+on_about_destroy (GtkObject *object, gpointer user_data) {
+  XFLOW_API *api = (XFLOW_API*)user_data;  
+  g_object_unref( api->about);
+  api->about = NULL;
+}
+
+void
 on_about_activate                     (GtkMenuItem     *menuitem,
 				       gpointer         user_data)
 {
   XFLOW_API *api = (XFLOW_API *) user_data;
-  GError *error;
+  GError *error = NULL;
   GtkWidget *widget, *entry;
   char text[256];
 
@@ -22,6 +29,7 @@ on_about_activate                     (GtkMenuItem     *menuitem,
   }
 
   api->about = gtk_builder_new();
+  
   if( gtk_builder_add_from_file (api->about, "about.glade", NULL) == 0 &&
       gtk_builder_add_from_file (api->about,
 				 PACKAGE_DATA_DIR "/" PACKAGE "/about.glade", 
@@ -29,7 +37,7 @@ on_about_activate                     (GtkMenuItem     *menuitem,
     printf("gtk_builder:fatal error:%d:%s\n", error->code, error->message);
     return;
   }
-    
+
   gtk_builder_connect_signals (api->about, api);
   widget = lookup_widget( api->about, "about");
 
@@ -58,8 +66,6 @@ on_about_close_clicked               (GtkButton       *button,
 {
   XFLOW_API *api = (XFLOW_API*)user_data;
   gtk_widget_destroy( lookup_widget( api->about, "about"));  
-  g_object_unref( api->about);
-  api->about = FALSE; 
 }
 
 

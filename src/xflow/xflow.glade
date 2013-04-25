@@ -7,6 +7,21 @@
     <property name="can_focus">False</property>
     <property name="stock">gtk-convert</property>
   </object>
+  <object class="GtkImage" id="image3">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="stock">gtk-open</property>
+  </object>
+  <object class="GtkImage" id="image4">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="stock">gtk-quit</property>
+  </object>
+  <object class="GtkImage" id="image5">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="stock">gtk-about</property>
+  </object>
   <object class="GtkListStore" id="liststore1">
     <columns>
       <!-- column-name GtkButtonsType1 -->
@@ -61,19 +76,18 @@
               <object class="GtkMenuItem" id="menuitem1">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="label" translatable="yes">_Files</property>
-                <property name="use_underline">True</property>
+                <property name="label" translatable="yes">Files</property>
                 <child type="submenu">
                   <object class="GtkMenu" id="menu1">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <child>
                       <object class="GtkImageMenuItem" id="xflow_main_menu_open">
-                        <property name="label">gtk-open</property>
+                        <property name="label">Open</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="use_underline">True</property>
-                        <property name="use_stock">True</property>
+                        <property name="image">image3</property>
+                        <property name="use_stock">False</property>
                       </object>
                     </child>
                     <child>
@@ -84,6 +98,7 @@
                         <property name="image">image1</property>
                         <property name="use_stock">False</property>
                         <property name="always_show_image">True</property>
+                        <accelerator key="E" signal="activate" modifiers="GDK_CONTROL_MASK"/>
                         <signal name="activate" handler="on_xflow_main_menu_export_activate" swapped="no"/>
                       </object>
                     </child>
@@ -95,11 +110,12 @@
                     </child>
                     <child>
                       <object class="GtkImageMenuItem" id="imagemenuitem5">
-                        <property name="label">gtk-quit</property>
+                        <property name="label">Quit</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="use_underline">True</property>
-                        <property name="use_stock">True</property>
+                        <property name="image">image4</property>
+                        <property name="use_stock">False</property>
+                        <accelerator key="Q" signal="activate" modifiers="GDK_CONTROL_MASK"/>
                         <signal name="activate" handler="on_xflow_main_destroy" swapped="no"/>
                       </object>
                     </child>
@@ -111,8 +127,7 @@
               <object class="GtkMenuItem" id="menuitem5">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="label" translatable="yes">_View</property>
-                <property name="use_underline">True</property>
+                <property name="label" translatable="yes">View</property>
                 <child type="submenu">
                   <object class="GtkMenu" id="xflow_main_menu_view_sub">
                     <property name="visible">True</property>
@@ -201,8 +216,7 @@
               <object class="GtkMenuItem" id="menuitem6">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="label" translatable="yes">_Select</property>
-                <property name="use_underline">True</property>
+                <property name="label" translatable="yes">Select</property>
                 <child type="submenu">
                   <object class="GtkMenu" id="xflow_main_menu_select">
                     <property name="visible">True</property>
@@ -216,7 +230,6 @@
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="label" translatable="yes">Vectors</property>
-                <property name="use_underline">True</property>
                 <child type="submenu">
                   <object class="GtkMenu" id="menu2">
                     <property name="visible">True</property>
@@ -231,10 +244,10 @@
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <child>
-                              <object class="GtkRadioMenuItem" id="black">
+                              <object class="GtkRadioMenuItem" id="red">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
-                                <property name="label" translatable="yes">Black</property>
+                                <property name="label" translatable="yes">Red</property>
                                 <property name="use_underline">True</property>
                                 <property name="active">True</property>
                                 <accelerator key="F1" signal="activate"/>
@@ -247,7 +260,7 @@
                                 <property name="can_focus">False</property>
                                 <property name="label" translatable="yes">Blue</property>
                                 <property name="use_underline">True</property>
-                                <property name="group">black</property>
+                                <property name="group">red</property>
                                 <accelerator key="F2" signal="activate"/>
                                 <signal name="activate" handler="on_xflow_main_menu_color_activate" swapped="no"/>
                               </object>
@@ -258,7 +271,7 @@
                                 <property name="can_focus">False</property>
                                 <property name="label" translatable="yes">Green</property>
                                 <property name="use_underline">True</property>
-                                <property name="group">black</property>
+                                <property name="group">red</property>
                                 <accelerator key="F3" signal="activate"/>
                                 <signal name="activate" handler="on_xflow_main_menu_color_activate" swapped="no"/>
                               </object>
@@ -269,18 +282,18 @@
                                 <property name="can_focus">False</property>
                                 <property name="label" translatable="yes">Cyan</property>
                                 <property name="use_underline">True</property>
-                                <property name="group">black</property>
+                                <property name="group">red</property>
                                 <accelerator key="F4" signal="activate"/>
                                 <signal name="activate" handler="on_xflow_main_menu_color_activate" swapped="no"/>
                               </object>
                             </child>
                             <child>
-                              <object class="GtkRadioMenuItem" id="red">
+                              <object class="GtkRadioMenuItem" id="black">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
-                                <property name="label" translatable="yes">Red</property>
+                                <property name="label" translatable="yes">Black</property>
                                 <property name="use_underline">True</property>
-                                <property name="group">black</property>
+                                <property name="group">red</property>
                                 <accelerator key="F5" signal="activate"/>
                                 <signal name="activate" handler="on_xflow_main_menu_color_activate" swapped="no"/>
                               </object>
@@ -291,7 +304,7 @@
                                 <property name="can_focus">False</property>
                                 <property name="label" translatable="yes">Magenta</property>
                                 <property name="use_underline">True</property>
-                                <property name="group">black</property>
+                                <property name="group">red</property>
                                 <accelerator key="F6" signal="activate"/>
                                 <signal name="activate" handler="on_xflow_main_menu_color_activate" swapped="no"/>
                               </object>
@@ -302,7 +315,7 @@
                                 <property name="can_focus">False</property>
                                 <property name="label" translatable="yes">Yellow</property>
                                 <property name="use_underline">True</property>
-                                <property name="group">black</property>
+                                <property name="group">red</property>
                                 <accelerator key="F7" signal="activate"/>
                                 <signal name="activate" handler="on_xflow_main_menu_color_activate" swapped="no"/>
                               </object>
@@ -313,7 +326,7 @@
                                 <property name="can_focus">False</property>
                                 <property name="label" translatable="yes">White</property>
                                 <property name="use_underline">True</property>
-                                <property name="group">black</property>
+                                <property name="group">red</property>
                                 <accelerator key="F8" signal="activate"/>
                                 <signal name="activate" handler="on_xflow_main_menu_color_activate" swapped="no"/>
                               </object>
@@ -431,7 +444,7 @@
               <object class="GtkMenuItem" id="menuitem4">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="label" translatable="yes">Aid_e</property>
+                <property name="label" translatable="yes">Help</property>
                 <property name="use_underline">True</property>
                 <child type="submenu">
                   <object class="GtkMenu" id="menu3">
@@ -439,11 +452,11 @@
                     <property name="can_focus">False</property>
                     <child>
                       <object class="GtkImageMenuItem" id="imagemenuitem10">
-                        <property name="label">gtk-about</property>
+                        <property name="label">About</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="use_underline">True</property>
-                        <property name="use_stock">True</property>
+                        <property name="image">image5</property>
+                        <property name="use_stock">False</property>
                         <signal name="activate" handler="on_about_activate" swapped="no"/>
                       </object>
                     </child>
