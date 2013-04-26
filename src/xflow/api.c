@@ -59,7 +59,7 @@ void xflow_api_show_window( XFLOW_API *api) {
   XFLOW_DATA *data;
   char name[256];
   GtkWidget *window;
-  GError *error;
+  GError *error = NULL;
 
   api->mainwindow = gtk_builder_new();
   

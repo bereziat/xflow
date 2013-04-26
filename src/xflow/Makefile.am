@@ -6,9 +6,11 @@ AM_CPPFLAGS = -I.. @PACKAGE_CFLAGS@ \
 	      -DPACKAGE_DATA_DIR=\""$(datadir)"\"
 
 bin_PROGRAMS = xflow
-xflow_SOURCES = xflow.glade main.c cb_mainwindow.c lecscrn.c lecscrn.h \
-		data.c data.h utils.c utils.h api.c api.h \
-		middlebury.c middlebury.h cb_export.c cb_about.c
+xflow_SOURCES = xflow.glade main.c api.c api.h \
+		cb_export.c cb_about.c cb_mainwindow.c \
+		data.c data.h utils.c utils.h \
+		middlebury.c middlebury.h  \
+		lecscrn.c lecscrn.h
 #               cb_prefs.c
 #		trajs.c (pas encore)
 

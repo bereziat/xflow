@@ -4839,8 +4839,8 @@ _ACEOF
 fi
 
 
-# Extract the first word of "glade-2", so it can be a program name with args.
-set dummy glade-2; ac_word=$2
+# Extract the first word of "glade-3", so it can be a program name with args.
+set dummy glade-3; ac_word=$2
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
 $as_echo_n "checking for $ac_word... " >&6; }
 if ${ac_cv_prog_GLADE+:} false; then :
