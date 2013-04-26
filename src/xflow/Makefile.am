@@ -31,6 +31,9 @@ $(nobase_pkgdata_DATA): arrow.sh makewheel
 	cd pixmaps && ../arrow.sh
 	./makewheel -x 120 -y 120 | ../utils/vel2col | inr2png > pixmaps/middlebury.png
 
+makewheel: makewheel.c
+	$(CC) -o $@ $^ `inrinfo --cflags --libs`
+
 glade:
 	glade-3 xflow.glade export.glade about.glade
 

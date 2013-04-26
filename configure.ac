@@ -40,7 +40,7 @@ AC_CHECK_LIB(inrimage,inr_init,,exit)
 AC_CHECK_LIB([m], [cos])
 
 dnl ajouter la détection de GLADE (pour devel)
-AC_CHECK_PROG(GLADE, glade-2, yes)
+AC_CHECK_PROG(GLADE, glade-3, yes)
 AM_CONDITIONAL(GLADE, test x$GLADE = xyes)
 
 dnl Check Doxygen
