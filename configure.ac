@@ -1,6 +1,6 @@
 AC_PREREQ(2.59)
 
-AC_INIT([xflow],[2.3.3])
+AC_INIT([xflow],[2.4.0])
 AC_CONFIG_SRCDIR([src/lib/xflow_open.c])
 AM_INIT_AUTOMAKE
 
@@ -81,7 +81,7 @@ src/examples/c/Makefile
 if test x$FIG2DEV = xno ; then
    cat <<EOF
 WARNING: fig2dev is missing. fig2dev is used by xflow to export
-         xflow images to various format such as postscript or bipmap and
+         xflow images to various formats such as pdf, postscript or bitmap and
          to build icons and documentation.
          fig2dev is a part of xfig/transfig software. 
 EOF

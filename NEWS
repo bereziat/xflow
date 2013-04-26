@@ -1,6 +1,19 @@
 Fichier historique du projet xflow
 (c) D.Bereziat  $Id: NEWS,v 1.8 2010/10/20 16:11:08 bereziat Exp $
 
+* May 2013 (2.4.0)
+  - xflow has received many improvements:
+    + it uses now glade-3 and the GtkBuilder
+    + new menu organization: the preference dialog has dispeared, the choice of
+      vector attributes are performed directly and quickly from the menu
+    + bug fix in div / curl visualisation. The color palette has also been
+      improved.
+    + adding legend for magnetude, div and curl visulisation in the right part of the screen
+    + adding the Middlebury color visualisation (key H). The saturation can
+      be chosen by the user.
+    + adding a quick selection of fields to display in the Vectors visualisation.
+    + one can choose the background image (from the menu).
+   
 * January 2013 (2.3.3)
   - bug fix and improvements in xflow-export (export pdf, more options)
   - some improvements in vel2fig:

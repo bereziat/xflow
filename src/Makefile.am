@@ -1,7 +1,7 @@
 # Makefile for generate xflow documentation
 # $Id: Makefile.am,v 1.3 2007/09/24 11:43:34 bereziat Exp $
 # (c) 2002-2006 D.Bereziat
-SUBDIRS    = inrimage lib xflow utils img 
+SUBDIRS    = inrimage lib utils xflow img 
 EXTRA_DIST = xflow.doxy doxydoc.c
 
 nobase_include_HEADERS = inrimage/xflow.h

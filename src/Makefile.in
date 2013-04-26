@@ -50,7 +50,7 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 subdir = src
 DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/Makefile.am \
-	$(nobase_include_HEADERS)
+	$(nobase_include_HEADERS) ChangeLog
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
@@ -271,7 +271,7 @@ top_srcdir = @top_srcdir@
 # Makefile for generate xflow documentation
 # $Id: Makefile.am,v 1.3 2007/09/24 11:43:34 bereziat Exp $
 # (c) 2002-2006 D.Bereziat
-SUBDIRS = inrimage lib xflow utils img 
+SUBDIRS = inrimage lib utils xflow img 
 EXTRA_DIST = xflow.doxy doxydoc.c
 nobase_include_HEADERS = inrimage/xflow.h
 all: all-recursive

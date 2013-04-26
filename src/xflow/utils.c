@@ -92,25 +92,25 @@ void utils_pal_stretch( t_col32 *pal, float vmin, float vmax) {
 
    if( vmin == vmax) {
      if( vmin > 0)
-       for(i=0; i<255;i++) {     
+       for(i=0; i<256;i++) {     
 	 pal[i].b = 255;
 	 pal[i].r = pal[i].g = 0;
 	 pal[i].dum = 0;
        } 
      else 
-       for(i=0;i<255;i++) {
+       for(i=0;i<256;i++) {
 	 pal[i].r = 255;
 	 pal[i].b = pal[i].g = 0;
 	 pal[i].dum = 0;
        }
    } else if( vmin > 0 ) {  /* Palette de bleu */
-     for(i=0; i<255; i++) {
+     for(i=0; i<256; i++) {
        pal[i].b = i;
        pal[i].r = pal[i].g = 0;
        pal[i].dum = 0;
      }
    } else if ( vmax < 0) { /* Palette de rouge */
-     for(i=0; i<255; i++) {
+     for(i=0; i<256; i++) {
        pal[i].r = 255-i;
        pal[i].b = pal[i].g = 0;
        pal[i].dum = 0;
