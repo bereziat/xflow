@@ -54,6 +54,7 @@ on_xflow_main_menu_export_activate    (GtkMenuItem     *menuitem,
    * et GtkComboBoxText n'existe pas !, on le fait à la main, ca va
    * plus vite */
   {
+#ifdef GTK_2_24
     GtkWidget *combo = gtk_combo_box_text_new();
     gtk_combo_box_text_append_text ( GTK_COMBO_BOX_TEXT(combo), "Pdf");
     gtk_combo_box_text_append_text ( GTK_COMBO_BOX_TEXT(combo), "Encapsuled postscript");
@@ -95,6 +96,45 @@ on_xflow_main_menu_export_activate    (GtkMenuItem     *menuitem,
     //    gtk_table_attach_defaults( GTK_TABLE(lookup_widget(api->export, "table1")),
     //			       combo, 1, 2, 3, 4);
     gtk_container_add( GTK_CONTAINER(lookup_widget(api->export,"export_codec_vbox")), combo);
+#else
+    GtkWidget *combo = gtk_combo_box_entry_new_text ();
+    
+    gtk_combo_box_append_text (GTK_COMBO_BOX (combo), "Pdf");
+    gtk_combo_box_append_text (GTK_COMBO_BOX (combo), "Encapsuled postscript");
+    gtk_combo_box_append_text (GTK_COMBO_BOX (combo), "Postscript");
+    gtk_combo_box_append_text (GTK_COMBO_BOX (combo), "Tiff");
+    gtk_combo_box_append_text (GTK_COMBO_BOX (combo), "Jpeg");
+    gtk_combo_box_append_text (GTK_COMBO_BOX (combo), "Mpeg sequence");
+    gtk_combo_box_append_text (GTK_COMBO_BOX (combo), "Inrimage sequence");
+    gtk_combo_box_append_text (GTK_COMBO_BOX (combo), "Avi sequence");
+    gtk_combo_box_append_text (GTK_COMBO_BOX (combo), "Gif89 animation");
+    gtk_combo_box_set_active( GTK_COMBO_BOX(combo), 0);
+    gtk_widget_show(combo);
+    gtk_container_add (GTK_CONTAINER (lookup_widget(api->export,"export_type_vbox")), 
+		       combo);
+
+    combo = gtk_combo_box_entry_new_text ();
+    
+    gtk_combo_box_append_text (GTK_COMBO_BOX (combo), "centimeter");
+    gtk_combo_box_append_text (GTK_COMBO_BOX (combo), "inch");
+    gtk_combo_box_set_active( GTK_COMBO_BOX(combo), 0);
+    gtk_widget_show(combo);
+    gtk_container_add (GTK_CONTAINER (lookup_widget(api->export,"export_unit_vbox")), 
+		       combo);
+
+
+    combo = gtk_combo_box_entry_new_text ();
+    
+    gtk_combo_box_append_text (GTK_COMBO_BOX (combo), "Mjpeg");
+    gtk_combo_box_append_text (GTK_COMBO_BOX (combo), "Mpeg 1");
+    gtk_combo_box_append_text (GTK_COMBO_BOX (combo), "Mpeg 2");
+    gtk_combo_box_append_text (GTK_COMBO_BOX (combo), "Divx 3");
+    gtk_combo_box_append_text (GTK_COMBO_BOX (combo), "Divx 4/5");
+    gtk_combo_box_set_active( GTK_COMBO_BOX(combo), 0);
+    gtk_widget_show(combo);
+    gtk_container_add (GTK_CONTAINER (lookup_widget(api->export,"export_codec_vbox")), 
+		       combo);    
+#endif
   } 
 
   /*  gtk_widget_hide( lookup_widget( api->export, "export_separ1"));
