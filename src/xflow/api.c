@@ -54,7 +54,6 @@ void xflow_api_set_global( XFLOW_API *api, int mode, float val) {
   }
 }
 
-
 void xflow_api_show_window( XFLOW_API *api) {
   XFLOW_DATA *data;
   char name[256];
@@ -70,9 +69,7 @@ void xflow_api_show_window( XFLOW_API *api) {
     printf("gtk_builder:fatal error:%d:%s\n", error->code, error->message);
     exit(error->code);
   }
-    
   gtk_builder_connect_signals (api->mainwindow, api);
-
   window = GTK_WIDGET( gtk_builder_get_object (api->mainwindow, "xflow_main"));
   
   /* main window title: the first available velocity filename or the first 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
-  <requires lib="gtk+" version="2.24"/>
+  <requires lib="gtk+" version="2.20"/>
   <!-- interface-naming-policy project-wide -->
   <object class="GtkImage" id="image1">
     <property name="visible">True</property>
@@ -490,7 +490,6 @@
                         <property name="can_focus">True</property>
                         <property name="adjustment">sample</property>
                         <property name="restrict_to_fill_level">False</property>
-                        <property name="round_digits">0</property>
                         <property name="digits">0</property>
                         <signal name="value-changed" handler="on_xflow_main_sample_value_changed" swapped="no"/>
                       </object>
@@ -506,7 +505,6 @@
                         <property name="can_focus">True</property>
                         <property name="adjustment">scale</property>
                         <property name="restrict_to_fill_level">False</property>
-                        <property name="round_digits">1</property>
                         <signal name="value-changed" handler="on_xflow_main_scale_value_changed" swapped="no"/>
                       </object>
                       <packing>
@@ -545,7 +543,6 @@
                       <object class="GtkHScale" id="xflow_main_thresh">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
-                        <property name="round_digits">2</property>
                         <property name="digits">2</property>
                         <signal name="value-changed" handler="on_xflow_main_thresh_value_changed" swapped="no"/>
                       </object>
@@ -554,7 +551,6 @@
                       <object class="GtkHScale" id="xflow_main_thresh_high">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
-                        <property name="round_digits">2</property>
                         <property name="digits">2</property>
                         <signal name="value-changed" handler="on_xflow_main_thresh_high_value_changed" swapped="no"/>
                       </object>
@@ -601,7 +597,6 @@
                             <property name="adjustment">zoom</property>
                             <property name="restrict_to_fill_level">False</property>
                             <property name="fill_level">20</property>
-                            <property name="round_digits">1</property>
                             <signal name="value-changed" handler="on_xflow_main_zoom_value_changed" swapped="no"/>
                           </object>
                         </child>
@@ -992,7 +987,6 @@
                             <property name="can_focus">True</property>
                             <property name="update_policy">delayed</property>
                             <property name="adjustment">saturation</property>
-                            <property name="round_digits">3</property>
                             <property name="digits">3</property>
                             <signal name="value-changed" handler="on_xflow_main_hsv_saturation_value_changed" swapped="no"/>
                           </object>
@@ -1025,7 +1019,10 @@
                               <object class="GtkDrawingArea" id="xflow_main_hsv_draw">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
+                                <property name="events">GDK_POINTER_MOTION_MASK | GDK_BUTTON_PRESS_MASK | GDK_STRUCTURE_MASK</property>
+                                <signal name="button-press-event" handler="on_xflow_main_hsv_draw_button_press_event" swapped="no"/>
                                 <signal name="expose-event" handler="on_xflow_main_hsv_draw_expose_event" swapped="no"/>
+                                <signal name="motion-notify-event" handler="on_xflow_main_hsv_draw_motion_notify_event" swapped="no"/>
                               </object>
                             </child>
                           </object>

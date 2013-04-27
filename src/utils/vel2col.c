@@ -85,7 +85,7 @@ int main(int argc, char **argv) {
   inr_init( argc, argv, "1.01", "[velocityfile][colorimage] [-m maxmotion]", 
 	    "Convert a 2D velocity file in a colored image using Middlebury algorithm."
 	    "Parameter -m: the algorithm normalizes (in norm) the vector field in order\n"
-	    "the vector with the highest norm has the more saturated color, the lowest \n"
+	    "the vector with the highest norm has the most saturated color, the lowest \n"
 	    "is white. The vector field may be divided by maxmotion to change the \n"
 	    "threshold of the maximal saturation.\n");
 

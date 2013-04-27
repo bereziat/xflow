@@ -329,16 +329,16 @@ void vectors_notify (int evx, int evy, char notify[], int len, XFLOW_API *api) {
   x = (int)(evx * (float)api->wimg/(float)api->wwin);
   y = (int)(evy * (float)api->himg/(float)api->hwin);  
   if( x<0 || x >= api->wimg || y<0 || y>api->himg)
-    snprintf( notify, len, "%s <out of range> ", notify);
+    sprintf( notify,  "-x %d -y %d -z %d <out of range> ", x+1,y+1,api->zpos);
   else {
-    snprintf( notify, len, "-x %d -y %d -z %d", x+1, y+1, api->zpos);
+    sprintf( notify, "-x %d -y %d -z %d", x+1, y+1, api->zpos);
     for( ; pd; pd=pd->next) {    
       if( pd->type != DATA_XFLOW) continue;    
       
       size_t count = x + y*api->wimg;
       u = pd->data.xflow.buf[count].u;
       v = pd->data.xflow.buf[count].v;      
-      snprintf( notify, len, "%s -u %f -v %f ", notify, u, v);
+      sprintf( notify, "%s -u %f -v %f ", notify, u, v);
     }
   } 
 }
@@ -349,7 +349,7 @@ on_xflow_main_vectors_draw_motion_notify_event   (GtkWidget       *widget,
 						  gpointer         user_data)
 {
   XFLOW_API *api = (XFLOW_API*) user_data;
-  char notify[256] = "";
+  char notify[256];
   vectors_notify( event->x, event->y, notify, 256, api);
   utils_mesag( api, notify);  
   return FALSE;
@@ -360,7 +360,7 @@ on_xflow_main_vectors_draw_button_press_event    (GtkWidget       *widget,
 						  GdkEventButton  *event,
 						  gpointer         user_data)
 {
-  char notify[256] = "";
+  char notify[256];
   if( event->button == 3) {
     vectors_notify( event->x, event->y, notify, 256, (XFLOW_API*)user_data);
     printf( "%s\n", notify);
@@ -438,13 +438,13 @@ static void mag_notify(int ev_x, int ev_y, char notify[], int len, XFLOW_API *ap
   x = (int)(ev_x * (float)api->wimg/(float)api->wwin);
   y = (int)(ev_y * (float)api->himg/(float)api->hwin);  
   if( x<0 || x >= api->wimg || y<0 || y>api->himg)
-    snprintf( notify, len, "%s <out of range> ", notify);
+    sprintf( notify, "-x %d -y %d -z %d <out of range> ", x+1, y+1, api->zpos);
   else {
-    snprintf( notify, len, "-x %d -y %d -z %d", x+1, y+1, api->zpos);
+    sprintf( notify, "-x %d -y %d -z %d", x+1, y+1, api->zpos);
     size_t count = x + y*api->wimg;
     u = pd->data.xflow.buf[count].u;
     v = pd->data.xflow.buf[count].v;  
-    snprintf( notify, len, "%s -mag %f ", notify, sqrt(u*u+v*v));
+    sprintf( notify, "%s -mag %f ", notify, sqrt(u*u+v*v));
   } 
 }
 
@@ -454,7 +454,7 @@ on_xflow_main_mag_draw_motion_notify_event   (GtkWidget       *widget,
 					      gpointer         user_data)
 {
   XFLOW_API *api = (XFLOW_API *) user_data;
-  char notify[256] = "";
+  char notify[256];
   
   mag_notify( event->x, event->y, notify, 256, api);
   utils_mesag( api, notify);  
@@ -466,7 +466,7 @@ on_xflow_main_mag_draw_button_press_event    (GtkWidget       *widget,
 					      GdkEventButton  *event,
 					      gpointer         user_data)
 {
-  char notify[256] = "";
+  char notify[256];
 
   if( event->button == 3) {
     mag_notify( event->x, event->y, notify, 256, (XFLOW_API *) user_data);
@@ -546,16 +546,16 @@ static void div_notify(int ev_x, int ev_y, char notify[], int len, XFLOW_API *ap
   x = (int)(ev_x * (float)api->wimg/(float)api->wwin);
   y = (int)(ev_y * (float)api->himg/(float)api->hwin);  
   if( x<0 || x >= api->wimg || y<0 || y>api->himg)
-    snprintf( notify, len, "%s <out of range> ", notify);
+    sprintf( notify, "-x %d -y %d -z %d <out of range> ", x+1, y+1, api->zpos);
   else {
     size_t count = x + y*api->wimg;
     vel2d *f = pd->data.xflow.buf + count;
 
-    snprintf( notify, len, "-x %d -y %d -z %d", x+1, y+1, api->zpos);
+    sprintf( notify, "-x %d -y %d -z %d", x+1, y+1, api->zpos);
     if( x > 0 && y > 0 && x < api->wimg-1 && y <api->himg-1) 
-      snprintf( notify, len, "%s -div %f ", notify, div(f, api->wimg));
+      sprintf( notify, "%s -div %f ", notify, div(f, api->wimg));
     else
-      snprintf( notify, len, "%s -div <out of range> ", notify);
+      sprintf( notify, "%s -div <out of range> ", notify);
   } 
 }
 
@@ -565,7 +565,7 @@ on_xflow_main_div_draw_motion_notify_event   (GtkWidget       *widget,
 					      gpointer         user_data)
 {
   XFLOW_API *api = (XFLOW_API *) user_data;
-  char notify[256] = "";
+  char notify[256];
 
   div_notify( event->x, event->y, notify, 256, api);
   utils_mesag( api, notify);   
@@ -667,16 +667,16 @@ static void rot_notify(int ev_x, int ev_y, char notify[], int len, XFLOW_API *ap
   x = (int)(ev_x * (float)api->wimg/(float)api->wwin);
   y = (int)(ev_y * (float)api->himg/(float)api->hwin);  
   if( x<0 || x >= api->wimg || y<0 || y>api->himg)
-    snprintf( notify, len, "%s <out of range> ", notify);
+    sprintf( notify, "-x %d -y %d -z %d <out of range> ", x+1, y+1, api->zpos);
   else {
     size_t count = x + y*api->wimg;
     vel2d *f = pd->data.xflow.buf + count;
 
-    snprintf( notify, len, "-x %d -y %d -z %d", x+1, y+1, api->zpos);
+    sprintf( notify, "-x %d -y %d -z %d", x+1, y+1, api->zpos);
     if( x > 0 && y > 0 && x < api->wimg-1 && y <api->himg-1) 
-      snprintf( notify, len, "%s -curl %f ", notify, rot(f, api->wimg));
+      sprintf( notify, "%s -curl %f ", notify, rot(f, api->wimg));
     else
-      snprintf( notify, len, "%s -curl <out of range> ", notify);
+      sprintf( notify, "%s -curl <out of range> ", notify);
   } 
 }
 
@@ -750,6 +750,53 @@ on_xflow_main_hsv_saturation_value_changed   (GtkRange        *range,
   }
 }  
 
+
+static void hsv_notify(int ev_x, int ev_y, char notify[], int len, XFLOW_API *api) {
+  XFLOW_DATA *pd = api->active;  
+  int x, y;
+  float u, v;
+
+  /* Toutes les images ont la même taille en dimx et dimy (voir xflow_api_addimage) */
+  x = (int)(ev_x * (float)api->wimg/(float)api->wwin);
+  y = (int)(ev_y * (float)api->himg/(float)api->hwin);  
+  if( x<0 || x >= api->wimg || y<0 || y>api->himg)
+    sprintf( notify, "-x %d -y %d -z %d <out of range> ", x+1, y+1, api->zpos);
+  else {
+    sprintf( notify, "-x %d -y %d -z %d", x+1, y+1, api->zpos);
+    size_t count = x + y*api->wimg;
+    u = pd->data.xflow.buf[count].u;
+    v = pd->data.xflow.buf[count].v;  
+    sprintf( notify, "%s -mag %f -orient %.1f", notify, sqrt(u*u+v*v), atan2(v,u)/M_PI*180);
+  } 
+}
+
+gboolean
+on_xflow_main_hsv_draw_motion_notify_event   (GtkWidget       *widget,
+					      GdkEventMotion  *event,
+					      gpointer         user_data)
+{
+  XFLOW_API *api = (XFLOW_API *) user_data;
+  char notify[256];
+  
+  hsv_notify( event->x, event->y, notify, 256, api);
+  utils_mesag( api, notify);  
+  return FALSE;
+}
+
+gboolean
+on_xflow_main_hsv_draw_button_press_event    (GtkWidget       *widget,
+					      GdkEventButton  *event,
+					      gpointer         user_data)
+{
+  char notify[256];
+  
+  if( event->button == 3) {
+    hsv_notify( event->x, event->y, notify, 256, (XFLOW_API *) user_data);
+    fprintf( stdout, "%s\n", notify);
+  }
+  return FALSE;
+}
+
 /************************ Buttons *************************/
 
 void
@@ -818,7 +865,7 @@ on_xflow_main_notebook_switch_page          (GtkNotebook     *notebook,
   int w,h,d;
   int nw, nh;
   GtkWidget *widget;
-
+  char *p;
 
   switch( api->paned) {
   case 0:
@@ -842,21 +889,30 @@ on_xflow_main_notebook_switch_page          (GtkNotebook     *notebook,
   switch( api->paned) {
   case 0:
     widget = lookup_widget( api->mainwindow, "xflow_main_vectors_paned");
+    p = "xflow_main_menu_view_vectors";
     break;
   case 1:
     widget = lookup_widget( api->mainwindow, "xflow_main_mag_paned");
+    p = "xflow_main_menu_view_mag";
     break;
   case 2:
     widget = lookup_widget( api->mainwindow, "xflow_main_div_paned");
+    p = "xflow_main_menu_view_div";
     break;
   case 3:
     widget = lookup_widget( api->mainwindow, "xflow_main_curl_paned");
+    p = "xflow_main_menu_view_curl";
     break;
   case 4:
     widget = lookup_widget( api->mainwindow, "xflow_main_hsv_paned");
+    p = "xflow_main_menu_view_hsv";
     break;
   }
   gtk_paned_set_position( GTK_PANED(widget), d);
+
+
+  gtk_check_menu_item_set_active( GTK_CHECK_MENU_ITEM(lookup_widget(api->mainwindow,p)),
+				  TRUE);
 
   /*  
   void get_size( GtkWidget *widget, char *name, int *w, int *h) {
@@ -988,7 +1044,7 @@ on_xflow_main_menu_size_activate                    (GtkMenuItem     *menuitem,
 						     gpointer         user_data)
 {
   XFLOW_API *api = (XFLOW_API *)user_data;
-  int i = get_size_by_name( gtk_menu_item_get_label( menuitem));
+  int i = get_size_by_name( (char*)gtk_menu_item_get_label( menuitem));
 
   if( api->active->data.xflow.arrowsize != i) {
     api->active->data.xflow.arrowsize = i;
