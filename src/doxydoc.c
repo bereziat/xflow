@@ -50,25 +50,29 @@
  *   - La commande \link velpar velpar \endlink affiche des informations d'un fichier XFLOW.
  *   - La commande \link velset velset\endlink modifie la valeur d'un pixel dans un fichier XFLOW.
  *   - La commande \link velimg velimg\endlink (re)définie l'image de fond d'un fichier XFLOW.
- *   - La commande \link uv2vel uv2vel\endlink permet de tranformer des images au format
- *     XFLOW1 en image au format XFLOW2. On a l'équivalent en script bash (\link uv2vel.sh uv2vel.sh\endlink ) et
- *     l'opération inverse (\link vel2uv.sh vel2uv.sh\endlink )
  *   - La commande \ref gradvel est un exemple simple d'utilisation de 
  *     la librairie C et le script gradvel.sh montre la génération d'un fichier XFLOW à
  *     partir de commandes INRIMAGE.  
+ *   - La commande \link velstats velstats\endlink produit des statistiques sur un ou deux champs
+ *     de vecteurs.
+ *   - Les scripts \link velnorm velnorm\endlink, \link vel2div vel2div\endlink, 
+ *     \link vel2curl vel2curl \endlink et \link vel2mpg vel2mpg\endlink sont
+ *     utilisés par la commande \link xflow xflow\endlink pour produire des figures vectorielles et des animations.
  *   - Lisez aussi le fichier <a class="el" href="../NEWS">d'historique</a>. 
  *
  *
  * \author Dominique Béréziat (dominique.bereziat@lip6.fr)
- * \date 2001-2003
+ * \date Mai 2013
  *
  */
 
-/** \defgroup libxflow Librairie de lecture/écriture des fichiers XFLOW.
+/**
+ * \defgroup libxflow Librairie de lecture/écriture des fichiers XFLOW.
  * \brief Goulou
  */
 
-/** \page xflow Documentation de l'utilitaire XFLOW
+/**
+ * \page xflow Documentation de l'utilitaire XFLOW
  * 
  * \section usage Lancement de la commande
  * \code
@@ -117,20 +121,34 @@
  * - <tt>File</tt>
  *   - <tt>open</tt> :  non fonctionnel,
  *   - <tt>export</tt> : ouvre le formulaire d'export (voir plus loin).
- * - <tt>View</tt> 
- * - <tt>Preferences</tt> 
- *   - <tt>Edit ...</tt> : ouvre le formulaire des préférences (voir plus loin).
  *   - <tt>Clean header</tt> : retire les paramètres d'affichage dans les 
  *     entêtes des fichiers XFLOW.
  *   - <tt>Write header</tt> : écrit les paramètres d'affichage dans les 
  *     entêtes des fichiers XFLOW.
+ * - <tt>View</tt> 
+ *   - <tt>Previous frame</tt>: affiche le plan précédent.
+ *   - <tt>Next frame</tt>: affiche le plan suivant.
+ *   - <tt>View vectors</tt>: sélectionne la page V qui affiche en mode 'Vectors';
+ *     les vecteurs des images lues sont affichées par dessus l'image d'arrière plan. 
+ *   - <tt>View magnetude</tt>: sélectionne la page M qui affiche en mode 'Magnetude';
+ *      la carte de la norme du champ <b>actif</b> est affiché (en plus du champ de vecteurs)
+ *   - <tt>View divergence</tt>: sélectionne la page D. Comme M mais avec la carte de divergence.
+ *   - <tt>View curl</tt>: sélectionne la page C. Comme M mais avec la carte de rotationel.
+ *   - <tt>View HSV</tt>: sélectionne la page H. Comme M mais avec la représentation 
+ * colorimétrique de Middlebury.
+ * - <tt>Select</tt> 
+ *   <BR>dans ce menu, on peut choisir l'image d'arrière plan
+ *   (si plusieurs images ont été lues), ainsi que le champ de vecteur "actif", 
+ *   c'est-à-dire celui qui est affiché dans les pages M, D, C, et H. 
+ * - <tt>Vectors</tt><br> Il permet de choisir les attributs d'affichage du champ
+ *   actif (qui est choisi dans le menu <tt>Select</tt>).
  *
  * \subsection tool La barre d'outil
  *
  * La barre d'outil est constituée d'un ensemble de curseurs qui permettent 
- * de modifier certains paramètres d'affichage du champ de vecteur :
+ * de modifier certains paramètres d'affichage de tous les champs de vecteurs :
  *  - <tt>sample</tt> : détermine le pas d'échantillonage pour l'affichage
- *    du champ : un point sur <tt>sample</tt> est affiché par ligne et une 
+ *    des champs : un point sur <tt>sample</tt> est affiché par ligne et une 
  *    ligne sur <tt>sample</tt> ligne est affichée. On commence toujours par
  *    la première ligne et la première colonne. Ainsi, si <tt>sample</tt> vaut 1,
  *    tous les points sont affichés.
@@ -140,41 +158,48 @@
  *  - <tt>threshold (high)</tt> : les vecteurs dont la norme est supérieure à
  *    ce seuil ne seront pas affichés.
  *  - <tt>zoom</tt> : facteur d'agrandissement de la zone d'affichage.
+ * La barre possède en outre deux boutons:
+ *  - <tt>normalize</tt>: les vecteurs sont normalisés en norme. Après la normalisation
+ *    ils restent sensible au paramètre <tt>scale</tt>.
+ *  - <tt>smooth</tt>: le champ est lissé par un moyennage local.
  *
- * 
  * \subsection disp La zone d'affichage
  *
  * La zone d'affichage est constituée :
  *   - à l'extrême gauche d'un curseur vertical qui sélectionne le plan
  *     de visualisation.
- *   - d'une barre de 4 onglets qui sélectionne le type de vue :
- *      - l'onglet 'F' affiche le champ des vecteurs superposée à l'image 
- *        d'arrière-plan
- *      - l'onglet 'M' affiche le champ des vecteurs superposée à l'image
+ *   - d'une barre de 5 pages sélectionnant le type de vue :
+ *      - la page 'V' affiche les champs des vecteurs superposée à l'image 
+ *        d'arrière-plan.
+ *      - la page 'M' affiche le champ des vecteurs superposée à l'image
  *        des magnétudes c'est-à-dire la norme du champ des vecteurs. Les
  *        valeurs de magnétude varient entre 0 (le min) et 255 (le max)
  *        en niveau de gris.
- *      - l'onglet 'D' affiche le champ des vecteurs superposée à l'image
+ *      - la page 'D' affiche le champ des vecteurs superposée à l'image
  *        de divergence du champ. Les couleurs d'affichage varient entre
  *        rouge (le minimum des valeurs négatives) et le bleu (le maximum
  *        des valeurs positive). Les valeurs nulles sont représentées en 
  *        noir.
- *      - l'ongle 'C' est identique à 'D' pour le rotationnel du champ des
+ *      - la page 'C' est identique à 'D' pour le rotationnel du champ des
  *        vecteurs.
+ *      - la page 'H' définie la carte de Middlebury. La teinte code l'orientation
+ *        et la saturation code la norme.
  *   - la zone image définie également des curseurs de déplacement (à sa 
  *     droite et en dessous) si elle n'est pas entièrement visible.
- *     
- * \subsection pref Le formulaire de préférence
+
+ * \subsection handle Zone contextuelle
  *
- * \image html pref-window.png "Formulaire de préférence"
- * 
- * <b>Menu <tt>Vector Field</tt></b>
+ * La poignée déplaçable permet de faire apparaître une zone supplémentaire d'affichage
+ * qui dépend du contexte:
+ *   - Dans la page V, il affiche la liste des champs de vecteur lues: on peut 
+ *     controler leur affichage.
+ * \image html xflow-compare.png "Comparaison de champs"
+ *   - Dans les pages M, D, et C, il affiche une légende des couleurs utilisées
+ *     dans les cartes de magnétude, divergence et rotationel.
+ *   - Dans la page H, il affiche la roue des couleurs en fonction de l'orientation
+ *     et un bouton pour controler la saturation des couleurs.
+ * \image html xflow-others.png "Carte de Magnétude, divergence, rotationelle et Middlebury"
  *
- * Ce formulaire paramètre la façon dont les champs de vecteurs sont affichées.
- * A la différence des réglages de la barre d'outils qui agissent globalement,
- * ces réglages agissent individuellement pour chaque champ de vecteurs. Pour
- * cette raison, on doit choisir le champ de vecteurs sur lequel on veut agir
- * avec l'option <tt>vector field</tt>.
  *
  * \subsection export Le formulaire d'exportation
  *
@@ -183,6 +208,7 @@
  * renseigner les champs suivants :
  *   - Generic name : nom du fichier de sortie (sans extension).
  *   - Type : type de fichier de sortie. Actuellement possible :
+ *       - Pdf : fichier .pdf, pour insertion dans un document pdfLaTeX.
  *       - Encapsuled postscript : fichier .eps, pour insertion dans un document LaTeX,
  *       - Postscript : fichier .ps, pour impression
  *       - Tiff : image bitmap .tif
@@ -285,4 +311,13 @@
  * % vel2curl
  * \endcode
  * 
+ */
+
+/**
+ * \page velstats Commande velstats
+ *
+ * Calcule diverses statistiques sur un champ de vecteur ou
+ * entre deux champs de vecteurs.
+ *
+ * A faire
  */

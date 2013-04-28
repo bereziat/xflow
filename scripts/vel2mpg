@@ -124,7 +124,7 @@ do
 		  codec=mpeg4
 		  ;;
 	      *)
-		  echo "error: unknown codec"
+		  echo "error: unknown codec ($2)"
 		  exit 1
 		  ;;
 	  esac

@@ -56,7 +56,7 @@ POST_UNINSTALL = :
 bin_PROGRAMS = xflow$(EXEEXT)
 subdir = src/xflow
 DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/Makefile.am \
-	$(top_srcdir)/depcomp ChangeLog
+	$(top_srcdir)/depcomp
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
@@ -275,11 +275,10 @@ xflow_SOURCES = xflow.glade main.c api.c api.h \
 #		trajs.c (pas encore)
 xflow_CFLAGS = -g
 xflow_LDADD = @PACKAGE_LIBS@ ../lib/libxflow.a
-
 # ce flag permet à gmodule de lire la table des symboles de l'application
-# et d'associer les callbacks aux bonnes routines (gtk_builder_connect_signals()).
+# et  d'associer les callbacks aux bonnes routines (gtk_builder_connect_signals()).
 # Déjà activé par défaut sur MacOS, ce n'est pas le cas sur Linux.
-xflow_LDFLAGS = -Wl,--export-dynamic
+@LINUX_TRUE@xflow_LDFLAGS = -Wl,--export-dynamic
 
 # installer les pixmaps dans $prefix/share/PACKAGE/pixmaps
 nobase_pkgdata_DATA = pixmaps/arrow0.png pixmaps/arrow1.png pixmaps/arrow2.png \
@@ -780,7 +779,7 @@ uninstall-am: uninstall-binPROGRAMS uninstall-nobase_pkgdataDATA \
 $(nobase_pkgdata_DATA): arrow.sh makewheel
 	mkdir -p pixmaps
 	cd pixmaps && ../arrow.sh
-	./makewheel -x 120 -y 120 | ../utils/vel2col -m 1 | inr2png > pixmaps/middlebury.png
+	./makewheel -x 120 -y 120 | ../utils/vel2col | inr2png > pixmaps/middlebury.png
 
 makewheel: makewheel.c
 	$(CC) -o $@ $^ `inrinfo --cflags --libs`

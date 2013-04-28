@@ -622,6 +622,8 @@ ac_includes_default="\
 ac_subst_vars='am__EXEEXT_FALSE
 am__EXEEXT_TRUE
 LTLIBOBJS
+LINUX_FALSE
+LINUX_TRUE
 LIBOBJS
 BUILD_DOX_FALSE
 BUILD_DOX_TRUE
@@ -5333,6 +5335,33 @@ fi
 done
 
 
+# OS specifities
+case `uname -srm` in
+     Linux*)
+     # ce flag permet à gmodule de lire la table des symboles de l'application
+     # et  d'associer les callbacks aux bonnes routines (gtk_builder_connect_signals()).
+     # Déjà activé par défaut sur MacOS, ce n'est pas le cas sur Linux.
+      if true; then
+  LINUX_TRUE=
+  LINUX_FALSE='#'
+else
+  LINUX_TRUE='#'
+  LINUX_FALSE=
+fi
+
+  	;;
+     *)
+      if false; then
+  LINUX_TRUE=
+  LINUX_FALSE='#'
+else
+  LINUX_TRUE='#'
+  LINUX_FALSE=
+fi
+
+esac
+
+
 
 ac_config_files="$ac_config_files Makefile src/inrimage/Makefile src/lib/Makefile src/xflow/Makefile src/utils/Makefile scripts/Makefile src/Makefile src/img/Makefile src/examples/c/Makefile"
 
@@ -5479,6 +5508,14 @@ Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 if test -z "${BUILD_DOX_TRUE}" && test -z "${BUILD_DOX_FALSE}"; then
   as_fn_error $? "conditional \"BUILD_DOX\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
+if test -z "${LINUX_TRUE}" && test -z "${LINUX_FALSE}"; then
+  as_fn_error $? "conditional \"LINUX\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
+if test -z "${LINUX_TRUE}" && test -z "${LINUX_FALSE}"; then
+  as_fn_error $? "conditional \"LINUX\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 

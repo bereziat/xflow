@@ -79,7 +79,7 @@ int main(int argc, char **argv) {
   char nom[128];
   struct image *nf1, *nf2;
   Fort_int lfmt[9];
-  float *vel, maxmotion;
+  float *vel, maxmotion = 0;
   unsigned char *color;
 
   inr_init( argc, argv, "1.01", "[velocityfile][colorimage] [-m maxmotion]", 

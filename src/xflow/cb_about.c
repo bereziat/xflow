@@ -34,7 +34,7 @@ on_about_activate                     (GtkMenuItem     *menuitem,
       gtk_builder_add_from_file (api->about,
 				 PACKAGE_DATA_DIR "/" PACKAGE "/about.glade", 
 				 &error) == 0 ) {
-    printf("gtk_builder:fatal error:%d:%s\n", error->code, error->message);
+    g_warning("gtk_builder, fatal error num %d:\n** => %s\n", error->code, error->message);
     return;
   }
 

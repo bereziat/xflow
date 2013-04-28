@@ -612,8 +612,10 @@ uninstall-am: uninstall-nobase_includeHEADERS
 	uninstall-am uninstall-nobase_includeHEADERS
 
 
-@BUILD_DOX_TRUE@doc: xflow.doxy doxydoc.c img/main-window.png; doxygen xflow.doxy
+@BUILD_DOX_TRUE@doc: xflow.doxy doxydoc.c img/main-window.png img/xflow-others.png
+@BUILD_DOX_TRUE@	doxygen xflow.doxy
 @BUILD_DOX_TRUE@img/main-window.png: img/main-window.fig; fig2dev -L png $< $@
+@BUILD_DOX_TRUE@img/xflow-others.png: img/xflow-others.fig; fig2dev -L png $< $@
 
 # target reached by 'make install'
 @BUILD_DOX_TRUE@install-data-local: doc
@@ -644,7 +646,7 @@ dist-hook:
 	done 
 
 clean-local:
-	$(RM) -r doc img/main-window.png
+	$(RM) -r doc img/main-window.png img/xflow-others.png
 
 .PHONY: doc
 

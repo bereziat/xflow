@@ -66,7 +66,7 @@ void xflow_api_show_window( XFLOW_API *api) {
       gtk_builder_add_from_file (api->mainwindow, 
 				 PACKAGE_DATA_DIR "/" PACKAGE "/xflow.glade", 
 				 &error) == 0 ) {
-    printf("gtk_builder:fatal error:%d:%s\n", error->code, error->message);
+    g_warning("gtk_builder, fatal error num %d:\n** => %s\n", error->code, error->message);
     exit(error->code);
   }
   gtk_builder_connect_signals (api->mainwindow, api);

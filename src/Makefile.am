@@ -7,8 +7,10 @@ EXTRA_DIST = xflow.doxy doxydoc.c
 nobase_include_HEADERS = inrimage/xflow.h
 
 if BUILD_DOX
-doc: xflow.doxy doxydoc.c img/main-window.png; doxygen xflow.doxy
+doc: xflow.doxy doxydoc.c img/main-window.png img/xflow-others.png
+	doxygen xflow.doxy
 img/main-window.png: img/main-window.fig; fig2dev -L png $< $@
+img/xflow-others.png: img/xflow-others.fig; fig2dev -L png $< $@
 
 # target reached by 'make install'
 install-data-local: doc
@@ -40,6 +42,6 @@ dist-hook:
 	done 
 
 clean-local:
-	$(RM) -r doc img/main-window.png
+	$(RM) -r doc img/main-window.png img/xflow-others.png
 
 .PHONY: doc

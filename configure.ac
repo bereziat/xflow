@@ -62,6 +62,16 @@ AC_FUNC_MALLOC
 AC_FUNC_VPRINTF
 AC_CHECK_FUNCS([floor sqrt strcasecmp strdup strrchr strstr])
 
+# OS specifities
+case `uname -srm` in
+     Linux*)
+     AM_CONDITIONAL(LINUX, true)
+  	;;
+     *)
+     AM_CONDITIONAL(LINUX, false)
+esac
+   
+
 dnl répertoires provisoirement retirés
 dnl scripts/Makefile
 dnl doc/Makefile

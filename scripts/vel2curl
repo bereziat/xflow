@@ -17,7 +17,7 @@ case $1 in
 	;;
 esac
 
-which -s recfilters || perror "Fatal: command recfilters not found"
+which recfilters > /dev/null || perror "Fatal: command recfilters not found"
 
 case $1 in
     -)  cat > $TMP-0.inr ;;
