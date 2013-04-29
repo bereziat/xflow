@@ -1,4 +1,5 @@
 #include <gtk/gtk.h>
+#include <locale.h>
 #include "data.h"
 #include "utils.h"
 #include "api.h"
@@ -69,6 +70,10 @@ int main( int argc, char **argv) {
 
   /* Init Gtk */
   gtk_init (&argc, &argv);
+
+  setlocale( LC_NUMERIC, "C");
+  if(debug) printf("LC_NUMERIC set to '%s'\n", setlocale(LC_NUMERIC,NULL));
+  
   xflow_api_show_window( api);
 
   /* Lire le premier plan des données pour l'affichage */

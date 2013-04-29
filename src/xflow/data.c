@@ -71,8 +71,7 @@ int data_addimage( XFLOW_API *api, char *filename) {
     data->data.image.file = img;
     data->data.image.read = NEW(unsigned char, DIMX*NDIMY);
     data->data.image.buf = NEW(unsigned char,api->wwin*api->hwin*NDIMV);
-        
-    /* Les images sont insérées en début */
+
     data_insert( api, data, 1);
     return 0;    
   } else {    
@@ -112,14 +111,13 @@ int data_addimage( XFLOW_API *api, char *filename) {
     data->data.xflow.arrowstyle = 0;
     data->data.xflow.file = xfl;
     xflow_get_lfmt( xfl, lfmt);
-
+    
     data->data.xflow.buf    = NEW(vel2d,NDIMX*NDIMY);   
     data->data.xflow.magbuf = NEW(unsigned char,NDIMX*NDIMY);
     data->data.xflow.rotbuf = NEW(unsigned char,NDIMX*NDIMY);
     data->data.xflow.divbuf = NEW(unsigned char,NDIMX*NDIMY);
     data->data.xflow.hsvbuf = NEW(unsigned char,3*NDIMX*NDIMY);
     
-    /* Les données sont insérées en fin */
     data_get_settings( api, data);
     data_insert( api, data, 1);  
 
@@ -180,7 +178,7 @@ void data_read( XFLOW_API *api, int z) {
       xflow_read_f_v2d( pd->data.xflow.file, 1, pd->data.xflow.buf);
       xflow_get_dims( pd->data.xflow.file, &w, &h, &d);
       utils_normsup( pd->data.xflow.buf, w*h, &pd->data.xflow.normsup);
-      
+
       utils_mag( pd->data.xflow.buf, pd->data.xflow.magbuf,
 		 w, h, api->wwin, api->hwin, 
 		 &pd->data.xflow.magmin, &pd->data.xflow.magmax);
@@ -218,7 +216,7 @@ void data_free( XFLOW_API *api) {
       DELETE( curr->data.xflow.divbuf);
       DELETE( curr->data.xflow.rotbuf);
       DELETE( curr->data.xflow.hsvbuf);
-      fermnf_( (void*)&curr->data.xflow.file->iuv);
+      xflow_close( curr->data.xflow.file);
       break;
     }
     next=curr->next;
@@ -238,9 +236,52 @@ void data_get_settings( XFLOW_API *api, XFLOW_DATA *pd) {
 
   if( pd->type == DATA_XFLOW) {
     nf = pd->data.xflow.file->iuv;
-    if( igethline( nf, "XFLOW_PARAMS=", 1, buf,64,&dum) >= 0)
-      sscanf( buf, "%d %f %f %f", &api->sample, &api->scale,
-	      &api->thresh, &api->thresh_high);
-    /* IL EN MANQUE */
-  }  
+    if( igethline( nf, "XFLOW_PARAMS=", 1, buf,64,&dum) >= 0) {
+      sscanf( buf, "%d %f %f %f %f %d %d %d %d %d", 
+	      &api->sample, &api->scale, &api->thresh, &api->thresh_high, &api->zoom,
+	      &pd->data.xflow.norma, &pd->data.xflow.smooth,
+	      &pd->data.xflow.arrowcolor, &pd->data.xflow.arrowsize, 
+	      &pd->data.xflow.arrowwidth
+	      );
+      if( debug) printf(" read settings: %s\n", buf);
+    }  
+  }
+}
+
+void data_del_settings( XFLOW_API *api, XFLOW_DATA *pd) {
+  if( pd->type == DATA_XFLOW) {
+    struct image *nf;
+    char buf[256];
+    
+    nf = pd->data.xflow.file->iuv;
+    if( pd->data.xflow.file->iuv->f_type & FL_PIPE)
+      printf("Error: file '%s' is read from stdin, I can not write in its header.\n",
+	     pd->data.xflow.file->iuv->nom);
+    else {
+      printf("%d\n", idelhline( nf, "XFLOW_PARAMS=", 1));
+    }
+  }
+}
+
+void data_set_settings( XFLOW_API *api, XFLOW_DATA *pd) {
+  if( pd->type == DATA_XFLOW) {
+    struct image *nf;
+    char buf[256];
+
+    nf = pd->data.xflow.file->iuv;
+    if( pd->data.xflow.file->iuv->f_type & FL_PIPE)
+      printf("Error: file '%s' is read from stdin, I can not write in its header.\n",
+	     pd->data.xflow.file->iuv->nom);
+    else {
+      sprintf( buf, "%d %.1f %.3f %.3f %.1f %d %d %d %d %d",
+	       api->sample, api->scale, api->thresh, api->thresh_high, api->zoom,
+	       pd->data.xflow.norma, pd->data.xflow.smooth,
+	       pd->data.xflow.arrowcolor, pd->data.xflow.arrowsize, 
+	       pd->data.xflow.arrowwidth);
+      puts(buf);
+      if( irephline( nf, "XFLOW_PARAMS=", 1, buf) < 0)
+	printf("Error: file '%s' has no enough free space in its header to write in.\n",
+	       pd->data.xflow.file->iuv->nom);
+    }
+  }
 }

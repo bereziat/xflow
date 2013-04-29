@@ -984,6 +984,29 @@ void on_vbox4_size_request( ){
 /************************* Menu callbacks ************************************/
 
 void
+on_xflow_main_menu_write_activate            (GtkMenuItem     *menuitem,
+					      gpointer         user_data)
+{
+  XFLOW_API  *api = (XFLOW_API *) user_data;
+  XFLOW_DATA *pd;
+
+  for( pd = api->data; pd; pd=pd->next)
+    data_set_settings( api, pd);
+}
+
+void
+on_xflow_main_menu_clean_activate            (GtkMenuItem     *menuitem,
+					      gpointer         user_data)
+{
+  XFLOW_API  *api = (XFLOW_API *) user_data;
+  XFLOW_DATA *pd;
+
+  for( pd = api->data; pd; pd=pd->next)
+    data_del_settings( api, pd);
+}
+
+
+void
 on_xflow_main_menu_activefield_activate            (GtkMenuItem     *menuitem,
 						    gpointer         user_data)
 {

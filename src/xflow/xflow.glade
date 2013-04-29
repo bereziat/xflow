@@ -90,6 +90,22 @@
                         <property name="use_stock">False</property>
                       </object>
                     </child>
+		    <child>
+		      <object class="GtkMenuItem" id="xflow_main_menu_write">
+			<property name="label">Write in header</property>
+			<property name="visible">True</property>
+                        <accelerator key="W" signal="activate" modifiers="GDK_CONTROL_MASK"/>
+			<signal name="activate" handler="on_xflow_main_menu_write_activate" swapped="no"/>
+		      </object>
+		    </child>
+		    <child>
+		      <object class="GtkMenuItem" id="xflow_main_menu_del">
+			<property name="label">Clean header</property>
+			<property name="visible">True</property>
+                        <accelerator key="D" signal="activate" modifiers="GDK_CONTROL_MASK"/>
+			<signal name="activate" handler="on_xflow_main_menu_clean_activate" swapped="no"/>
+		      </object>
+		    </child>
                     <child>
                       <object class="GtkImageMenuItem" id="xflow_main_menu_export">
                         <property name="label">Export</property>

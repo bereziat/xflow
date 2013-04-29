@@ -78,5 +78,7 @@ void data_insert   ( XFLOW_API *api, XFLOW_DATA *data, int mode);
 void data_free     ( XFLOW_API *api);
 void data_read     ( XFLOW_API *api, int z);
 void data_get_settings( XFLOW_API *api, XFLOW_DATA *pd);
+void data_set_settings( XFLOW_API *api, XFLOW_DATA *pd);
+void data_del_settings( XFLOW_API *api, XFLOW_DATA *pd);
 
 extern int debug;
