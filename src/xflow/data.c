@@ -5,6 +5,7 @@
 #include <assert.h>
 #include "data.h"
 #include "utils.h"
+#include "trajs.h"
 
 /**
  * ajout d'un descripteur de donnée dans la liste
@@ -117,7 +118,9 @@ int data_addimage( XFLOW_API *api, char *filename) {
     data->data.xflow.rotbuf = NEW(unsigned char,NDIMX*NDIMY);
     data->data.xflow.divbuf = NEW(unsigned char,NDIMX*NDIMY);
     data->data.xflow.hsvbuf = NEW(unsigned char,3*NDIMX*NDIMY);
-    
+ 
+    data->data.xflow.trajs = NULL;
+
     data_get_settings( api, data);
     data_insert( api, data, 1);  
 
@@ -217,6 +220,7 @@ void data_free( XFLOW_API *api) {
       DELETE( curr->data.xflow.rotbuf);
       DELETE( curr->data.xflow.hsvbuf);
       xflow_close( curr->data.xflow.file);
+      if( curr->data.xflow.trajs) trajs_free( curr->data.xflow.trajs);
       break;
     }
     next=curr->next;

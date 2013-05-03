@@ -30,7 +30,7 @@ on_about_activate                     (GtkMenuItem     *menuitem,
 
   api->about = gtk_builder_new();
   
-  if( gtk_builder_add_from_file (api->about, "about.glade", NULL) == 0 &&
+  if( gtk_builder_add_from_file (api->about, "about.glade", &error) == 0 &&
       gtk_builder_add_from_file (api->about,
 				 PACKAGE_DATA_DIR "/" PACKAGE "/about.glade", 
 				 &error) == 0 ) {

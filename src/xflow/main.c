@@ -5,6 +5,7 @@
 #include "api.h"
 
 int debug = 0;
+int with_trajs = 0;
 
 static char usage[]  = "[options|--help|--version] images";
 static char detail[] = "images can be a list of any INRIMAGE file or XFLOW2 image.\n\
@@ -44,6 +45,8 @@ int main( int argc, char **argv) {
   }
   debug = igetopt0( "-d");
 
+  with_trajs = igetopt0("-wt"); /* with trajectories */
+
   /* Init api & chargement des images */
   api = xflow_api_new();
 
@@ -75,6 +78,7 @@ int main( int argc, char **argv) {
   if(debug) printf("LC_NUMERIC set to '%s'\n", setlocale(LC_NUMERIC,NULL));
   
   xflow_api_show_window( api);
+  xflow_api_set_title( api);
 
   /* Lire le premier plan des données pour l'affichage */
   data_read( api, 1);

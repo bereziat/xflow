@@ -188,7 +188,7 @@
                       <object class="GtkRadioMenuItem" id="xflow_main_menu_view_mag">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="label">View magnetude</property>
+                        <property name="label">View magnitude</property>
                         <property name="group">xflow_main_menu_view_vectors</property>
                         <accelerator key="M" signal="activate"/>
                         <signal name="activate" handler="on_xflow_main_menu_view_mag_activate" swapped="no"/>
@@ -366,7 +366,7 @@
                                 <property name="can_focus">False</property>
                                 <property name="label" translatable="yes">Small</property>
                                 <property name="use_underline">True</property>
-                                <accelerator key="F9" signal="activate"/>
+                                <accelerator key="F1" modifiers="GDK_CONTROL_MASK" signal="activate"/>
                                 <signal name="activate" handler="on_xflow_main_menu_size_activate" swapped="no"/>
                               </object>
                             </child>
@@ -378,7 +378,7 @@
                                 <property name="use_underline">True</property>
                                 <property name="active">True</property>
                                 <property name="group">small</property>
-                                <accelerator key="F10" signal="activate"/>
+                                <accelerator key="F2" modifiers="GDK_CONTROL_MASK" signal="activate"/>
                                 <signal name="activate" handler="on_xflow_main_menu_size_activate" swapped="no"/>
                               </object>
                             </child>
@@ -389,7 +389,7 @@
                                 <property name="label" translatable="yes">Large</property>
                                 <property name="use_underline">True</property>
                                 <property name="group">small</property>
-                                <accelerator key="F11" signal="activate"/>
+                                <accelerator key="F3" modifiers="GDK_CONTROL_MASK" signal="activate"/>
                                 <signal name="activate" handler="on_xflow_main_menu_size_activate" swapped="no"/>
                               </object>
                             </child>
@@ -400,7 +400,7 @@
                                 <property name="label" translatable="yes">Big</property>
                                 <property name="use_underline">True</property>
                                 <property name="group">small</property>
-                                <accelerator key="F12" signal="activate"/>
+                                <accelerator key="F4" modifiers="GDK_CONTROL_MASK" signal="activate"/>
                                 <signal name="activate" handler="on_xflow_main_menu_size_activate" swapped="no"/>
                               </object>
                             </child>
@@ -423,7 +423,7 @@
                                 <property name="can_focus">False</property>
                                 <property name="label" translatable="yes">Thin</property>
                                 <property name="active">True</property>
-                                <accelerator key="1" signal="activate"/>
+                                <accelerator key="F5" modifiers="GDK_CONTROL_MASK" signal="activate"/>
                                 <signal name="activate" handler="on_xflow_main_menu_width_activate" swapped="no"/>
                               </object>
                             </child>
@@ -433,7 +433,7 @@
                                 <property name="can_focus">False</property>
                                 <property name="label" translatable="yes">Normal</property>
                                 <property name="group">1</property>
-                                <accelerator key="2" signal="activate"/>
+                                <accelerator key="F6" modifiers="GDK_CONTROL_MASK" signal="activate"/>
                                 <signal name="activate" handler="on_xflow_main_menu_width_activate" swapped="no"/>
                               </object>
                             </child>
@@ -444,7 +444,7 @@
                                 <property name="label" translatable="yes">Thick</property>
                                 <property name="use_underline">True</property>
                                 <property name="group">1</property>
-                                <accelerator key="3" signal="activate"/>
+                                <accelerator key="F7" modifiers="GDK_CONTROL_MASK" signal="activate"/>
                                 <signal name="activate" handler="on_xflow_main_menu_width_activate" swapped="no"/>
                               </object>
                             </child>
@@ -473,6 +473,7 @@
                         <property name="can_focus">False</property>
                         <property name="image">image5</property>
                         <property name="use_stock">False</property>
+			<accelerator key="A" modifiers="GDK_CONTROL_MASK" signal="activate"/>
                         <signal name="activate" handler="on_about_activate" swapped="no"/>
                       </object>
                     </child>

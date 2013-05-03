@@ -8,8 +8,8 @@
 
 #include "data.h"
 #include "utils.h"
+#include "trajs.h"
 
-/* @FIXME: regrouper les callbacks par objet et non pas par type */
 
 void
 on_xflow_main_destroy            (GtkObject       *object,
@@ -259,9 +259,7 @@ static void draw_vectors( XFLOW_API *api, GtkWidget *widget, XFLOW_DATA *pd) {
 		      pd->data.xflow.arrowstyle);
 
       }      
-    }      
-  
-  
+    }  
 }
 
 gboolean
@@ -312,8 +310,10 @@ on_xflow_main_vectors_draw_expose_event        (GtkWidget       *widget,
     }
   }
   for( pd = api->data; pd; pd  = pd->next)
-    if( pd->type == DATA_XFLOW && pd->data.xflow.hide == 0) 
+    if( pd->type == DATA_XFLOW && pd->data.xflow.hide == 0) {
       draw_vectors( api, widget, pd);
+      trajs_draw( api, widget, pd);
+    }
 
   return FALSE;
 }
@@ -327,7 +327,7 @@ void vectors_notify (int evx, int evy, char notify[], int len, XFLOW_API *api) {
 
   /* Toutes les images ont la même taille en dimx et dimy (voir xflow_api_addimage) */
   x = (int)(evx * (float)api->wimg/(float)api->wwin);
-  y = (int)(evy * (float)api->himg/(float)api->hwin);  
+  y = (int)(evy * (float)api->himg/(float)api->hwin);
   if( x<0 || x >= api->wimg || y<0 || y>api->himg)
     sprintf( notify,  "-x %d -y %d -z %d <out of range> ", x+1,y+1,api->zpos);
   else {
@@ -355,15 +355,48 @@ on_xflow_main_vectors_draw_motion_notify_event   (GtkWidget       *widget,
   return FALSE;
 }
 
+extern int with_trajs;
 gboolean
 on_xflow_main_vectors_draw_button_press_event    (GtkWidget       *widget,
 						  GdkEventButton  *event,
 						  gpointer         user_data)
 {
   char notify[256];
-  if( event->button == 3) {
-    vectors_notify( event->x, event->y, notify, 256, (XFLOW_API*)user_data);
+  XFLOW_API *api = (XFLOW_API*) user_data;
+  XFLOW_DATA *pd;
+
+  switch( event->button) {
+  case 1:
+    if( with_trajs) {
+    puts("Trajectories");
+    for( pd = api->data; pd; pd=pd->next) 
+      if( pd->type == DATA_XFLOW) {
+	int x, y;
+	
+	x = (int)(event->x * (float)api->wimg/(float)api->wwin);
+	y = (int)(event->y * (float)api->himg/(float)api->hwin);  
+	
+	if( x<0 || y<0 || x>=api->wimg || y>api->himg) 
+	  printf( "* %d %d : <out of range>\n", x+1, y+1);
+	else {
+	  printf( "* start with %d %d\n", x, y);
+	  printf( "*trajs_add returns %d\n", 
+		  trajs_add( pd, x, y, api->zpos, 1 /* FIXME */, 2 /* FIXME */));
+	  trajs_print( pd);
+	  
+	  /* force xflow to read again the current frame */
+	  api->zpos ++;
+	  data_read( api, api->zpos-1);
+
+	  xflow_api_refresh_drawing_areas( api);
+	}
+      }
+    }
+    break;
+  case 3:
+    vectors_notify( event->x, event->y, notify, 256, api);
     printf( "%s\n", notify);
+    break;
   }
   return FALSE;
 }
@@ -1019,9 +1052,11 @@ on_xflow_main_menu_activefield_activate            (GtkMenuItem     *menuitem,
       char *n = g_path_get_basename(pd->data.xflow.file->iuv->nom);
       if( strcmp( n, gtk_menu_item_get_label(menuitem)) == 0) {
 	GtkWidget *win = lookup_widget( api->mainwindow, "xflow_main");
-	gtk_window_set_title( GTK_WINDOW(win), n);
+	// gtk_window_set_title( GTK_WINDOW(win), n);
 	api->active = pd;
+	xflow_api_set_title( api);
 	xflow_api_refresh_drawing_areas( api);	
+	break;
       }
     }
   }  
@@ -1041,7 +1076,9 @@ on_xflow_main_menu_activebg_activate            (GtkMenuItem     *menuitem,
       if( strcmp( n, gtk_menu_item_get_label(menuitem)) == 0) {
 	GtkWidget *win = lookup_widget( api->mainwindow, "xflow_main");
 	api->background = pd;
+	xflow_api_set_title( api);
 	xflow_api_refresh_drawing_areas( api);	
+	break;
       }
     }
   }  
@@ -1100,7 +1137,7 @@ on_xflow_main_menu_previous_activate                  (GtkMenuItem     *menuitem
   GtkAdjustment *adj = gtk_range_get_adjustment( GTK_RANGE(widget));
   int value = (int) adj->value;
   
-  value = (value > 1)?(value-1):1;  
+  value = (value > 0)?(value-1):adj->upper-1;  
   gtk_adjustment_set_value( adj, value);
   on_xflow_main_zscroll_value_changed ( GTK_RANGE(widget), user_data);  
 }

@@ -10,9 +10,8 @@ xflow_SOURCES = xflow.glade main.c api.c api.h \
 		cb_export.c cb_about.c cb_mainwindow.c \
 		data.c data.h utils.c utils.h \
 		middlebury.c middlebury.h  \
-		lecscrn.c lecscrn.h
-#               cb_prefs.c
-#		trajs.c (pas encore)
+		lecscrn.c lecscrn.h \
+		trajs.c trajs.h
 
 xflow_CFLAGS = -g
 xflow_LDADD = @PACKAGE_LIBS@ ../lib/libxflow.a

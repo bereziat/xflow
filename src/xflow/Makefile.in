@@ -72,7 +72,7 @@ am_xflow_OBJECTS = xflow-main.$(OBJEXT) xflow-api.$(OBJEXT) \
 	xflow-cb_export.$(OBJEXT) xflow-cb_about.$(OBJEXT) \
 	xflow-cb_mainwindow.$(OBJEXT) xflow-data.$(OBJEXT) \
 	xflow-utils.$(OBJEXT) xflow-middlebury.$(OBJEXT) \
-	xflow-lecscrn.$(OBJEXT)
+	xflow-lecscrn.$(OBJEXT) xflow-trajs.$(OBJEXT)
 xflow_OBJECTS = $(am_xflow_OBJECTS)
 xflow_DEPENDENCIES = ../lib/libxflow.a
 xflow_LINK = $(CCLD) $(xflow_CFLAGS) $(CFLAGS) $(xflow_LDFLAGS) \
@@ -269,10 +269,9 @@ xflow_SOURCES = xflow.glade main.c api.c api.h \
 		cb_export.c cb_about.c cb_mainwindow.c \
 		data.c data.h utils.c utils.h \
 		middlebury.c middlebury.h  \
-		lecscrn.c lecscrn.h
+		lecscrn.c lecscrn.h \
+		trajs.c trajs.h
 
-#               cb_prefs.c
-#		trajs.c (pas encore)
 xflow_CFLAGS = -g
 xflow_LDADD = @PACKAGE_LIBS@ ../lib/libxflow.a
 # ce flag permet à gmodule de lire la table des symboles de l'application
@@ -381,6 +380,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/xflow-lecscrn.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/xflow-main.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/xflow-middlebury.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/xflow-trajs.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/xflow-utils.Po@am__quote@
 
 .c.o:
@@ -522,6 +522,20 @@ xflow-lecscrn.obj: lecscrn.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='lecscrn.c' object='xflow-lecscrn.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xflow_CFLAGS) $(CFLAGS) -c -o xflow-lecscrn.obj `if test -f 'lecscrn.c'; then $(CYGPATH_W) 'lecscrn.c'; else $(CYGPATH_W) '$(srcdir)/lecscrn.c'; fi`
+
+xflow-trajs.o: trajs.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xflow_CFLAGS) $(CFLAGS) -MT xflow-trajs.o -MD -MP -MF $(DEPDIR)/xflow-trajs.Tpo -c -o xflow-trajs.o `test -f 'trajs.c' || echo '$(srcdir)/'`trajs.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/xflow-trajs.Tpo $(DEPDIR)/xflow-trajs.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='trajs.c' object='xflow-trajs.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xflow_CFLAGS) $(CFLAGS) -c -o xflow-trajs.o `test -f 'trajs.c' || echo '$(srcdir)/'`trajs.c
+
+xflow-trajs.obj: trajs.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xflow_CFLAGS) $(CFLAGS) -MT xflow-trajs.obj -MD -MP -MF $(DEPDIR)/xflow-trajs.Tpo -c -o xflow-trajs.obj `if test -f 'trajs.c'; then $(CYGPATH_W) 'trajs.c'; else $(CYGPATH_W) '$(srcdir)/trajs.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/xflow-trajs.Tpo $(DEPDIR)/xflow-trajs.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='trajs.c' object='xflow-trajs.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(xflow_CFLAGS) $(CFLAGS) -c -o xflow-trajs.obj `if test -f 'trajs.c'; then $(CYGPATH_W) 'trajs.c'; else $(CYGPATH_W) '$(srcdir)/trajs.c'; fi`
 install-nobase_pkgdataDATA: $(nobase_pkgdata_DATA)
 	@$(NORMAL_INSTALL)
 	@list='$(nobase_pkgdata_DATA)'; test -n "$(pkgdatadir)" || list=; \

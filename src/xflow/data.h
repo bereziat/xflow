@@ -1,5 +1,5 @@
 /*
- * xflow - (c) 2005 Dominique Bereziat 
+ * xflow - (c) 2013 Dominique Bereziat 
  */
 
 #include <gtk/gtk.h>
@@ -46,6 +46,8 @@ typedef struct xflow_data {
       float rotmin, rotmax;
       unsigned char *hsvbuf;
       float hsv_sat;
+
+      GSList *trajs;    /* trajectoires! */ 
     } xflow;
   } data;
   struct xflow_data *next;
@@ -66,7 +68,6 @@ typedef struct xflow_api {
   XFLOW_DATA *data;   ///> Liste des images
   XFLOW_DATA *background;   ///> Image d'arriere plan courant
   XFLOW_DATA *active;  ///> Champs de vecteurs courant  @TODO
-  GList *trajs;    /* trajectoires affichées dans la fenêtre */ 
 } XFLOW_API;
 
 

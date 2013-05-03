@@ -18,7 +18,7 @@ void xflow_api_set_global( XFLOW_API *api, int mode, float val);
 void xflow_api_show_window( XFLOW_API *api);
 void xflow_api_update_widget( XFLOW_API *api);
 void xflow_api_refresh_drawing_areas( XFLOW_API *api);
-
+void xflow_api_set_title( XFLOW_API *api);
 
 
 /* callbacks non définies par Glade */

@@ -32,7 +32,6 @@ XFLOW_API *xflow_api_new( void) {
 
   api -> background = NULL;
   api -> active = NULL;
-  api -> trajs = NULL;
   api -> zoom = 1;
    
   return api;
@@ -61,8 +60,8 @@ void xflow_api_show_window( XFLOW_API *api) {
   GError *error = NULL;
 
   api->mainwindow = gtk_builder_new();
-  
-  if( gtk_builder_add_from_file (api->mainwindow, "xflow.glade", NULL) == 0 &&
+
+  if( gtk_builder_add_from_file (api->mainwindow, "xflow.glade", &error) == 0 &&
       gtk_builder_add_from_file (api->mainwindow, 
 				 PACKAGE_DATA_DIR "/" PACKAGE "/xflow.glade", 
 				 &error) == 0 ) {
@@ -82,7 +81,7 @@ void xflow_api_show_window( XFLOW_API *api) {
       break;
     }
   }
-  gtk_window_set_title( GTK_WINDOW(window), name);  
+
   gtk_widget_show( GTK_WIDGET(window));
 
   /* background image */
@@ -102,6 +101,8 @@ void xflow_api_show_window( XFLOW_API *api) {
   /* Build the menu Select */
   GtkWidget *menu = lookup_widget( api->mainwindow, "xflow_main_menu_select");
   GSList *group = NULL;
+  GtkAccelGroup *accel = gtk_accel_group_new();
+  int iter = 0;
   for( data=api->data; data; data=data->next) {
     if( data->type == DATA_IMAGE) {
       char *p = g_path_get_basename(data->data.image.file->nom);
@@ -113,10 +114,14 @@ void xflow_api_show_window( XFLOW_API *api) {
       g_signal_connect ((gpointer) menusubitem, "activate",
 			G_CALLBACK (on_xflow_main_menu_activebg_activate),
 			api);
+      gtk_widget_add_accelerator ( menusubitem, "activate", accel, 
+				   gdk_keyval_from_name ("1") + iter ++,
+				   (GdkModifierType) GDK_CONTROL_MASK, GTK_ACCEL_VISIBLE);
     }
   }
 
   if(api->active) {
+    iter = 0;
     int first = 1;
     if( group) {
       GtkWidget *sep = gtk_separator_menu_item_new();
@@ -134,6 +139,9 @@ void xflow_api_show_window( XFLOW_API *api) {
 	g_signal_connect ((gpointer) menusubitem, "activate",
 			  G_CALLBACK (on_xflow_main_menu_activefield_activate),
 			  api);
+	gtk_widget_add_accelerator ( menusubitem, "activate", accel, 
+				     gdk_keyval_from_name ("1") + iter ++,
+				     (GdkModifierType) 0, GTK_ACCEL_VISIBLE);
 	if( first) {
 	  gtk_check_menu_item_set_active( GTK_CHECK_MENU_ITEM(menusubitem), TRUE);
 	  first = 0;
@@ -142,9 +150,9 @@ void xflow_api_show_window( XFLOW_API *api) {
       }	
     }
   }
+  gtk_window_add_accel_group( GTK_WINDOW(window), accel);
 
-
-  /* list of vector fields in the Vectors Notebook */
+  /* list of vector fields in the Vectors Notebook left pane */
   for( data=api->data; data; data=data->next) {
     if( data->type == DATA_XFLOW) {
       char *g = g_path_get_basename(data->data.xflow.file->iuv->nom);
@@ -180,7 +188,6 @@ void xflow_api_show_window( XFLOW_API *api) {
     */
 
   }
-
 
   /* Création d'un contexte graphique pour dessiner dans les drawing areas */
   {
@@ -303,4 +310,23 @@ void xflow_api_refresh_drawing_areas( XFLOW_API *api) {
   gtk_widget_queue_draw( lookup_widget(api->mainwindow, "xflow_main_curl_draw"));
   gtk_widget_queue_draw( lookup_widget(api->mainwindow, "xflow_main_curl_legend"));
   gtk_widget_queue_draw( lookup_widget(api->mainwindow, "xflow_main_hsv_draw"));
+}
+
+void xflow_api_set_title( XFLOW_API *api) {
+  GtkWidget *win = lookup_widget( api->mainwindow, "xflow_main");
+  char title[256];
+  if( api->active) {
+    char *n = g_path_get_basename(api->active->data.xflow.file->iuv->nom);
+    
+    sprintf( title, "%s", n);
+    if( api->background) {
+      n = g_path_get_basename(api->background->data.image.file->nom);
+      sprintf( title, "%s (%s)", title, n);
+    } 
+  } else if ( api->background) {
+    char *n = g_path_get_basename(api->background->data.image.file->nom);
+    sprintf( title, "%s", n);
+  } else 
+    strcpy( title, "no name");
+  gtk_window_set_title( GTK_WINDOW(win), title);
 }
