@@ -1,19 +1,18 @@
 # Makefile for compile xflow displayer.
-# (c) 2002-2006 D.Béréziat
-# $Id: Makefile.am,v 1.7 2009/06/02 20:34:30 bereziat Exp $
+# (c) 2013 D.Béréziat
 
 AM_CPPFLAGS = -I.. @PACKAGE_CFLAGS@ \
 	      -DPACKAGE_DATA_DIR=\""$(datadir)"\"
 
 bin_PROGRAMS = xflow
-xflow_SOURCES = xflow.glade main.c api.c api.h \
+xflow_SOURCES = main.c api.c api.h \
 		cb_export.c cb_about.c cb_mainwindow.c \
 		data.c data.h utils.c utils.h \
 		middlebury.c middlebury.h  \
 		lecscrn.c lecscrn.h \
 		trajs.c trajs.h
 
-xflow_CFLAGS = -g
+xflow_CFLAGS = -O2
 xflow_LDADD = @PACKAGE_LIBS@ ../lib/libxflow.a
 if LINUX
 # ce flag permet à gmodule de lire la table des symboles de l'application

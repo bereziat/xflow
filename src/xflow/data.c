@@ -45,7 +45,7 @@ static int test_dims( XFLOW_API *api, int dimx, int dimy) {
  * retourne :
  *  -3: erreur: dimensions dimx, dimy, incompatibles
  *  -2: erreur, filename n'est pas une image valide.
- * @FIXME -1: erreur, image déjà chargée. 
+ * @TODO -1: erreur, image déjà chargée. 
  *   0: filename est une image de fond.
  *   1: filename est un champ de vecteurs.
  */ 

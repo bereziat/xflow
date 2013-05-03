@@ -22,6 +22,49 @@
     <property name="can_focus">False</property>
     <property name="stock">gtk-about</property>
   </object>
+
+  <object class="GtkImage" id="arrow0">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="pixbuf">pixmaps/arrow0.png</property>
+  </object>
+
+  <object class="GtkImage" id="arrow1">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="pixbuf">pixmaps/arrow1.png</property>
+  </object>
+
+  <object class="GtkImage" id="arrow2">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="pixbuf">pixmaps/arrow2.png</property>
+  </object>
+
+  <object class="GtkImage" id="arrow3">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="pixbuf">pixmaps/arrow3.png</property>
+  </object>
+
+  <object class="GtkImage" id="arrow4">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="pixbuf">pixmaps/arrow4.png</property>
+  </object>
+
+  <object class="GtkImage" id="arrow5">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="pixbuf">pixmaps/arrow5.png</property>
+  </object>
+
+  <object class="GtkImage" id="arrow6">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="pixbuf">pixmaps/arrow6.png</property>
+  </object>
+
   <object class="GtkListStore" id="liststore1">
     <columns>
       <!-- column-name GtkButtonsType1 -->
@@ -408,6 +451,7 @@
                         </child>
                       </object>
                     </child>
+		    
                     <child>
                       <object class="GtkMenuItem" id="xflow_main_menu_vector_widths">
                         <property name="visible">True</property>
@@ -452,6 +496,75 @@
                         </child>
                       </object>
                     </child>
+
+		    <child>
+		      <object class="GtkMenuItem" id="xflow_main_menu_vectors_style">
+			<property name="visible">True</property>
+			<property name="can_focus">False</property>
+			<property name="label" translatable="yes">Arrow style</property>
+			<child type="submenu">
+			  <object class="GtkMenu" id="group_styles">
+			    <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+			    <child>
+                              <object class="GtkImageMenuItem" id="style0">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="label" translatable="yes">*</property>
+                                <property name="image">arrow0</property>    
+                                <signal name="activate" handler="on_xflow_main_menu_style_activate" swapped="no"/>
+                              </object>
+			    </child>
+			    <child>
+                              <object class="GtkImageMenuItem" id="style1">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="label" translatable="yes"></property>
+                                <property name="image">arrow1</property>    
+                                <signal name="activate" handler="on_xflow_main_menu_style_activate" swapped="no"/>
+                              </object>
+			    </child>
+			    <child>
+                              <object class="GtkImageMenuItem" id="style2">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="label" translatable="yes"></property>
+                                <property name="image">arrow2</property>    
+                                <signal name="activate" handler="on_xflow_main_menu_style_activate" swapped="no"/>
+                              </object>
+			    </child>
+			    <child>
+                              <object class="GtkImageMenuItem" id="style3">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="label" translatable="yes"></property>
+                                <property name="image">arrow3</property>    
+                                <signal name="activate" handler="on_xflow_main_menu_style_activate" swapped="no"/>
+                              </object>
+			    </child>
+			    <child>
+                              <object class="GtkImageMenuItem" id="style4">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="label" translatable="yes"></property>
+                                <property name="image">arrow4</property>    
+                                <signal name="activate" handler="on_xflow_main_menu_style_activate" swapped="no"/>
+                              </object>
+			    </child>
+			    <child>
+                              <object class="GtkImageMenuItem" id="style5">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="label" translatable="yes"></property>
+                                <property name="image">arrow5</property>    
+                                <signal name="activate" handler="on_xflow_main_menu_style_activate" swapped="no"/>
+                              </object>
+			    </child>
+			  </object>
+			</child>
+		      </object>
+		    </child>
+
                   </object>
                 </child>
               </object>

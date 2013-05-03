@@ -1056,6 +1056,7 @@ on_xflow_main_menu_activefield_activate            (GtkMenuItem     *menuitem,
 	api->active = pd;
 	xflow_api_set_title( api);
 	xflow_api_refresh_drawing_areas( api);	
+	xflow_api_update_menu( api);
 	break;
       }
     }
@@ -1110,6 +1111,26 @@ on_xflow_main_menu_size_activate                    (GtkMenuItem     *menuitem,
     api->active->data.xflow.arrowsize = i;
     xflow_api_refresh_drawing_areas (api);
   }
+}
+
+void
+on_xflow_main_menu_style_activate                    (GtkMenuItem     *menuitem,
+						     gpointer         user_data)
+{
+  XFLOW_API *api = (XFLOW_API *)user_data;
+  GtkWidget *widget;
+  char label[] = "stylex";
+  int i;
+  
+  for( i=0; i<6; i++) {
+    label[5] = '0'+i;
+    widget = lookup_widget( api->mainwindow, label);
+    gtk_menu_item_set_label( GTK_MENU_ITEM(widget), "");
+    if( widget == GTK_WIDGET(menuitem))
+	api->active->data.xflow.arrowstyle = i;
+  }
+  gtk_menu_item_set_label( menuitem, "*");
+  xflow_api_refresh_drawing_areas (api);
 }
 
 void

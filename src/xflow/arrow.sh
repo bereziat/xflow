@@ -15,6 +15,6 @@ Single
 	$a 0 1.00 60.00 120.00
 	 1260 3870 1395 4050
 EOF
-    fig2dev -L png -m 2 tmp.fig > arrow$a.png 
+    fig2dev -L png -m 1.5 tmp.fig > arrow$a.png 
 done
 rm -f tmp.fig

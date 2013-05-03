@@ -1,7 +1,7 @@
 /**
  * Fonctions pour l'API xflow
  */
-#include <config.h>  /* Pour la macro PACKAGE */
+#include <config.h>  /* Uniquement pour la macro PACKAGE */
 #include <stdlib.h>
 #include <math.h>
 #include "data.h"
@@ -287,8 +287,30 @@ void xflow_api_update_widget( XFLOW_API *api) {
   //  gtk_adjustment_changed( adj);
   gtk_adjustment_set_upper (adj,api->zmax);
 }
-  
 
+/* Mise a jour du menu Vectors */
+void xflow_api_update_menu( XFLOW_API *api) {
+  if( api->active) {
+    GtkWidget *widget;
+    char lab[10]=" ";
+    void on_xflow_main_menu_style_activate( GtkMenuItem *, gpointer);
+
+    widget = lookup_widget( api->mainwindow, color_name( api->active->data.xflow.arrowcolor));
+    gtk_check_menu_item_set_active( GTK_CHECK_MENU_ITEM(widget), TRUE);
+
+    widget = lookup_widget( api->mainwindow, size_name( api->active->data.xflow.arrowsize));
+    gtk_check_menu_item_set_active( GTK_CHECK_MENU_ITEM(widget), TRUE);
+    
+    *lab = '0' + api->active->data.xflow.arrowwidth;
+    widget = lookup_widget( api->mainwindow, lab);
+    gtk_check_menu_item_set_active( GTK_CHECK_MENU_ITEM(widget), TRUE);
+
+    strcpy( lab, "style ");
+    lab[5] = '0' + api->active->data.xflow.arrowstyle;
+    widget = lookup_widget( api->mainwindow, lab);
+    on_xflow_main_menu_style_activate( GTK_MENU_ITEM(widget), api);
+  }
+}
 
 void xflow_api_refresh_drawing_areas( XFLOW_API *api) {
   XFLOW_DATA *pd;

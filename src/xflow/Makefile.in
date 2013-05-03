@@ -265,7 +265,7 @@ top_srcdir = @top_srcdir@
 AM_CPPFLAGS = -I.. @PACKAGE_CFLAGS@ \
 	      -DPACKAGE_DATA_DIR=\""$(datadir)"\"
 
-xflow_SOURCES = xflow.glade main.c api.c api.h \
+xflow_SOURCES = main.c api.c api.h \
 		cb_export.c cb_about.c cb_mainwindow.c \
 		data.c data.h utils.c utils.h \
 		middlebury.c middlebury.h  \
