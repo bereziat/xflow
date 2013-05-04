@@ -2,6 +2,41 @@
 <interface>
   <requires lib="gtk+" version="2.20"/>
   <!-- interface-naming-policy project-wide -->
+  <object class="GtkImage" id="arrow0">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="pixbuf">pixmaps/arrow0.png</property>
+  </object>
+  <object class="GtkImage" id="arrow1">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="pixbuf">pixmaps/arrow1.png</property>
+  </object>
+  <object class="GtkImage" id="arrow2">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="pixbuf">pixmaps/arrow2.png</property>
+  </object>
+  <object class="GtkImage" id="arrow3">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="pixbuf">pixmaps/arrow3.png</property>
+  </object>
+  <object class="GtkImage" id="arrow4">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="pixbuf">pixmaps/arrow4.png</property>
+  </object>
+  <object class="GtkImage" id="arrow5">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="pixbuf">pixmaps/arrow5.png</property>
+  </object>
+  <object class="GtkImage" id="arrow6">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="pixbuf">pixmaps/arrow6.png</property>
+  </object>
   <object class="GtkImage" id="image1">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
@@ -22,49 +57,6 @@
     <property name="can_focus">False</property>
     <property name="stock">gtk-about</property>
   </object>
-
-  <object class="GtkImage" id="arrow0">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="pixbuf">pixmaps/arrow0.png</property>
-  </object>
-
-  <object class="GtkImage" id="arrow1">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="pixbuf">pixmaps/arrow1.png</property>
-  </object>
-
-  <object class="GtkImage" id="arrow2">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="pixbuf">pixmaps/arrow2.png</property>
-  </object>
-
-  <object class="GtkImage" id="arrow3">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="pixbuf">pixmaps/arrow3.png</property>
-  </object>
-
-  <object class="GtkImage" id="arrow4">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="pixbuf">pixmaps/arrow4.png</property>
-  </object>
-
-  <object class="GtkImage" id="arrow5">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="pixbuf">pixmaps/arrow5.png</property>
-  </object>
-
-  <object class="GtkImage" id="arrow6">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="pixbuf">pixmaps/arrow6.png</property>
-  </object>
-
   <object class="GtkListStore" id="liststore1">
     <columns>
       <!-- column-name GtkButtonsType1 -->
@@ -133,22 +125,24 @@
                         <property name="use_stock">False</property>
                       </object>
                     </child>
-		    <child>
-		      <object class="GtkMenuItem" id="xflow_main_menu_write">
-			<property name="label">Write in header</property>
-			<property name="visible">True</property>
+                    <child>
+                      <object class="GtkMenuItem" id="xflow_main_menu_write">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="label">Write in header</property>
                         <accelerator key="W" signal="activate" modifiers="GDK_CONTROL_MASK"/>
-			<signal name="activate" handler="on_xflow_main_menu_write_activate" swapped="no"/>
-		      </object>
-		    </child>
-		    <child>
-		      <object class="GtkMenuItem" id="xflow_main_menu_del">
-			<property name="label">Clean header</property>
-			<property name="visible">True</property>
+                        <signal name="activate" handler="on_xflow_main_menu_write_activate" swapped="no"/>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkMenuItem" id="xflow_main_menu_del">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="label">Clean header</property>
                         <accelerator key="D" signal="activate" modifiers="GDK_CONTROL_MASK"/>
-			<signal name="activate" handler="on_xflow_main_menu_clean_activate" swapped="no"/>
-		      </object>
-		    </child>
+                        <signal name="activate" handler="on_xflow_main_menu_clean_activate" swapped="no"/>
+                      </object>
+                    </child>
                     <child>
                       <object class="GtkImageMenuItem" id="xflow_main_menu_export">
                         <property name="label">Export</property>
@@ -409,7 +403,7 @@
                                 <property name="can_focus">False</property>
                                 <property name="label" translatable="yes">Small</property>
                                 <property name="use_underline">True</property>
-                                <accelerator key="F1" modifiers="GDK_CONTROL_MASK" signal="activate"/>
+                                <accelerator key="F1" signal="activate" modifiers="GDK_CONTROL_MASK"/>
                                 <signal name="activate" handler="on_xflow_main_menu_size_activate" swapped="no"/>
                               </object>
                             </child>
@@ -421,7 +415,7 @@
                                 <property name="use_underline">True</property>
                                 <property name="active">True</property>
                                 <property name="group">small</property>
-                                <accelerator key="F2" modifiers="GDK_CONTROL_MASK" signal="activate"/>
+                                <accelerator key="F2" signal="activate" modifiers="GDK_CONTROL_MASK"/>
                                 <signal name="activate" handler="on_xflow_main_menu_size_activate" swapped="no"/>
                               </object>
                             </child>
@@ -432,7 +426,7 @@
                                 <property name="label" translatable="yes">Large</property>
                                 <property name="use_underline">True</property>
                                 <property name="group">small</property>
-                                <accelerator key="F3" modifiers="GDK_CONTROL_MASK" signal="activate"/>
+                                <accelerator key="F3" signal="activate" modifiers="GDK_CONTROL_MASK"/>
                                 <signal name="activate" handler="on_xflow_main_menu_size_activate" swapped="no"/>
                               </object>
                             </child>
@@ -443,7 +437,7 @@
                                 <property name="label" translatable="yes">Big</property>
                                 <property name="use_underline">True</property>
                                 <property name="group">small</property>
-                                <accelerator key="F4" modifiers="GDK_CONTROL_MASK" signal="activate"/>
+                                <accelerator key="F4" signal="activate" modifiers="GDK_CONTROL_MASK"/>
                                 <signal name="activate" handler="on_xflow_main_menu_size_activate" swapped="no"/>
                               </object>
                             </child>
@@ -451,7 +445,6 @@
                         </child>
                       </object>
                     </child>
-		    
                     <child>
                       <object class="GtkMenuItem" id="xflow_main_menu_vector_widths">
                         <property name="visible">True</property>
@@ -467,7 +460,7 @@
                                 <property name="can_focus">False</property>
                                 <property name="label" translatable="yes">Thin</property>
                                 <property name="active">True</property>
-                                <accelerator key="F5" modifiers="GDK_CONTROL_MASK" signal="activate"/>
+                                <accelerator key="F5" signal="activate" modifiers="GDK_CONTROL_MASK"/>
                                 <signal name="activate" handler="on_xflow_main_menu_width_activate" swapped="no"/>
                               </object>
                             </child>
@@ -477,7 +470,7 @@
                                 <property name="can_focus">False</property>
                                 <property name="label" translatable="yes">Normal</property>
                                 <property name="group">1</property>
-                                <accelerator key="F6" modifiers="GDK_CONTROL_MASK" signal="activate"/>
+                                <accelerator key="F6" signal="activate" modifiers="GDK_CONTROL_MASK"/>
                                 <signal name="activate" handler="on_xflow_main_menu_width_activate" swapped="no"/>
                               </object>
                             </child>
@@ -488,7 +481,7 @@
                                 <property name="label" translatable="yes">Thick</property>
                                 <property name="use_underline">True</property>
                                 <property name="group">1</property>
-                                <accelerator key="F7" modifiers="GDK_CONTROL_MASK" signal="activate"/>
+                                <accelerator key="F7" signal="activate" modifiers="GDK_CONTROL_MASK"/>
                                 <signal name="activate" handler="on_xflow_main_menu_width_activate" swapped="no"/>
                               </object>
                             </child>
@@ -496,75 +489,79 @@
                         </child>
                       </object>
                     </child>
-
-		    <child>
-		      <object class="GtkMenuItem" id="xflow_main_menu_vectors_style">
-			<property name="visible">True</property>
-			<property name="can_focus">False</property>
-			<property name="label" translatable="yes">Arrow style</property>
-			<child type="submenu">
-			  <object class="GtkMenu" id="group_styles">
-			    <property name="visible">True</property>
+                    <child>
+                      <object class="GtkMenuItem" id="xflow_main_menu_vectors_style">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="label" translatable="yes">Arrow style</property>
+                        <child type="submenu">
+                          <object class="GtkMenu" id="group_styles">
+                            <property name="visible">True</property>
                             <property name="can_focus">False</property>
-			    <child>
+                            <child>
                               <object class="GtkImageMenuItem" id="style0">
-                                <property name="visible">True</property>
-                                <property name="can_focus">False</property>
                                 <property name="label" translatable="yes">*</property>
-                                <property name="image">arrow0</property>    
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="image">arrow0</property>
+                                <property name="use_stock">False</property>
                                 <signal name="activate" handler="on_xflow_main_menu_style_activate" swapped="no"/>
                               </object>
-			    </child>
-			    <child>
+                            </child>
+                            <child>
                               <object class="GtkImageMenuItem" id="style1">
+                                <property name="label" translatable="yes"> </property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
-                                <property name="label" translatable="yes"></property>
-                                <property name="image">arrow1</property>    
+                                <property name="image">arrow1</property>
+                                <property name="use_stock">False</property>
                                 <signal name="activate" handler="on_xflow_main_menu_style_activate" swapped="no"/>
                               </object>
-			    </child>
-			    <child>
+                            </child>
+                            <child>
                               <object class="GtkImageMenuItem" id="style2">
+                                <property name="label" translatable="yes"> </property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
-                                <property name="label" translatable="yes"></property>
-                                <property name="image">arrow2</property>    
+                                <property name="image">arrow2</property>
+                                <property name="use_stock">False</property>
                                 <signal name="activate" handler="on_xflow_main_menu_style_activate" swapped="no"/>
                               </object>
-			    </child>
-			    <child>
+                            </child>
+                            <child>
                               <object class="GtkImageMenuItem" id="style3">
+                                <property name="label" translatable="yes"> </property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
-                                <property name="label" translatable="yes"></property>
-                                <property name="image">arrow3</property>    
+                                <property name="image">arrow3</property>
+                                <property name="use_stock">False</property>
                                 <signal name="activate" handler="on_xflow_main_menu_style_activate" swapped="no"/>
                               </object>
-			    </child>
-			    <child>
+                            </child>
+                            <child>
                               <object class="GtkImageMenuItem" id="style4">
+                                <property name="label" translatable="yes"> </property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
-                                <property name="label" translatable="yes"></property>
-                                <property name="image">arrow4</property>    
+                                <property name="image">arrow4</property>
+                                <property name="use_stock">False</property>
                                 <signal name="activate" handler="on_xflow_main_menu_style_activate" swapped="no"/>
                               </object>
-			    </child>
-			    <child>
+                            </child>
+                            <child>
                               <object class="GtkImageMenuItem" id="style5">
+                                <property name="label" translatable="yes"> </property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
-                                <property name="label" translatable="yes"></property>
-                                <property name="image">arrow5</property>    
+                                <property name="image">arrow5</property>
+                                <property name="use_stock">False</property>
                                 <signal name="activate" handler="on_xflow_main_menu_style_activate" swapped="no"/>
                               </object>
-			    </child>
-			  </object>
-			</child>
-		      </object>
-		    </child>
-
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
                   </object>
                 </child>
               </object>
@@ -586,7 +583,7 @@
                         <property name="can_focus">False</property>
                         <property name="image">image5</property>
                         <property name="use_stock">False</property>
-			<accelerator key="A" modifiers="GDK_CONTROL_MASK" signal="activate"/>
+                        <accelerator key="A" signal="activate" modifiers="GDK_CONTROL_MASK"/>
                         <signal name="activate" handler="on_about_activate" swapped="no"/>
                       </object>
                     </child>

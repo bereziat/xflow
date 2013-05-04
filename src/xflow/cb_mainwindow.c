@@ -173,6 +173,7 @@ on_xflow_main_zoom_value_changed     (GtkRange        *range,
     gtk_widget_set_size_request ( lookup_widget( api->mainwindow, "xflow_main_mag_draw"), nw, nh);
     gtk_widget_set_size_request ( lookup_widget( api->mainwindow, "xflow_main_div_draw"), nw, nh);
     gtk_widget_set_size_request ( lookup_widget( api->mainwindow, "xflow_main_curl_draw"), nw, nh);
+    gtk_widget_set_size_request ( lookup_widget( api->mainwindow, "xflow_main_hsv_draw"), nw, nh);
     alloc_for_resize( api, nw,nh);
     api->zoom = GtkAdj->value;
     xflow_api_refresh_drawing_areas (api);
