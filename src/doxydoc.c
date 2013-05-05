@@ -119,12 +119,12 @@
  *
  * \subsection menu Le menu
  * - <tt>File</tt>
- *   - <tt>open</tt> :  non fonctionnel,
- *   - <tt>export</tt> : ouvre le formulaire d'export (voir plus loin).
+ *   - <tt>Open</tt> : toujours pas fonctionnel!
  *   - <tt>Clean header</tt> : retire les paramètres d'affichage dans les 
  *     entêtes des fichiers XFLOW.
  *   - <tt>Write header</tt> : écrit les paramètres d'affichage dans les 
  *     entêtes des fichiers XFLOW.
+ *   - <tt>Export</tt> : ouvre le formulaire d'export (voir plus loin).
  * - <tt>View</tt> 
  *   - <tt>Previous frame</tt>: affiche le plan précédent.
  *   - <tt>Next frame</tt>: affiche le plan suivant.

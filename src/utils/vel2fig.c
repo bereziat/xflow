@@ -5,6 +5,7 @@
  * (c) 2003 D.Béréziat LIP6/UPMC
  * genere aussi le eps et le tex a inclure dans LaTeX
  *
+ * Version 1.4.1: vel2fig gère correctement les fichiers qui ne sont pas dans le répertoire courant
  * Version 1.4.0: ajout option -roi='ix,iy,x,y,w,col' mettre 0 a w pour extraire le ROI
  * Version 1.3.3: ajout seuil relatif (postfixe %) + Fix temporaire image couleurs & inr2gif + fix bug vitesse a composante nulle
  * Version 1.3.2: ajout -asize huge et -ahead <width> <height>
@@ -61,7 +62,7 @@ char *rmext( char *name) {
   return name;
 }
 
-char version[]="1.3.3";
+char version[]="1.4.1";
 char cmd[] = "[global-options] file1 [file1-options] file2 [file2-options] ...";
 char help[]=
 "Create a Xfig output from an INRIMAGE sequence and one or several XFLOW data.\n\
@@ -475,10 +476,10 @@ int main( int argc, char **argv) {
   
   if( !igetopt0( "-fig")) {
     if( jpeg_quality)
-      sprintf( name, "fig2dev -L %s -q %d %s.fig > %s.%s", 
+      sprintf( name, "fig2dev -L %s -q %d < %s.fig > %s.%s", 
 	       type, jpeg_quality, output, output, type);
     else
-      sprintf( name, "fig2dev -L %s %s.fig > %s.%s", type, output, output, type);
+      sprintf( name, "fig2dev -L %s < %s.fig > %s.%s", type, output, output, type);
     if(debug_)fprintf( stderr, "system: %s\n", name);
     system( name);
     /* La sortie LaTeX ne me convinc pas */

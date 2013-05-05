@@ -166,8 +166,8 @@ on_xflow_main_zoom_value_changed     (GtkRange        *range,
   int nw = (float)api->wimg * GtkAdj->value;
   int nh = (float)api->himg * GtkAdj->value;
 
-  // AFAIRE La requete doit se faire faire l'onglet actif
-  // AFAIRE Le changement d'onglet doit calculer la bonne taille
+  // @TODO La requete devrait se faire faire l'onglet actif
+  // @TODO Le changement d'onglet doit calculer la bonne taille
   if( GtkAdj->value >= 1) {
     gtk_widget_set_size_request ( lookup_widget( api->mainwindow, "xflow_main_vectors_draw"), nw, nh);
     gtk_widget_set_size_request ( lookup_widget( api->mainwindow, "xflow_main_mag_draw"), nw, nh);

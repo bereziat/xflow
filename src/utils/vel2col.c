@@ -21,7 +21,7 @@ int unknown_flow(float u, float v) {
     || isnan(u) || isnan(v);
 }
 
-int verbose = 1;
+int verbose = 0;
 
 void vel2col( unsigned char *color, float *vel, int dimx, int dimy, float maxmotion) {
     int x, y;
@@ -45,8 +45,10 @@ void vel2col( unsigned char *color, float *vel, int dimx, int dimy, float maxmot
 	  maxrad = fmax(maxrad, rad);
 	}
     }
-    fprintf( stderr, "max motion: %.4f  motion range: u = %.3f .. %.3f;  v = %.3f .. %.3f\n",
-	     maxrad, minx, maxx, miny, maxy);
+
+    if( verbose)
+      fprintf( stderr, "max motion: %.4f  motion range: u = %.3f .. %.3f;  v = %.3f .. %.3f\n",
+	       maxrad, minx, maxx, miny, maxy);
 
     
     if (maxmotion > 0) // i.e., specified on commandline
@@ -82,14 +84,16 @@ int main(int argc, char **argv) {
   float *vel, maxmotion = 0;
   unsigned char *color;
 
-  inr_init( argc, argv, "1.01", "[velocityfile][colorimage] [-m maxmotion]", 
-	    "Convert a 2D velocity file in a colored image using Middlebury algorithm."
+  inr_init( argc, argv, "1.02", "[velocityfile][colorimage] [-m maxmotion] -V", 
+	    "Convert a 2D velocity file in a colored image using Middlebury algorithm.\n"
+	    "Parameter -V: enable verbosity\n"
 	    "Parameter -m: the algorithm normalizes (in norm) the vector field in order\n"
 	    "the vector with the highest norm has the most saturated color, the lowest \n"
 	    "is white. The vector field may be divided by maxmotion to change the \n"
 	    "threshold of the maximal saturation.\n");
 
   igetopt1( "-m", "%f", &maxmotion);
+  verbose = igetopt0("-V");
   infileopt( nom);
 
   nf1 = image_( nom, "e", "", lfmt);

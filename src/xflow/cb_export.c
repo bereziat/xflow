@@ -186,7 +186,7 @@ on_export_apply_clicked                (GtkButton       *button,
   const gchar *p;
   
   if( api->active == NULL) {
-    puts("Any vector field to display!");
+    puts("No vector field to display!");
     return ;
   }
 
@@ -219,7 +219,6 @@ on_export_apply_clicked                (GtkButton       *button,
     default:
       strcpy( bg_filename, "/tmp/xflowXXXXXX");
       mkstemp( bg_filename);
-      puts( bg_filename);
       clean = 1;
       switch( bg_type) {
       case BG_MAG:
@@ -232,7 +231,12 @@ on_export_apply_clicked                (GtkButton       *button,
 	sprintf( command, "vel2curl %s > %s", api->active->data.xflow.file->iuv->nom, bg_filename);
 	break;
       case BG_HSV:
-	sprintf( command, "vel2col %s > %s", api->active->data.xflow.file->iuv->nom, bg_filename);
+	{
+	  GtkAdjustment *adj = 
+	    gtk_range_get_adjustment( GTK_RANGE(lookup_widget( api->mainwindow, "xflow_main_hsv_saturation")));
+	  sprintf( command, "vel2col %s -m %f > %s", api->active->data.xflow.file->iuv->nom, 
+		   adj->value, bg_filename);
+	}
 	break;
       }
       puts( command);
