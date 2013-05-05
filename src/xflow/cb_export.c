@@ -39,7 +39,7 @@ on_xflow_main_menu_export_activate    (GtkMenuItem     *menuitem,
 
   api->export = gtk_builder_new();
   
-  if( gtk_builder_add_from_file (api->export, "export.glade", &error) == 0 &&
+  if( gtk_builder_add_from_file (api->export, "export.glade", NULL) == 0 &&
       gtk_builder_add_from_file (api->export,
 				 PACKAGE_DATA_DIR "/xflow/export.glade", 
 				 &error) == 0 ) {

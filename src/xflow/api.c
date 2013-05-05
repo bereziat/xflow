@@ -61,7 +61,8 @@ void xflow_api_show_window( XFLOW_API *api) {
 
   api->mainwindow = gtk_builder_new();
 
-  if( gtk_builder_add_from_file (api->mainwindow, "xflow.glade", &error) == 0 &&
+
+  if( gtk_builder_add_from_file (api->mainwindow, "xflow.glade", NULL) == 0 &&
       gtk_builder_add_from_file (api->mainwindow, 
 				 PACKAGE_DATA_DIR "/" PACKAGE "/xflow.glade", 
 				 &error) == 0 ) {

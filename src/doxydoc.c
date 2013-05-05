@@ -1,6 +1,5 @@
 /* This file just contains some documentation for doxygen,
  * nothing to be compiled here 
- * $Id: doxydoc.c,v 1.16 2010/10/18 19:47:42 bereziat Exp $
  */
 
 

@@ -15,8 +15,7 @@
 @SET_MAKE@
 
 # Makefile for compile xflow displayer.
-# (c) 2002-2006 D.Béréziat
-# $Id: Makefile.am,v 1.7 2009/06/02 20:34:30 bereziat Exp $
+# (c) 2013 D.Béréziat
 
 
 VPATH = @srcdir@
@@ -272,7 +271,7 @@ xflow_SOURCES = main.c api.c api.h \
 		lecscrn.c lecscrn.h \
 		trajs.c trajs.h
 
-xflow_CFLAGS = -g
+xflow_CFLAGS = -O2
 xflow_LDADD = @PACKAGE_LIBS@ ../lib/libxflow.a
 # ce flag permet à gmodule de lire la table des symboles de l'application
 # et  d'associer les callbacks aux bonnes routines (gtk_builder_connect_signals()).

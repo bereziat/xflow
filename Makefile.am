@@ -20,3 +20,5 @@ install-data-local:
 dist-hook:
 
 
+ChangeLog:
+	svn2cl -i -r "HEAD:1"

@@ -1,7 +1,17 @@
 Fichier historique du projet xflow
-(c) D.Bereziat  $Id: NEWS,v 1.8 2010/10/20 16:11:08 bereziat Exp $
 
-* May 2013 (2.4.0)
+* May 2013 (2.4.1)
+ - bug fix in vel2fig (when data are in subdirs)
+ - vel2col is now silent unless you use -V
+ - some improvements in xflow: 
+    + scrolled window in H notebook works,
+    + adding arrow style selection in the menu taken into
+      account by export
+    + menu is correctly updated if the active vector field changes.
+    + bug fix in previous frame function
+    + xflow parameters can be written in the header of xflow files
+
+* April 2013 (2.4.0)
   - xflow has received many improvements:
     + it uses now glade-3 and the GtkBuilder
     + new menu organization: the preference dialog has dispeared, the choice of

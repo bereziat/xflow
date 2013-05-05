@@ -1,27 +1,29 @@
 #
 # xflow by D.Béréziat
-# (c) 2002/2003 INRIA, LIP6
+# (c) 2002/2013 INRIA, UPMC
 #
-# $Id: TODO,v 1.16 2007/09/21 09:15:15 bereziat Exp $
 
-Par ordre de priorite
+Par ordre de priorité
+
+GENERAL
+ - la mise a jour d'un numero de version est trop fastidieuse. Il y a un numéro de version
+   pour la libxflow qui en l'état ne bouge plus. Il y a un numéro de version de l'api xflow
+   qui correspond à la commande xflow.
+   En pratique, pour une mise à jour il faut éditer configure.ac, data.h, et xflow.doxy pour
+   la doc. 
+   Je crois qu'il est plus simple d'avoir un numéro de version général, il est donné par le 
+   configure.ac, il génére dans config.h la macro PACKAGE_VERSION. On peut s'en servir dans
+   data.h et on se débarrasse des XFLOW_API_* qui ne servent pas vraiment. PACKAGE_VERSION donnera
+   le numéro de version à la commande xflow et à l'ensemble du logiciel. Les autres commandes
+   et la lib gardent leur propre numéro de version. On utilisera un xflow.doxy.in avec une
+   macro M4 pour le numéro de version.
 
 BUGS
- - xflow plante lorsqu'on exporte sous MacOS
- - il faut tester la version de gcc pour l'option -fnested-function (ou
- se débarasser des fonctions imbriquées, au choix)
+ - aucun ?
 
 XFLOW 
- - Intégrer les trajectoires (ordre4 en réécriture)
+ - Intégrer les trajectoires (en cours)
  - Seuillage des champs : critere sur le nombre : afficher 80% des champs les plus petits par exemple.
- - reallocation des images de fond inutile sur les onglet M,D et R.
  - export : utiliser mon script inr2avi
  - champs 3D : facile à faire côté libxflow
                côté visu : on ecrit un client gl => préprojet pour des étudiants
-
-UTILS
- - uv2col -> voir Jonathan Fabrizio , puis intégration dans XFLOW
- - xflpar a terminer
- - les commandes ifmt et cim d'INRIMAGE permet de se passer de 
-   xflset (sauf pour l'écriture des pixels).
-
