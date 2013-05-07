@@ -193,7 +193,7 @@ void xflow_api_show_window( XFLOW_API *api) {
   /* Création d'un contexte graphique pour dessiner dans les drawing areas */
   {
     GdkColor red = { 0, 1000, 0, 0 };
-    GtkWidget* widget = lookup_widget( api->mainwindow, "xflow_main_vectors_draw");
+    GtkWidget* widget = lookup_widget( api->mainwindow, "xflow_main"); //_vectors_draw");
     api -> gc = gdk_gc_new( widget->window);
     gdk_gc_set_rgb_fg_color (api->gc, &red);
   }

@@ -499,7 +499,7 @@ struct xflow_colors {
 void color_init( XFLOW_API *api) {
   int i;
   GdkColormap *cmap;
-  GtkWidget *widget = lookup_widget( api->mainwindow, "xflow_main_vectors_draw");
+  GtkWidget *widget = lookup_widget( api->mainwindow, "xflow_main"); //_vectors_draw");
 
   cmap = gdk_window_get_colormap( widget->window);
   for( i=0; list_colors[i].name; gdk_color_alloc (cmap, &list_colors[i++].gdkcolor));

@@ -31,13 +31,13 @@ dnl edges est juste utilisé pour un exemple de client
 dnl xflow, -> mettre un truc dans config et c'est tout.
 dnl AC_CHECK_LIB([edges], [main])
 
+# FIXME: Replace `main' with a function in `-lm':
+AC_CHECK_LIB([m], [cos])
+
 dnl Check INRIMAGE
 AC_PATH_INRIMAGE
 AC_CHECK_HEADER(inrimage/image.h,,exit)
 AC_CHECK_LIB(inrimage,inr_init,,exit)
-
-# FIXME: Replace `main' with a function in `-lm':
-AC_CHECK_LIB([m], [cos])
 
 dnl ajouter la détection de GLADE (pour devel)
 AC_CHECK_PROG(GLADE, glade-3, yes)

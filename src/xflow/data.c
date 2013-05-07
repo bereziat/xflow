@@ -36,8 +36,7 @@ static int test_dims( XFLOW_API *api, int dimx, int dimy) {
     api->himg = api->hwin = dimy;
     return 1;
   }
-  if( api->wimg != dimx || api->himg != dimy)
-    return 0;
+  return api->wimg == dimx && api->himg == dimy;
 }
 
 /**
