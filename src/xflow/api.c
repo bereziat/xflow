@@ -53,6 +53,8 @@ void xflow_api_set_global( XFLOW_API *api, int mode, float val) {
   }
 }
 
+extern int with_trajs;
+
 void xflow_api_show_window( XFLOW_API *api) {
   XFLOW_DATA *data;
   char name[256];
@@ -60,14 +62,21 @@ void xflow_api_show_window( XFLOW_API *api) {
   GError *error = NULL;
 
   api->mainwindow = gtk_builder_new();
-
-
-  if( gtk_builder_add_from_file (api->mainwindow, "xflow.glade", NULL) == 0 &&
-      gtk_builder_add_from_file (api->mainwindow, 
-				 PACKAGE_DATA_DIR "/" PACKAGE "/xflow.glade", 
-				 &error) == 0 ) {
-    g_warning("gtk_builder, fatal error num %d:\n** => %s\n", error->code, error->message);
-    exit(error->code);
+  
+  gtk_builder_add_from_file (api->mainwindow, "xflow.glade", &error);
+  if( error) {
+    g_warning("gtk_builder, debug: error num %d:\n** => %s\n", 
+	      error->code, error->message);
+    
+    error = NULL;
+    gtk_builder_add_from_file (api->mainwindow, 
+			       PACKAGE_DATA_DIR "/" PACKAGE "/xflow.glade", 
+			       &error);
+    if( error) {
+      g_warning("gtk_builder, fatal error num %d:\n** => %s\n", 
+		error->code, error->message);
+      exit(error->code);
+    }
   }
   gtk_builder_connect_signals (api->mainwindow, api);
   window = GTK_WIDGET( gtk_builder_get_object (api->mainwindow, "xflow_main"));
@@ -83,6 +92,10 @@ void xflow_api_show_window( XFLOW_API *api) {
     }
   }
 
+
+  if( with_trajs)
+    gtk_widget_show( lookup_widget( api->mainwindow, "xflow_main_menu_trajs"));
+  
   gtk_widget_show( GTK_WIDGET(window));
 
   /* background image */
@@ -165,14 +178,77 @@ void xflow_api_show_window( XFLOW_API *api) {
       gtk_widget_modify_fg (GTK_WIDGET(but), GTK_STATE_NORMAL, &color);
       
       gtk_widget_show( but);
-      gtk_container_add( GTK_CONTAINER(lookup_widget(api->mainwindow, "xflow_main_vectors_checks")),
+      gtk_container_add( GTK_CONTAINER(lookup_widget(api->mainwindow, 
+						     "xflow_main_vectors_checks")),
 			 but);
       g_signal_connect ((gpointer) but, "toggled",
 			G_CALLBACK (on_xflow_main_vectors_checks_toggled), api);
       data->data.xflow.check = but;
     }
   }
+  
+  /* list of trajectories */
+  if( with_trajs && api->active) {
+    GtkWidget *treeview;
+    GtkCellRenderer *renderer;
+    GtkTreeViewColumn *column;
+    GtkListStore *store;
+    
+    /* model */
+    store = gtk_list_store_new( 3, 
+				G_TYPE_BOOLEAN,
+				G_TYPE_STRING,
+				G_TYPE_STRING);
+    api->store_trajs = store;
+    
+    treeview = gtk_tree_view_new_with_model ( GTK_TREE_MODEL(store));
+    
+    /* three columns */
+    renderer = gtk_cell_renderer_toggle_new();
+    column = gtk_tree_view_column_new_with_attributes( "Delete", 
+						       renderer,
+						       "active",
+						       0,
+						       NULL);
+    g_signal_connect (renderer, "toggled",
+		      G_CALLBACK (on_xflow_main_trajs_delete_toggled), api);
+    
+    /* set this column to a fixed sizing (of 50 pixels) */
+    gtk_tree_view_column_set_sizing (GTK_TREE_VIEW_COLUMN (column),
+				     GTK_TREE_VIEW_COLUMN_FIXED);
+    gtk_tree_view_column_set_fixed_width (GTK_TREE_VIEW_COLUMN (column), 50);
+    gtk_tree_view_append_column (GTK_TREE_VIEW(treeview), column);
+    
+    
+    
+    renderer = gtk_cell_renderer_text_new();
+    column = gtk_tree_view_column_new_with_attributes( "(x0,y0,z0)", 
+						       renderer,
+						       "text",
+						       1,
+						       NULL);
+    gtk_tree_view_append_column (GTK_TREE_VIEW(treeview), column);
+    
+    
+    renderer = gtk_cell_renderer_text_new();
+    column = gtk_tree_view_column_new_with_attributes( "(xn,yn,zn)", 
+						       renderer,
+						       "text",
+						       2,
+						       NULL);
+    gtk_tree_view_append_column (GTK_TREE_VIEW(treeview), column);
+    
+    
+    gtk_widget_show( treeview);
+    gtk_container_add( GTK_CONTAINER(lookup_widget(api->mainwindow, 
+						   "xflow_main_vectors_paned_box")),
+		       treeview);
+    
+   
+  }
 
+
+  
   /* Paned positions */
   {
     GtkWidget *paned = lookup_widget( api->mainwindow, "xflow_main_vectors_paned");

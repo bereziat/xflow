@@ -148,8 +148,8 @@ void read_velocity_interp( XFLOW_DATA *pd, float t, float pixel_i, float pixel_j
 
 }
 
-static float norm( float x, float y) {
-  return x < y ? y : x;
+static float norm( float x1, float x2) {
+  return sqrt( x1*x1 + x2*x2);
 }
 
 /* ''driver'' for RK-O4 */
@@ -193,8 +193,11 @@ int trajs_add( XFLOW_DATA *pd, int x0, int y0, int z0, float dt, float tol) {
       traj = l->data;
       count ++;
       if( traj->starting_zpos == z0 &&
-	  norm( x0 - traj->precise_coords[0].i, y0 - traj->precise_coords[0].j) < tol)
-	return -1;
+	  norm( x0 - traj->precise_coords[0].i, y0 - traj->precise_coords[0].j) < tol) {
+	printf("debug: required: %d %d, found: %f %f\n",
+	       x0, y0, traj->precise_coords[0].i, traj->precise_coords[0].j);
+     	return -1;
+      }
     }
     
     traj = NEW( TRAJECTORY, 1);
@@ -219,12 +222,13 @@ void trajs_print( XFLOW_DATA *pd) {
     GSList *l;
     int i=1;
     
+    printf( "## Trajectories for %s\n", pd->data.xflow.file->iuv->nom);
     for( l = pd -> data.xflow.trajs; l; l = l->next) {
       int j;
       TRAJECTORY *t = l->data;
-      printf(" ** trajectory #%d\n", i++);
+      printf("## trajectory #%d\n", i++);
       for( j=0; j<t->num_points; j++)
-	printf( " ** %f %f %f\n", 
+	printf( "%f %f %f\n", 
 		t->precise_coords[j].t, t->precise_coords[j].i, t->precise_coords[j].j);
     }
   }
@@ -282,5 +286,34 @@ void trajs_free( XFLOW_DATA *pd) {
     }
     g_slist_free( pd->data.xflow.trajs);
     pd->data.xflow.trajs = NULL;
+  }
+}
+
+
+void trajs_update_list_store( XFLOW_API *api) {
+  if( api->active && api->active->data.xflow.trajs) {
+    GtkTreeIter iter;
+    gboolean t;
+    char text[30];
+    GSList *l = api->active->data.xflow.trajs;
+
+    t = gtk_tree_model_get_iter_first ( GTK_TREE_MODEL( api->store_trajs), &iter);
+	 
+    while( t) {
+      TRAJECTORY *traj = l->data;
+
+      if( traj -> starting_zpos > api->zpos)
+	*text = 0;
+      else
+	sprintf( text, "(%.1f,%.1f,%d)", 
+		 traj->precise_coords[api->zpos-traj->starting_zpos].i,
+		 traj->precise_coords[api->zpos-traj->starting_zpos].j,
+		 (int)traj->precise_coords[api->zpos-traj->starting_zpos].t
+		 );
+      gtk_list_store_set ( api->store_trajs, &iter, 2, text, -1);       
+      t = gtk_tree_model_iter_next( GTK_TREE_MODEL( api->store_trajs), &iter);
+      
+      l = l -> next;
+    }
   }
 }

@@ -76,9 +76,11 @@ int main( int argc, char **argv) {
 
   setlocale( LC_NUMERIC, "C");
   if(debug) printf("LC_NUMERIC set to '%s'\n", setlocale(LC_NUMERIC,NULL));
-  
+
+
   xflow_api_show_window( api);
   xflow_api_set_title( api);
+    
 
   /* Lire le premier plan des données pour l'affichage */
   data_read( api, 1);

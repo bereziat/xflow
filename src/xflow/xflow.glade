@@ -567,6 +567,35 @@
               </object>
             </child>
             <child>
+              <object class="GtkMenuItem" id="xflow_main_menu_trajs">
+                <property name="can_focus">False</property>
+                <property name="label" translatable="yes">Trajectories</property>
+                <property name="use_underline">True</property>
+                <child type="submenu">
+                  <object class="GtkMenu" id="menu_trajs">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <child>
+                      <object class="GtkMenuItem" id="xflow_main_menu_trajs_edit">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="label">Edit ...</property>
+                        <signal name="activate" handler="on_xflow_main_menu_trajs_edit_activate" swapped="no"/>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkMenuItem" id="xflow_main_menu_trajs_dump">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="label">Dump</property>
+                        <signal name="activate" handler="on_xflow_main_menu_trajs_dump_activate" swapped="no"/>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
               <object class="GtkMenuItem" id="menuitem4">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
@@ -837,7 +866,7 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <child>
-                      <object class="GtkVBox" id="vbox4">
+                      <object class="GtkVBox" id="xflow_main_vectors_paned_box">
                         <property name="width_request">123</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>

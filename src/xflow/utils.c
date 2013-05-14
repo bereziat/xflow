@@ -49,6 +49,12 @@ GtkWidget *lookup_widget( GtkBuilder* builder, char *label) {
   return GTK_WIDGET(gobj);
 }
 
+/* Premier enfant d'un container */
+
+GtkWidget *firstchild( GtkWidget *wid) {
+  GList *l = gtk_container_get_children( GTK_CONTAINER(wid));
+  return l->data;
+}
 
 /* Gestion de la palette de couleurs */
 

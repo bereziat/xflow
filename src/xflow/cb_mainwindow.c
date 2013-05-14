@@ -38,6 +38,8 @@ on_xflow_main_zscroll_value_changed    (GtkRange        *range,
     if( pd->type == DATA_XFLOW)
       snprintf( notify, 255, "%s -n %f ", notify, pd->data.xflow.normsup);
   
+  /* mettre a jour position trajectoire */
+  trajs_update_list_store( api);
   utils_mesag( api, notify);
 }
 
@@ -369,7 +371,7 @@ on_xflow_main_vectors_draw_button_press_event    (GtkWidget       *widget,
   switch( event->button) {
   case 1:
     if( with_trajs) {
-    puts("Trajectories");
+      int init = 1;
     for( pd = api->data; pd; pd=pd->next) 
       if( pd->type == DATA_XFLOW) {
 	int x, y;
@@ -377,18 +379,44 @@ on_xflow_main_vectors_draw_button_press_event    (GtkWidget       *widget,
 	x = (int)(event->x * (float)api->wimg/(float)api->wwin);
 	y = (int)(event->y * (float)api->himg/(float)api->hwin);  
 	
-	if( x<0 || y<0 || x>=api->wimg || y>api->himg) 
-	  printf( "* %d %d : <out of range>\n", x+1, y+1);
-	else {
+	if( x<0 || y<0 || x>=api->wimg || y>api->himg)  {
+	  printf( "* -ix %d -iy %d -iz %d: <out of range>\n", x+1, y+1, api->zpos);
+	  break;
+	} else {
+	  int traj_id;
 	  printf( "* start with %d %d\n", x, y);
-	  printf( "*trajs_add returns %d\n", 
-		  trajs_add( pd, x, y, api->zpos, 1 /* FIXME */, 2 /* FIXME */));
-	  trajs_print( pd);
+	  traj_id = trajs_add( pd, x, y, api->zpos, 1 /* FIXME */, 2 /* FIXME */);
+	  printf( "* trajs_add returns %d\n", traj_id);
 	  
-	  /* force xflow to read again the current frame */
-	  api->zpos ++;
-	  data_read( api, api->zpos-1);
+	  if( traj_id >= 0) {
+	    /* force xflow to read again the current frame */
+	    api->zpos ++;
+	    data_read( api, api->zpos-1);
+	    
+	    if( init) {
+	      GtkWidget *widget  = lookup_widget( api->mainwindow, "xflow_main_vectors_paned_box");
+	      GtkTreeModel *model;
+	      char coords[40];
+	      GtkTreeIter iter;
+	      GList *l;
 
+	      /* lastchild() */
+	      for( l = gtk_container_get_children(GTK_CONTAINER(widget));
+		   l->next;
+		   l = l -> next);
+	      
+	      model = gtk_tree_view_get_model ( GTK_TREE_VIEW(l->data));
+	      gtk_list_store_append (GTK_LIST_STORE(model), &iter);
+	      sprintf( coords, "(%d,%d,%d)", x+1, y+1, api->zpos);
+	      gtk_list_store_set (GTK_LIST_STORE(model), &iter,
+				  0, FALSE,
+				  1, coords,
+				  2, coords,
+				  -1);
+	      
+	      init = 0;
+	    }
+	  }
 	  xflow_api_refresh_drawing_areas( api);
 	}
       }
@@ -402,6 +430,31 @@ on_xflow_main_vectors_draw_button_press_event    (GtkWidget       *widget,
   return FALSE;
 }
 
+
+void
+on_xflow_main_trajs_delete_toggled( GtkCellRendererToggle *cell,
+				    gchar *path_str,
+				    gpointer userdata) {
+  XFLOW_API *api = (XFLOW_API *)userdata;
+  XFLOW_DATA *pd;
+  int num_trajs = atoi( path_str);
+ 
+
+  /* remove in the trajs lists */
+  for( pd = api->data; pd; pd = pd->next) 
+    if( pd->type == DATA_XFLOW) {
+      GSList *l = pd->data.xflow.trajs;
+      pd->data.xflow.trajs = g_slist_delete_link( l, g_slist_nth( l, num_trajs));
+    }
+
+  /* remove in the store */
+  GtkTreePath *path = gtk_tree_path_new_from_string( path_str);
+  GtkTreeIter iter;
+  gtk_tree_model_get_iter ( GTK_TREE_MODEL(api-> store_trajs), &iter, path);
+  gtk_list_store_remove( api->store_trajs, &iter);
+  gtk_tree_path_free (path);
+  xflow_api_refresh_drawing_areas( api);
+}
 
 /***********************************************************************/
 
@@ -1058,6 +1111,7 @@ on_xflow_main_menu_activefield_activate            (GtkMenuItem     *menuitem,
 	xflow_api_set_title( api);
 	xflow_api_refresh_drawing_areas( api);	
 	xflow_api_update_menu( api);
+	trajs_update_list_store( api);
 	break;
       }
     }
@@ -1228,3 +1282,26 @@ on_xflow_main_menu_view_hsv_activate                   (GtkMenuItem     *menuite
 }
 
 
+void on_xflow_main_menu_trajs_edit_activate( GtkMenuItem *menuitem,
+					     gpointer userdata) {
+  XFLOW_API *api = (XFLOW_API*) userdata;
+  GtkWidget *widget, *window, *container;
+  /*
+  window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+
+  container = gtk_vbox_new( FALSE, 0);
+  gtk_container_add( GTK_CONTAINER(window), container);
+  
+  widget = gtk_list_store_new( 3, G_BOOLEAN, G_FLOAT, G_FLOAT);
+  */
+}
+
+
+void on_xflow_main_menu_trajs_dump_activate( GtkMenuItem *menuitem,
+					     gpointer userdata) {
+  XFLOW_API *api = (XFLOW_API*) userdata;
+  XFLOW_DATA *pd;  
+  
+  for( pd=api->data; pd; pd=pd->next)
+    trajs_print( pd);
+}

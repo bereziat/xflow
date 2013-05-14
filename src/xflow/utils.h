@@ -57,6 +57,7 @@ int utils_pal_from_image( struct image *nf, unsigned char pal[][4]);
 
 void check_version( XFLOW_API *api);
 
-GtkWidget *lookup_widget( GtkBuilder *, char *);
+GtkWidget *lookup_widget( GtkBuilder *bld, char *id);
+GtkWidget *firstchild( GtkWidget *wid);
 
 

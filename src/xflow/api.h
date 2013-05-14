@@ -9,8 +9,7 @@ enum {
   API_THIGH
 };
 
-XFLOW_API* 
-     xflow_api_new( void);
+XFLOW_API* xflow_api_new( void);
 void xflow_api_delete( XFLOW_API *api);
 
 void xflow_api_set_global( XFLOW_API *api, int mode, float val);
@@ -32,3 +31,8 @@ on_xflow_main_menu_activebg_activate            (GtkMenuItem     *menuitem,
 
 void 
 on_xflow_main_vectors_checks_toggled  (GtkToggleButton *button, gpointer user_data);
+
+void
+on_xflow_main_trajs_delete_toggled( GtkCellRendererToggle *cell,
+				    gchar *path_str,
+				    gpointer userdata);

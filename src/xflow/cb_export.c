@@ -172,11 +172,6 @@ on_xflow_main_menu_export_activate    (GtkMenuItem     *menuitem,
   gtk_widget_show(widget); 
 }
 
-GtkWidget *firstchild( GtkWidget *wid) {
-  GList *l = gtk_container_get_children( GTK_CONTAINER(wid));
-  return l->data;
-}
-
 void
 on_export_apply_clicked                (GtkButton       *button,
                                         gpointer         user_data)
