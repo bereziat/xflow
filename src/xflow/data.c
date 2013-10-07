@@ -219,7 +219,7 @@ void data_free( XFLOW_API *api) {
       DELETE( curr->data.xflow.rotbuf);
       DELETE( curr->data.xflow.hsvbuf);
       xflow_close( curr->data.xflow.file);
-      if( curr->data.xflow.trajs) trajs_free( curr->data.xflow.trajs);
+      trajs_free( curr);
       break;
     }
     next=curr->next;

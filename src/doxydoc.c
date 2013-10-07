@@ -10,7 +10,7 @@
  * 
  * Xflow est un programme qui se décline en deux parties:
  * - un utilitaire de visualisation de champs de vecteur (il s'appelle xflow)
- * - une librarie de développement (libxflow) qui offre des fonctions de 
+ * - une bibliothèque de développement (libxflow) qui offre des fonctions de 
  *   lecture et d'écriture dans des images représentant des champs de vecteurs.
  *   C'est ce format d'image qui est reconnu et exploité par l'utilitaire
  *   de visualisation. En pratique, les logiciels qui calculent des champs
@@ -42,7 +42,7 @@
  * conversion.
  *
  * \section doc Documentation
- *   - La \link libxflow librairie de développement\endlink.
+ *   - La \link libxflow bibliothèque de développement\endlink.
  *   - L'utilitaire \link xflow xflow\endlink de visualisation. Ce programme permet
  *     d'exporter des résultats pour insertion dans des documents. Il utilise les
  *     sous programmes \link vel2fig vel2fig\endlink et \link vel2mpg vel2mpg\endlink.
@@ -56,7 +56,8 @@
  *     de vecteurs.
  *   - Les scripts \link velnorm velnorm\endlink, \link vel2div vel2div\endlink, 
  *     \link vel2curl vel2curl \endlink et \link vel2mpg vel2mpg\endlink sont
- *     utilisés par la commande \link xflow xflow\endlink pour produire des figures vectorielles et des animations.
+ *     utilisés par la commande \link xflow xflow\endlink pour produire des 
+ *     figures vectorielles et des animations.
  *   - Lisez aussi le fichier <a class="el" href="../NEWS">d'historique</a>. 
  *
  *
@@ -66,8 +67,7 @@
  */
 
 /**
- * \defgroup libxflow Librairie de lecture/écriture des fichiers XFLOW.
- * \brief Goulou
+ * \defgroup libxflow Bibliothèque de lecture/écriture des fichiers XFLOW.
  */
 
 /**

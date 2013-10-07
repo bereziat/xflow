@@ -1,3 +1,4 @@
+#include <config.h>
 #include <gtk/gtk.h>
 #include <locale.h>
 #include "data.h"
@@ -5,7 +6,8 @@
 #include "api.h"
 
 int debug = 0;
-int with_trajs = 0;
+int with_trajs = 1;
+float DT = 1.0;
 
 static char usage[]  = "[options|--help|--version] images";
 static char detail[] = "images can be a list of any INRIMAGE file or XFLOW2 image.\n\
@@ -24,6 +26,7 @@ Options are:\n\
   -zoom %f:   set zoom parameter (1-20)\n\
   -smooth:    smooth vector fields\n\
   -norma:     normalize vector fields\n\
+  -mag|-div|-curl|-hsv: display respectively magnetude, divergence, rotational or HSV instead of vectors\n\
 ";
 
 
@@ -32,21 +35,20 @@ int main( int argc, char **argv) {
   XFLOW_API  *api;
 
   /* Init Inrimage */
-  sprintf( name, "%d.%d.%d %s", XFLOW_API_MAJOR, XFLOW_API_MINOR, XFLOW_API_RELEASE,
-	   XFLOW_API_BETA?"beta":"");
-  inr_init( argc, argv, name, usage, detail); 
+
+  inr_init( argc, argv, PACKAGE_VERSION, usage, detail); 
   if( igetopt0("--help")) {
     iusage_(usage,detail); 
     return 0;
   }
   if( igetopt0("--version")) {
-    fprintf( stderr, "xflow version %s\n", name);
+    fprintf( stderr, "xflow version %s\n", PACKAGE_VERSION);
     return 0;
   }
   debug = igetopt0( "-d");
 
-  with_trajs = igetopt0("-wt"); /* with trajectories */
-
+  //  with_trajs = igetopt0("-wt"); /* with trajectories */
+  igetopt1( "-dt", "%f", &DT);
   /* Init api & chargement des images */
   api = xflow_api_new();
 
@@ -71,6 +73,8 @@ int main( int argc, char **argv) {
   igetopt1("-tlow", "%f", &api->thresh);
   igetopt1("-thigh", "%f", &api->thresh_high);
 
+
+
   /* Init Gtk */
   gtk_init (&argc, &argv);
 
@@ -94,6 +98,27 @@ int main( int argc, char **argv) {
     GtkWidget * widget = lookup_widget( api->mainwindow, "xflow_main_smooth");
     gtk_toggle_button_set_active( GTK_TOGGLE_BUTTON(widget), 1);
   }
+
+  
+  if( igetopt0("-mag")) {
+    GtkWidget *wid = lookup_widget( api->mainwindow, 
+				   "xflow_main_notebook");
+    gtk_notebook_set_current_page ( GTK_NOTEBOOK(wid), 1);
+  } else if( igetopt0("-div")) {
+    GtkWidget *wid = lookup_widget( api->mainwindow, 
+				   "xflow_main_notebook");
+    gtk_notebook_set_current_page ( GTK_NOTEBOOK(wid), 2);
+  } else if( igetopt0("-curl")) {
+    GtkWidget *wid = lookup_widget( api->mainwindow, 
+				   "xflow_main_notebook");
+    gtk_notebook_set_current_page ( GTK_NOTEBOOK(wid), 3);
+  } else if( igetopt0("-hsv")) {
+    GtkWidget *wid = lookup_widget( api->mainwindow, 
+				   "xflow_main_notebook");
+    gtk_notebook_set_current_page ( GTK_NOTEBOOK(wid), 4);
+  }
+
+
   gtk_main ();
 
   return 0;

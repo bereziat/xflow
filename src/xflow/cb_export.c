@@ -39,12 +39,19 @@ on_xflow_main_menu_export_activate    (GtkMenuItem     *menuitem,
 
   api->export = gtk_builder_new();
   
-  if( gtk_builder_add_from_file (api->export, "export.glade", NULL) == 0 &&
-      gtk_builder_add_from_file (api->export,
-				 PACKAGE_DATA_DIR "/xflow/export.glade", 
-				 &error) == 0 ) {
-    g_warning("gtk_builder, fatal error num %d:\n** => %s\n", error->code, error->message);
-    return;
+  gtk_builder_add_from_file (api->export, "export.glade", &error);
+  if( error) {
+    if( debug) g_warning( "DEBUG: gtk_builder, error num %d\nDEBUG: => %s\n",
+			  error->code, error->message);
+    error = NULL;
+    gtk_builder_add_from_file (api->export,
+			       PACKAGE_DATA_DIR "/xflow/export.glade", 
+			       &error);
+    if( error) {
+      g_warning("gtk_builder, fatal error num %d\n** => %s\n", 
+		error->code, error->message);
+      return;
+    }
   }
     
   gtk_builder_connect_signals (api->export, api);

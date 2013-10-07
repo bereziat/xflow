@@ -59,5 +59,6 @@ void check_version( XFLOW_API *api);
 
 GtkWidget *lookup_widget( GtkBuilder *bld, char *id);
 GtkWidget *firstchild( GtkWidget *wid);
+GtkWidget *lastchild( GtkWidget *wid);
 
 

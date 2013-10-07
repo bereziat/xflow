@@ -56,6 +56,14 @@ GtkWidget *firstchild( GtkWidget *wid) {
   return l->data;
 }
 
+/* Dernier enfant d'un container */
+
+GtkWidget *lastchild( GtkWidget *wid) {
+  GList *l = gtk_container_get_children( GTK_CONTAINER(wid));
+  l = g_list_last(l);
+  return l->data;
+}
+
 /* Gestion de la palette de couleurs */
 
 void utils_pal_init( void) {
@@ -591,6 +599,7 @@ on_alert_close                         (GtkButton       *button,
   gtk_widget_destroy( lookup_widget( api->mainwindow, "alert_newversion"));      
 }
 
+#if 0
 void check_version( XFLOW_API *api) {
   char *p, name[256];
   FILE *fp;
@@ -625,5 +634,7 @@ void check_version( XFLOW_API *api) {
     
   }
 }
+
+#endif
 
 

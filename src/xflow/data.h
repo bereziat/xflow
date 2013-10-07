@@ -7,11 +7,6 @@
 #include <inrimage/xflow.h>
 #include "lecscrn.h"
 
-#define XFLOW_API_MAJOR   2
-#define XFLOW_API_MINOR   4
-#define XFLOW_API_RELEASE 1
-
-#define XFLOW_API_BETA    1
 
 #define DATA_IMAGE 1
 #define DATA_XFLOW 2
@@ -63,7 +58,6 @@ typedef struct xflow_api {
   int   zpos;         ///> Index des plans en mémoire ou 0
   int   zmax;
   GtkBuilder *mainwindow, *export, *about;
-  GtkListStore *store_trajs;
   int paned;
   GdkGC *gc;          ///> Contexte graphique pour la drawing area
   XFLOW_DATA *data;   ///> Liste des images

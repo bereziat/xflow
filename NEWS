@@ -1,5 +1,13 @@
 Fichier historique du projet xflow
 
+* Oct 2013 (2.4.2-beta)
+ - addings trajectories analysis (still beta) that can be
+   activated using -wt (with trajectories) flags. Another
+   flag is -dt to specify time step integration. These
+   flags are hidden (do not appear with --help).
+ - improve the ways glade files are loaded 
+ - one can select the panel on the launch of xflow
+   (switches -mag/-div/-curl/-hsv)
 * May 2013 (2.4.1)
  - bug fix in vel2fig (when data are in subdirs)
  - vel2col is now silent unless you use -V

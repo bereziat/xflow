@@ -359,6 +359,7 @@ on_xflow_main_vectors_draw_motion_notify_event   (GtkWidget       *widget,
 }
 
 extern int with_trajs;
+extern float DT;
 gboolean
 on_xflow_main_vectors_draw_button_press_event    (GtkWidget       *widget,
 						  GdkEventButton  *event,
@@ -380,13 +381,13 @@ on_xflow_main_vectors_draw_button_press_event    (GtkWidget       *widget,
 	y = (int)(event->y * (float)api->himg/(float)api->hwin);  
 	
 	if( x<0 || y<0 || x>=api->wimg || y>api->himg)  {
-	  printf( "* -ix %d -iy %d -iz %d: <out of range>\n", x+1, y+1, api->zpos);
+	  // printf( "* -ix %d -iy %d -iz %d: <out of range>\n", x+1, y+1, api->zpos);
 	  break;
 	} else {
 	  int traj_id;
-	  printf( "* start with %d %d\n", x, y);
-	  traj_id = trajs_add( pd, x, y, api->zpos, 1 /* FIXME */, 2 /* FIXME */);
-	  printf( "* trajs_add returns %d\n", traj_id);
+	  if(debug) printf( "DEBUG:traj: start with %d %d\n", x, y);
+	  traj_id = trajs_add( pd, x, y, api->zpos, DT /* FIXME */, 3 /* FIXME */);
+	  if(debug) printf( "DEBUG:traj: trajs_add returns %d\n", traj_id);
 	  
 	  if( traj_id >= 0) {
 	    /* force xflow to read again the current frame */
@@ -394,29 +395,29 @@ on_xflow_main_vectors_draw_button_press_event    (GtkWidget       *widget,
 	    data_read( api, api->zpos-1);
 	    
 	    if( init) {
-	      GtkWidget *widget  = lookup_widget( api->mainwindow, "xflow_main_vectors_paned_box");
+	      GtkWidget *widget  = lookup_widget( api->mainwindow, 
+						  "xflow_main_vectors_paned_box");
 	      GtkTreeModel *model;
 	      char coords[40];
 	      GtkTreeIter iter;
-	      GList *l;
-
-	      /* lastchild() */
-	      for( l = gtk_container_get_children(GTK_CONTAINER(widget));
-		   l->next;
-		   l = l -> next);
 	      
-	      model = gtk_tree_view_get_model ( GTK_TREE_VIEW(l->data));
+	      model = gtk_tree_view_get_model ( GTK_TREE_VIEW(lastchild(widget)));
 	      gtk_list_store_append (GTK_LIST_STORE(model), &iter);
 	      sprintf( coords, "(%d,%d,%d)", x+1, y+1, api->zpos);
-	      gtk_list_store_set (GTK_LIST_STORE(model), &iter,
+	      gtk_list_store_set( GTK_LIST_STORE(model), &iter,
 				  0, FALSE,
 				  1, coords,
-				  2, coords,
-				  -1);
+				  2, coords, -1);
 	      
 	      init = 0;
+	      
+	      widget = lookup_widget( api->mainwindow, 
+				      "xflow_main_vectors_paned");
+	      if( gtk_paned_get_position( GTK_PANED(widget)) == 0) 
+		gtk_paned_set_position( GTK_PANED(widget), 230);
 	    }
 	  }
+
 	  xflow_api_refresh_drawing_areas( api);
 	}
       }
@@ -450,8 +451,12 @@ on_xflow_main_trajs_delete_toggled( GtkCellRendererToggle *cell,
   /* remove in the store */
   GtkTreePath *path = gtk_tree_path_new_from_string( path_str);
   GtkTreeIter iter;
-  gtk_tree_model_get_iter ( GTK_TREE_MODEL(api-> store_trajs), &iter, path);
-  gtk_list_store_remove( api->store_trajs, &iter);
+  GtkTreeModel *model = gtk_tree_view_get_model( 
+       GTK_TREE_VIEW(lastchild(lookup_widget(api->mainwindow,
+					     "xflow_main_vectors_paned_box"))));
+
+  gtk_tree_model_get_iter ( model, &iter, path);
+  gtk_list_store_remove( GTK_LIST_STORE(model), &iter);
   gtk_tree_path_free (path);
   xflow_api_refresh_drawing_areas( api);
 }
@@ -925,19 +930,6 @@ on_xflow_main_vectors_checks_toggled  (GtkToggleButton *button, gpointer user_da
   xflow_api_refresh_drawing_areas(api);
 }
 
-/*
-void 
-on_xflow_main_hide_others_toggled  (GtkToggleButton *button, gpointer user_data) {
-  XFLOW_API *api = (XFLOW_API *) user_data;
-  XFLOW_DATA *pd = api->active;
-
-  for( pd=api->data; pd; pd=pd->next)
-    if( pd != api->active && pd->type == DATA_XFLOW)
-      pd->data.xflow.hide = 1 - pd->data.xflow.hide;
-  xflow_api_refresh_drawing_areas(api);
-}
-*/
-
 
 /************************ NoteBook ************************/
 
@@ -1285,15 +1277,8 @@ on_xflow_main_menu_view_hsv_activate                   (GtkMenuItem     *menuite
 void on_xflow_main_menu_trajs_edit_activate( GtkMenuItem *menuitem,
 					     gpointer userdata) {
   XFLOW_API *api = (XFLOW_API*) userdata;
-  GtkWidget *widget, *window, *container;
-  /*
-  window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 
-  container = gtk_vbox_new( FALSE, 0);
-  gtk_container_add( GTK_CONTAINER(window), container);
-  
-  widget = gtk_list_store_new( 3, G_BOOLEAN, G_FLOAT, G_FLOAT);
-  */
+
 }
 
 

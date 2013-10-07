@@ -3,6 +3,7 @@
 #include <math.h>
 #include "data.h"
 #include "trajs.h"
+#include "utils.h"
 
 typedef float (*pfun1D) (float,float);
 typedef float (*pfun2D) (float,float,float);
@@ -194,8 +195,8 @@ int trajs_add( XFLOW_DATA *pd, int x0, int y0, int z0, float dt, float tol) {
       count ++;
       if( traj->starting_zpos == z0 &&
 	  norm( x0 - traj->precise_coords[0].i, y0 - traj->precise_coords[0].j) < tol) {
-	printf("debug: required: %d %d, found: %f %f\n",
-	       x0, y0, traj->precise_coords[0].i, traj->precise_coords[0].j);
+	if( debug) printf("DEBUG:traj: required: %d %d, found: %f %f\n",
+			  x0, y0, traj->precise_coords[0].i, traj->precise_coords[0].j);
      	return -1;
       }
     }
@@ -296,8 +297,11 @@ void trajs_update_list_store( XFLOW_API *api) {
     gboolean t;
     char text[30];
     GSList *l = api->active->data.xflow.trajs;
-
-    t = gtk_tree_model_get_iter_first ( GTK_TREE_MODEL( api->store_trajs), &iter);
+    GtkTreeModel *model = gtk_tree_view_get_model( 
+            GTK_TREE_VIEW(lastchild(lookup_widget(api->mainwindow,
+						  "xflow_main_vectors_paned_box"))));
+ 
+    t = gtk_tree_model_get_iter_first ( model, &iter);
 	 
     while( t) {
       TRAJECTORY *traj = l->data;
@@ -310,8 +314,8 @@ void trajs_update_list_store( XFLOW_API *api) {
 		 traj->precise_coords[api->zpos-traj->starting_zpos].j,
 		 (int)traj->precise_coords[api->zpos-traj->starting_zpos].t
 		 );
-      gtk_list_store_set ( api->store_trajs, &iter, 2, text, -1);       
-      t = gtk_tree_model_iter_next( GTK_TREE_MODEL( api->store_trajs), &iter);
+      gtk_list_store_set ( GTK_LIST_STORE(model), &iter, 2, text, -1);       
+      t = gtk_tree_model_iter_next( model, &iter);
       
       l = l -> next;
     }

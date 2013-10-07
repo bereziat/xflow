@@ -30,21 +30,27 @@ on_about_activate                     (GtkMenuItem     *menuitem,
 
   api->about = gtk_builder_new();
   
-  if( gtk_builder_add_from_file (api->about, "about.glade", NULL) == 0 &&
-      gtk_builder_add_from_file (api->about,
-				 PACKAGE_DATA_DIR "/" PACKAGE "/about.glade", 
-				 &error) == 0 ) {
-    g_warning("gtk_builder, fatal error num %d:\n** => %s\n", error->code, error->message);
-    return;
+  gtk_builder_add_from_file (api->about, "about.glade", &error);
+  if( error) {
+    if( debug)
+      g_warning( "DEBUG: gtk_builder, error num %d\nDEBUG: => %s\n",
+		 error->code, error->message);
+    error = NULL;
+    gtk_builder_add_from_file (api->about,
+			       PACKAGE_DATA_DIR "/" PACKAGE "/about.glade", 
+			       &error);
+    if( error) {
+      g_warning("gtk_builder, fatal error num %d\n** => %s\n", 
+		error->code, error->message);
+      return;
+    }
   }
 
   gtk_builder_connect_signals (api->about, api);
   widget = lookup_widget( api->about, "about");
 
   entry = lookup_widget( api->about, "about_xflow");
-  sprintf( text, "%d.%d.%d %s", XFLOW_API_MAJOR, XFLOW_API_MINOR, 
-	   XFLOW_API_RELEASE, XFLOW_API_BETA?"beta":"");
-  gtk_entry_set_text( GTK_ENTRY(entry), text);
+  gtk_entry_set_text( GTK_ENTRY(entry), PACKAGE_VERSION);
   
   entry = lookup_widget( api->about, "about_libxflow");
   sprintf( text, "%d.%d.%d", XFLOW_MAJOR, XFLOW_MINOR, 
@@ -76,7 +82,8 @@ on_about_doc_clicked               (GtkButton       *button,
   char cmd[256];
   char *p = getenv("BROWSER");
  
-  sprintf( cmd, "url=%s/%s/doc/index.html; if which xdg-open; then xdg-open $url; else open $url; fi &", PACKAGE_DATA_DIR, PACKAGE);
+  sprintf( cmd, "url=%s/%s/doc/index.html; if which xdg-open; then xdg-open $url; else open $url; fi &", 
+	   PACKAGE_DATA_DIR, PACKAGE);
   // puts( cmd);
   system( cmd);
 }

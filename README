@@ -1,4 +1,4 @@
-XFLOW version 2.4.1 by Dominique Bereziat
+XFLOW version 2.4.2 (beta) by Dominique Bereziat
 
 Xflow aims to display vector fields in a GTK window.
 Xflow comes with a developper librarie (libxflow), the
@@ -8,5 +8,4 @@ data. XFLOW data are INRIMAGE file based.
 
 See COPYRIGHT file and INSTALL file
 Have fun !
-$Id: README,v 1.2 2005/06/12 20:17:19 bereziat Exp $
 

@@ -65,15 +65,16 @@ void xflow_api_show_window( XFLOW_API *api) {
   
   gtk_builder_add_from_file (api->mainwindow, "xflow.glade", &error);
   if( error) {
-    g_warning("gtk_builder, debug: error num %d:\n** => %s\n", 
-	      error->code, error->message);
+    if( debug) /* Pour la mise au point */
+      g_warning("DEBUG: gtk_builder, error num %d\nDEBUG: => %s\n", 
+		error->code, error->message);
     
     error = NULL;
     gtk_builder_add_from_file (api->mainwindow, 
 			       PACKAGE_DATA_DIR "/" PACKAGE "/xflow.glade", 
 			       &error);
     if( error) {
-      g_warning("gtk_builder, fatal error num %d:\n** => %s\n", 
+      g_warning("gtk_builder, fatal error num %d\n** => %s\n", 
 		error->code, error->message);
       exit(error->code);
     }
@@ -199,7 +200,6 @@ void xflow_api_show_window( XFLOW_API *api) {
 				G_TYPE_BOOLEAN,
 				G_TYPE_STRING,
 				G_TYPE_STRING);
-    api->store_trajs = store;
     
     treeview = gtk_tree_view_new_with_model ( GTK_TREE_MODEL(store));
     
