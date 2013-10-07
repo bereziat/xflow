@@ -36,7 +36,7 @@ on_xflow_main_zscroll_value_changed    (GtkRange        *range,
   sprintf ( notify, "Frame %d read. ", (int)GtkAdj->value+1);
   for( pd = api->data; pd; pd = pd->next)
     if( pd->type == DATA_XFLOW)
-      snprintf( notify, 255, "%s -n %f ", notify, pd->data.xflow.normsup);
+      sprintf( notify, "%s -n %f ", notify, pd->data.xflow.normsup);
   
   /* mettre a jour position trajectoire */
   trajs_update_list_store( api);
