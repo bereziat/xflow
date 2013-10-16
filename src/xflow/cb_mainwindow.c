@@ -1092,10 +1092,10 @@ on_xflow_main_menu_activefield_activate            (GtkMenuItem     *menuitem,
   XFLOW_API  *api = (XFLOW_API *) user_data;
   XFLOW_DATA *pd = api->data;
 
-  /* Cherche le bon champ */
+  /* Cherche le bon champ : on cherche par nom et c'est pas top */
   for( ; pd; pd=pd->next) {
     if( pd->type == DATA_XFLOW) {
-      char *n = g_path_get_basename(pd->data.xflow.file->iuv->nom);
+      char *n = /*g_path_get_basename*/(pd->data.xflow.file->iuv->nom);
       if( strcmp( n, gtk_menu_item_get_label(menuitem)) == 0) {
 	GtkWidget *win = lookup_widget( api->mainwindow, "xflow_main");
 	// gtk_window_set_title( GTK_WINDOW(win), n);
@@ -1120,7 +1120,7 @@ on_xflow_main_menu_activebg_activate            (GtkMenuItem     *menuitem,
   /* Cherche la bonne image */
   for( ; pd; pd=pd->next) {
     if( pd->type == DATA_IMAGE) {
-      char *n = g_path_get_basename(pd->data.image.file->nom);
+      char *n = /*g_path_get_basename*/(pd->data.image.file->nom);
       if( strcmp( n, gtk_menu_item_get_label(menuitem)) == 0) {
 	GtkWidget *win = lookup_widget( api->mainwindow, "xflow_main");
 	api->background = pd;

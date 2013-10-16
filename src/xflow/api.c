@@ -120,7 +120,7 @@ void xflow_api_show_window( XFLOW_API *api) {
   int iter = 0;
   for( data=api->data; data; data=data->next) {
     if( data->type == DATA_IMAGE) {
-      char *p = g_path_get_basename(data->data.image.file->nom);
+      char *p = /*g_path_get_basename*/(data->data.image.file->nom);
       GtkWidget *menusubitem = gtk_radio_menu_item_new_with_label( group, p); 
       gtk_check_menu_item_set_active( GTK_CHECK_MENU_ITEM(menusubitem), group?FALSE:TRUE);
       group =  gtk_radio_menu_item_get_group (GTK_RADIO_MENU_ITEM (menusubitem));
@@ -146,7 +146,7 @@ void xflow_api_show_window( XFLOW_API *api) {
     group = NULL;
     for( data = api->data; data; data=data->next) {
       if( data->type == DATA_XFLOW) {
-	char *p = g_path_get_basename(data->data.xflow.file->iuv->nom);
+	char *p = /* g_path_get_basename*/ (data->data.xflow.file->iuv->nom);
 	GtkWidget *menusubitem = gtk_radio_menu_item_new_with_label( group, p);
 	group =  gtk_radio_menu_item_get_group (GTK_RADIO_MENU_ITEM (menusubitem));
 	gtk_widget_show( menusubitem);
@@ -170,7 +170,7 @@ void xflow_api_show_window( XFLOW_API *api) {
   /* list of vector fields in the Vectors Notebook left pane */
   for( data=api->data; data; data=data->next) {
     if( data->type == DATA_XFLOW) {
-      char *g = g_path_get_basename(data->data.xflow.file->iuv->nom);
+      char *g = /*g_path_get_basename*/(data->data.xflow.file->iuv->nom);
       GtkWidget *but = gtk_check_button_new_with_label( g);
       gtk_toggle_button_set_active( GTK_TOGGLE_BUTTON(but), TRUE);
 
