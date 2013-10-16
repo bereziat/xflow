@@ -6,7 +6,7 @@
 #include "api.h"
 
 int debug = 0;
-int with_trajs = 1;
+int with_trajs = 0;
 float DT = 1.0;
 
 static char usage[]  = "[options|--help|--version] images";
@@ -47,7 +47,7 @@ int main( int argc, char **argv) {
   }
   debug = igetopt0( "-d");
 
-  //  with_trajs = igetopt0("-wt"); /* with trajectories */
+  with_trajs = igetopt0("-wt"); /* with trajectories */
   igetopt1( "-dt", "%f", &DT);
   /* Init api & chargement des images */
   api = xflow_api_new();
