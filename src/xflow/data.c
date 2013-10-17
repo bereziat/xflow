@@ -179,6 +179,10 @@ void data_read( XFLOW_API *api, int z) {
 	xflow_seek_f( pd->data.xflow.file, z);
       xflow_read_f_v2d( pd->data.xflow.file, 1, pd->data.xflow.buf);
       xflow_get_dims( pd->data.xflow.file, &w, &h, &d);
+
+      if( utils_removenan( pd->data.xflow.buf, w*h))
+	printf("\033[31m%s\033[39m there are NaN in %s:%d\n", "Warning:", pd->data.xflow.file->iuv->nom, z);
+
       utils_normsup( pd->data.xflow.buf, w*h, &pd->data.xflow.normsup);
 
       utils_mag( pd->data.xflow.buf, pd->data.xflow.magbuf,

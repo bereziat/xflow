@@ -463,6 +463,17 @@ void utils_hsv( vel2d *in,         // image d'entrée
   DELETE(col);
 } 
 
+int utils_removenan( vel2d *buf, int size) {
+  int alert = 0;
+  while( size --) {
+    if( isnan(buf->u) || isnan(buf->v)) {
+      buf->u = buf -> v = 0;
+      alert = 1;
+    }
+    buf++;
+  }
+  return alert;
+}
 
 void utils_normsup( vel2d *buf, int count, float *max) {
   float a;

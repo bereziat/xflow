@@ -10,6 +10,7 @@ void utils_rot( vel2d *in, unsigned char *out, int iw, int ih, int ow, int oh,
 void utils_hsv( vel2d *in, unsigned char *out, int iw, int ih, int ow, int oh,
 		float maxmotion);
 
+int  utils_removenan( vel2d *buf, int size);
 void utils_normsup( vel2d *buf, int count, float *max) ;
 void utils_mesag( XFLOW_API *api, char *fmt, ...);
 
