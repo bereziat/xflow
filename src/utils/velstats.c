@@ -2,6 +2,8 @@
  * Calcul de diverses statistiques pour les champs de vecteurs
  * Sortie latex possible (ligne de tableau).
  *
+ * 1.5: - ajout tag_float (pas fini)
+ * 1.4: - ajout stats sur le champ référence (nrmin,nrmax,nrstd)
  * 1.3: - meilleur calcul de l'orientation d'un champ (avec atan2)
  *      - un mauvais calcul de l'écart-type de l'orientation a été fixé
  *      - ajout d'un seuil sur la norme (absolue) du champs estimé (voir pour champs référent)
@@ -10,6 +12,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
+
+#define VERSION "1.5"
 
 #define PIX(I,i,j,k,v) (I)[(v)+NDIMV*((i)+NDIMX*((j)+NDIMY*(k)))]
 #define DEG(a) (180*(a)/M_PI)
@@ -31,6 +35,7 @@ double my_angular_error( double ur, double vr, double ue, double ve, double delt
 double (*angular_error)(double,double,double,double,double);
 
 float trn = 1e-4;
+float tag_float = 202021.25;
 
 int main( int argc, char **argv) {
   char fname[256];
@@ -42,7 +47,7 @@ int main( int argc, char **argv) {
   double thresh = 0;
   char format[10] = "%f";
 
-  inr_init( argc, argv, "1.3", "ref est [options]", 
+  inr_init( argc, argv, VERSION, "ref est [options]", 
 	    "Compute and display statistics between two vector fields. Options are:\n"
 	    "  -z : number of frame to process (all by default)\n"
 	    "  -iz : start at this frame (first is the default)\n"
@@ -53,8 +58,8 @@ int main( int argc, char **argv) {
 	    "      aemin,aemean,eastd: angular error min, mean, max and std dev.\n"
 	    "      rnemin,rnemean,rnemax, nestd: relative norm error min,mean,...\n"
 	    "      anemin,anemean,anemax, anestd: absolute norm error min,mean,...\n"
-	    "      epemean,epestd: end point error, mean, std-dev (MiddelBurry)\n"
-	    "      nrmean: mean norm of <ref>\n"
+	    "      epemean,epestd: end point error, mean, std-dev (MiddleBurry)\n"
+	    "      nrmin,nrmean,nrmax, nrstd: norm of <ref> min,mean,...\n"
 	    "      nemin,nemean,nemax, nestd: norm of <est> min,mean,...\n"
 	    "      oemin,oemean,oemax, oestd: orientation of <est> min,mean,...\n"
 	    "      corru, corrv: correlation between <ref> and <est> for component u, v\n"
@@ -62,6 +67,7 @@ int main( int argc, char **argv) {
 	    "  -barron: use the Barron formulae to compute angular error\n"
 	    "  -thresh: only consider vector whose norm is greater or equal to\n" 
 	    "           thresh (0 by default).\n"
+	    "  -tag_float: FIX ME\n"
 	    );
   igetopt1("-trn","%f",&trn);
   igetopt1("-z","%d",&z);
@@ -94,6 +100,7 @@ int main( int argc, char **argv) {
   /* norme des vecteurs */
   double sum_norm_e = 0, sum_norm_r = 0;
   double mean_norm_r, mean_norm_e;
+  double min_norm_r, max_norm_r, stdv_norm_r = 0;
   double min_norm_e, max_norm_e, stdv_norm_e = 0;
 
   /* ane */
@@ -139,11 +146,17 @@ int main( int argc, char **argv) {
 	
 	norm_e = hypot( u_e, v_e);
 
-	if( norm_e >= thresh) {
+	if( norm_e >= thresh &&
+	    u_r != tag_float &&
+	    v_r != tag_float
+	    ) {
 
 	/* norme des vecteurs */
 	norm_r = hypot( u_r, v_r);
-	sum_norm_r += norm_r;	
+	sum_norm_r += norm_r;
+	if( norm_r > max_norm_r) max_norm_r = norm_r;
+	if( norm_r < min_norm_r) min_norm_r = norm_r;
+
 	sum_norm_e += norm_e;
 	if( norm_e > max_norm_e) max_norm_e = norm_e;
 	if( norm_e < min_norm_e) min_norm_e = norm_e;
@@ -236,11 +249,18 @@ int main( int argc, char **argv) {
 	u_e = PIX(w_e, i, j, k, 0);
 	v_e = PIX(w_e, i, j, k, 1);
 
-	if( hypot(u_e, v_e) >= thresh ) {
+	if( hypot(u_e, v_e) >= thresh &&
+	    u_r != tag_float &&
+	    v_r != tag_float
+	    ) {
 
 	/* stdev sur norm_e */
 	norm_e = hypot( u_e, v_e) - mean_norm_e;
 	sum_norm_e += norm_e * norm_e;
+
+	/* stdev sur norm_r */
+	norm_r = hypot( u_r, v_r) - mean_norm_r;
+	sum_norm_r += norm_r * norm_r;
 
 	/* stdev de l'erreur en norme relative */
 	norm_r = hypot( u_r, v_r);
@@ -279,6 +299,7 @@ int main( int argc, char **argv) {
       } /* for */
 
   stdv_norm_e = sqrt( sum_norm_e / n);
+  stdv_norm_r = sqrt( sum_norm_r / n);
   stdv_rne_rel = sqrt( sum_rne_rel / n_rel);
   stdv_ane = sqrt( sum_ane / n);
   stdv_epe = sqrt( sum_epe / n);
@@ -292,7 +313,11 @@ int main( int argc, char **argv) {
     printf( "*** r=reference e=estimated\n");
      
     printf( "* Norms\n");
+    printf( "  Min  ||r|| : %g\n", min_norm_r);
     printf( "  Mean ||r|| : %g\n", mean_norm_r);
+    printf( "  Max  ||r|| : %g\n", max_norm_r);
+    printf( "  StDv ||r|| : %g\n", stdv_norm_r);
+
     printf( "  Min  ||e|| : %g\n", min_norm_e);
     printf( "  Mean ||e|| : %g\n", mean_norm_e);
     printf( "  Max  ||e|| : %g\n", max_norm_e);
@@ -351,6 +376,10 @@ int main( int argc, char **argv) {
       else if( strstr( parse, "anestd") == parse)  printf( format, stdv_ane);
       
       else if( strstr( parse, "nrmean") == parse) printf( format, mean_norm_r);
+      else if( strstr( parse, "nrmin") == parse)  printf( format, min_norm_r);
+      else if( strstr( parse, "nrmax") == parse)  printf( format, max_norm_r);
+      else if( strstr( parse, "nrstd") == parse)  printf( format, stdv_norm_r);
+
       else if( strstr( parse, "nemean") == parse) printf( format, mean_norm_e);
       else if( strstr( parse, "nemin") == parse)  printf( format, min_norm_e);
       else if( strstr( parse, "nemax") == parse)  printf( format, max_norm_e);
