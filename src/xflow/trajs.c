@@ -239,6 +239,17 @@ void trajs_print( XFLOW_DATA *pd) {
 void trajs_draw( XFLOW_API *api, GtkWidget *widget, XFLOW_DATA *pd) {
   if ( pd->type == DATA_XFLOW && pd->data.xflow.trajs) {
     GSList *l;
+    int j = 0;
+
+    /* FIXME : si on a plusieurs champs de vitesse, on a une couleur
+     * par champs. Si on un seul champ de vitesse, on fait varier les
+     * couleurs des trajectoires. */
+    int fixcolor = 0;
+    XFLOW_DATA *p;
+    for( p=api->data; p; p=p->next) {
+      if( pd->type == DATA_XFLOW) fixcolor++;
+      if( fixcolor > 1) break;
+    }
 
     for( l = pd->data.xflow.trajs; l; l=l->next) {
       TRAJECTORY *traj = l -> data;
@@ -249,7 +260,11 @@ void trajs_draw( XFLOW_API *api, GtkWidget *widget, XFLOW_DATA *pd) {
 	points[i].y = (int)((traj->precise_coords[i].j)*((float)api->hwin/(float)api->himg)) ;
       }
       
-      color_set_by_id( api, pd->data.xflow.arrowcolor);
+      if( fixcolor == 1) 
+	color_set_by_id( api, pd->data.xflow.arrowcolor+j++);
+      else
+	color_set_by_id( api, pd->data.xflow.arrowcolor);
+
       gdk_gc_set_line_attributes( api->gc, 3, //GDK_LINE_SOLID 
 				  GDK_LINE_DOUBLE_DASH
 				  , GDK_CAP_NOT_LAST,  GDK_JOIN_MITER);
