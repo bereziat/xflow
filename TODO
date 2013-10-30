@@ -9,6 +9,10 @@ BUGS
  - aucun ?
 
 XFLOW 
+ - glade: page scroll du curseur sample est a changer
+ - zoom < 1 (Etienne)
+ - Il manque Huge dans les tailles
+ - Compléter le formulaire d'export
  - Intégrer les trajectoires (en cours)
  - Seuillage des champs : critere sur le nombre : afficher 80% des champs les plus petits par exemple.
  - export : utiliser mon script inr2avi

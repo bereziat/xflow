@@ -8,6 +8,8 @@ Fichier historique du projet xflow
  - improve the ways glade files are loaded 
  - one can select the panel on the launch of xflow
    (switches -mag/-div/-curl/-hsv)
+ - vel2fig: arrow sizes are now computed in pixel units.
+
 * May 2013 (2.4.1)
  - bug fix in vel2fig (when data are in subdirs)
  - vel2col is now silent unless you use -V

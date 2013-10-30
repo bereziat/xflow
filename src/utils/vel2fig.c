@@ -114,13 +114,22 @@ char *tcolor[] = {"black", "blue", "green", "cyan", "red", "magenta",
 		  "yellow", "white", NULL};
 
 char *tsize[] = {"small", "normal", "large", "big", "huge", NULL};
-int ttsize[][2] = {40,90,  // small
-		   60,120, // normal
-		   80,150, // large
-		   90,180,  // big
-		   100,210,   // huge
+
+int ttsize[][2] = {
+  /*
+    40,90,  
+    60,120,
+    80,150,
+    90,180,
+    100,210, 
+  */
+  2,3, /* small */
+  3,4, /* normal */
+  4,5, /* large */
+  5,6, /* big */
+  6,7, /* huge */
 #define MANUAL    5   
-		   0, 0       // manual
+  0,0
 };
 
 int getind( char **table, char *key) {
@@ -199,7 +208,9 @@ int main( int argc, char **argv) {
 
   int acolor = 4;
   int awidth = 1;
-  int asize = 1;
+  int asize = 1; /* index in arrow size array */
+  int ascale;    /* scale parameter for arrow size */
+
   float threshold = 0, TH=1e5;
   float normsup = 1.;
 
@@ -343,7 +354,9 @@ int main( int argc, char **argv) {
 	asize = MANUAL;
 	ttsize[MANUAL][0] = awidth ;
 	ttsize[MANUAL][1] = astyle;
-      }
+	ascale = 1; 
+      } else
+	ascale = size*1200*unit/NDIMX;
       igetopt1( "-awidth", "%d", &awidth);
       igetopt1( "-astyle", "%d", &astyle);
       
@@ -386,7 +399,8 @@ int main( int argc, char **argv) {
       // scale /= 1200;
 
       fprintf(fp,"# List of vectors\n");
-      /* Ecriture des vecteurs */
+
+      /* Ecriture des vecteurs */      
       for(j=0; j < NDIMY; j += sample)
 	for(i=0; i < NDIMX; i += sample) {
 	  float u,v;
@@ -407,7 +421,7 @@ int main( int argc, char **argv) {
 	    fprintf( fp, "2 1 0 %d %d 7 50 0 -1 0.000 0 0 -1 1 0 2\n", awidth, acolor);
 	    /* attribut fleche: 0 0 epaisseur angle longueur */
 	    fprintf( fp, "  %d %d %d %d %d\n", astyle, astyle>0, awidth, 
-		     ttsize[asize][0], ttsize[asize][1]);
+		     ttsize[asize][0]*ascale, ttsize[asize][1]*ascale);
 	    /* coordonnées du vecteur */
 	    fprintf( fp, "  %d %d %d %d\n", (int)x+x_off, (int)y+y_off, x2+x_off, y2+y_off);
 	  }
