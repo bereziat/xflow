@@ -2,9 +2,10 @@
  * genere un code Xfig pour une figure contenant :
  *  - l'image
  *  - le champ de vecteurs (sous echantillonné)
- * (c) 2003 D.Béréziat LIP6/UPMC
+ * (c) 2003/2013 D.Béréziat LIP6/UPMC
  * genere aussi le eps et le tex a inclure dans LaTeX
  *
+ * Version 1.4.2: modif dans le calcul des tailles de fleches pour convenir à la fois aux grandes et petites images.
  * Version 1.4.1: vel2fig gère correctement les fichiers qui ne sont pas dans le répertoire courant
  * Version 1.4.0: ajout option -roi='ix,iy,x,y,w,col' mettre 0 a w pour extraire le ROI
  * Version 1.3.3: ajout seuil relatif (postfixe %) + Fix temporaire image couleurs & inr2gif + fix bug vitesse a composante nulle
@@ -45,6 +46,7 @@
 #include <string.h>
 #include <libgen.h>
 
+#define MAX(a,b)  ((a)>(b)?(a):(b))
 extern int debug_;
 
 /* enlève l'extension d'un nom de fichier, 
@@ -97,10 +99,10 @@ Local options (they must be given after the targeted XFLOW filename) are:\n\
 \t-acolor <col>: arrow color (black,blue,green,cyan,red,magneta,\n\
 \t               yellow,white).\n\
 \t-awidth %d   : arrow width.\n\
-\t-asize <size>: predefined arrow head size, possible are: small (40x90),\n\
-\t      normal (60x120), large (80x150), big (90x180) and huge (100x210).\n\
-\t-ahead <width> <height>: \n\
-\t               arrow head size, dimensions must be explicitly given.\n\
+\t-asize <size>: predefined arrow head size, possible are: micro, tiny, small,\n\
+\t               normal, large, big  and huge .\n\
+\t-ahead <width> <height>: arrow head size, dimensions must be explicitly given, \n\
+\t                this overrides -ahead switch.\n\
 \t-astyle <style> : arrow style (0-6).\n\
 \n\
 The vel2fig command produces two files 'generic.fig' and 'generic.gif' (image\n\
@@ -113,9 +115,9 @@ SEE ALSO: xflow\n";
 char *tcolor[] = {"black", "blue", "green", "cyan", "red", "magenta",
 		  "yellow", "white", NULL};
 
-char *tsize[] = {"small", "normal", "large", "big", "huge", NULL};
+char *tsize[] = {"micro", "tiny", "small", "normal", "large", "big", "huge", NULL};
 
-int ttsize[][2] = {
+float ttsize[][2] = {
   /*
     40,90,  
     60,120,
@@ -123,6 +125,8 @@ int ttsize[][2] = {
     90,180,
     100,210, 
   */
+  0.5,0.75, /* micro */
+  1,1.5, /* tiny */
   2,3, /* small */
   3,4, /* normal */
   4,5, /* large */
@@ -356,7 +360,7 @@ int main( int argc, char **argv) {
 	ttsize[MANUAL][1] = astyle;
 	ascale = 1; 
       } else
-	ascale = size*1200*unit/NDIMX;
+	ascale = size*1200*unit / MAX(MAX(100,NDIMX),NDIMY);
       igetopt1( "-awidth", "%d", &awidth);
       igetopt1( "-astyle", "%d", &astyle);
       
@@ -421,7 +425,7 @@ int main( int argc, char **argv) {
 	    fprintf( fp, "2 1 0 %d %d 7 50 0 -1 0.000 0 0 -1 1 0 2\n", awidth, acolor);
 	    /* attribut fleche: 0 0 epaisseur angle longueur */
 	    fprintf( fp, "  %d %d %d %d %d\n", astyle, astyle>0, awidth, 
-		     ttsize[asize][0]*ascale, ttsize[asize][1]*ascale);
+		     (int)(ttsize[asize][0]*ascale), (int)(ttsize[asize][1]*ascale));
 	    /* coordonnées du vecteur */
 	    fprintf( fp, "  %d %d %d %d\n", (int)x+x_off, (int)y+y_off, x2+x_off, y2+y_off);
 	  }

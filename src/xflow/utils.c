@@ -553,10 +553,10 @@ int color_set_by_name( XFLOW_API *api, char *name) {
   return i;
 }
 
-static char *tsize[] = {"small", "normal", "large", "big", NULL};
+static char *tsize[] = {"micro", "tiny", "small", "normal", "large", "big", "huge", NULL};
 
 char *size_name( int id) {
-  if( id>=0 && id <4)
+  if( id>=0 && id <7)
     return tsize[id];
   return "";
 }
