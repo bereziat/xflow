@@ -9,6 +9,9 @@ int debug = 0;
 int with_trajs = 0;
 float DT = 1.0;
 
+extern int point_factor, line_width; /* provisoire, dans trajs.c */
+
+
 static char usage[]  = "[options|--help|--version] images";
 static char detail[] = "images can be a list of any INRIMAGE file or XFLOW2 image.\n\
   - an XFLOW2 image will be displayed as a vector field. \n\
@@ -26,7 +29,12 @@ Options are:\n\
   -zoom %f:   set zoom parameter (1-20)\n\
   -smooth:    smooth vector fields\n\
   -norma:     normalize vector fields\n\
-  -mag|-div|-curl|-hsv: display respectively magnetude, divergence, rotational or HSV instead of vectors\n\
+  -mag|-div|-curl|-hsv: display respectively magnetude, divergence,\n\
+                        rotational or HSV instead of vectors\n\
+  -wt: enable the trajectory manager, experimental!\n\
+       -dt %f: set the time step\n\
+       -pf %d: set the current position size\n\
+       -lw %d: set the trajectory line width\n\
 ";
 
 
@@ -48,7 +56,12 @@ int main( int argc, char **argv) {
   debug = igetopt0( "-d");
 
   with_trajs = igetopt0("-wt"); /* with trajectories */
-  igetopt1( "-dt", "%f", &DT);
+  if( with_trajs) {
+    igetopt1( "-dt", "%f", &DT);
+    igetopt1( "-pf", "%d", &point_factor);
+    igetopt1( "-lw", "%d", &line_width);    
+  }
+
   /* Init api & chargement des images */
   api = xflow_api_new();
 

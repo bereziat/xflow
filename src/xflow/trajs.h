@@ -16,6 +16,7 @@ typedef  struct {
   POINT3D* precise_coords;
   unsigned int num_points;
   unsigned int starting_zpos; 
+  int hidden;
 } TRAJECTORY;
 
 

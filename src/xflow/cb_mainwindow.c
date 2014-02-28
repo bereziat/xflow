@@ -406,8 +406,9 @@ on_xflow_main_vectors_draw_button_press_event    (GtkWidget       *widget,
 	      sprintf( coords, "(%d,%d,%d)", x+1, y+1, api->zpos);
 	      gtk_list_store_set( GTK_LIST_STORE(model), &iter,
 				  0, FALSE,
-				  1, coords,
-				  2, coords, -1);
+				  1, FALSE,
+				  2, coords,
+				  3, coords, -1);
 	      
 	      init = 0;
 	      
@@ -431,6 +432,31 @@ on_xflow_main_vectors_draw_button_press_event    (GtkWidget       *widget,
   return FALSE;
 }
 
+void
+on_xflow_main_trajs_hide_toggled( GtkCellRendererToggle *cell,
+				  gchar *path_str,
+				  gpointer userdata) {
+  XFLOW_API *api = (XFLOW_API *)userdata;
+  XFLOW_DATA *pd;
+  int num_traj = atoi( path_str);
+  int state;
+  for( pd = api->data; pd; pd = pd->next) 
+    if( pd->type == DATA_XFLOW) {
+      GSList *l = pd->data.xflow.trajs;
+      TRAJECTORY *t = g_slist_nth( l, num_traj) -> data;
+      state = t->hidden = 1 - t->hidden;
+    }
+
+  GtkTreePath *path = gtk_tree_path_new_from_string( path_str);
+  GtkTreeIter iter;
+  GtkTreeModel *model = gtk_tree_view_get_model( 
+       GTK_TREE_VIEW(lastchild(lookup_widget(api->mainwindow,
+					     "xflow_main_vectors_paned_box"))));
+  gtk_tree_model_get_iter ( model, &iter, path);
+  gtk_list_store_set ( GTK_LIST_STORE(model), &iter, 1, state, -1);
+  xflow_api_refresh_drawing_areas( api);
+
+}
 
 void
 on_xflow_main_trajs_delete_toggled( GtkCellRendererToggle *cell,
@@ -438,14 +464,14 @@ on_xflow_main_trajs_delete_toggled( GtkCellRendererToggle *cell,
 				    gpointer userdata) {
   XFLOW_API *api = (XFLOW_API *)userdata;
   XFLOW_DATA *pd;
-  int num_trajs = atoi( path_str);
+  int num_traj = atoi( path_str);
  
 
   /* remove in the trajs lists */
   for( pd = api->data; pd; pd = pd->next) 
     if( pd->type == DATA_XFLOW) {
       GSList *l = pd->data.xflow.trajs;
-      pd->data.xflow.trajs = g_slist_delete_link( l, g_slist_nth( l, num_trajs));
+      pd->data.xflow.trajs = g_slist_delete_link( l, g_slist_nth( l, num_traj));
     }
 
   /* remove in the store */
@@ -1290,3 +1316,31 @@ void on_xflow_main_menu_trajs_dump_activate( GtkMenuItem *menuitem,
   for( pd=api->data; pd; pd=pd->next)
     trajs_print( pd);
 }
+
+extern int point_factor, line_width;
+
+void on_xflow_main_menu_trajs_pf_dec_activate( GtkMenuItem *menuitem,
+					   gpointer userdata) {
+  if( point_factor > 1 ) point_factor --;
+   xflow_api_refresh_drawing_areas ((XFLOW_API*) userdata);
+   puts( "dec");
+}
+
+void on_xflow_main_menu_trajs_pf_inc_activate( GtkMenuItem *menuitem,
+					   gpointer userdata) {
+  point_factor ++;
+  xflow_api_refresh_drawing_areas ((XFLOW_API*) userdata);
+}
+  
+void on_xflow_main_menu_trajs_lw_dec_activate( GtkMenuItem *menuitem,
+					   gpointer userdata) {
+  if( line_width > 1 ) line_width --;
+   xflow_api_refresh_drawing_areas ((XFLOW_API*) userdata);
+}
+
+void on_xflow_main_menu_trajs_lw_inc_activate( GtkMenuItem *menuitem,
+					   gpointer userdata) {
+  line_width++;
+  xflow_api_refresh_drawing_areas ((XFLOW_API*) userdata);
+}
+  

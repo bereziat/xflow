@@ -71,11 +71,10 @@ void  RK4_2D( float t0, float i0, float j0, float dt,
 
     P[1+current_t].i=P[current_t].i+(1/6.0)*dt*(K1_U+2*K2_U+2*K3_U+K4_U);
     P[1+current_t].j=P[current_t].j+(1/6.0)*dt*(K1_V+2*K2_V+2*K3_V+K4_V);
-    
-    
-    P[current_t].t=t;
+
     ++current_t;
     t+=dt;
+    P[current_t].t=t;
   }
 }
 
@@ -90,6 +89,12 @@ void read_velocity( XFLOW_DATA *pd, int t, int pixel_i, int pixel_j, vel2d *vel)
   Fort_int *lfmt=pd->data.xflow.file->iuv->lfmt;
   vel2d *line = NEW(vel2d, DIMX);
 
+
+  if( t > NDIMZ) {
+    fprintf( stderr, "\033[31m%s\033[39m time %d if out of range in image %s\n", 
+	     "Warning:",t,pd->data.xflow.file->iuv->nom);
+    t = NDIMZ;
+  }
   xflow_seek( pd->data.xflow.file, (t-1)*NDIMY + pixel_j + 1);
   xflow_read_v2d( pd->data.xflow.file, 1, line);
   
@@ -207,7 +212,8 @@ int trajs_add( XFLOW_DATA *pd, int x0, int y0, int z0, float dt, float tol) {
     traj -> num_points =  pd->data.xflow.file->iuv->NDIMZ - z0 + 1;
     traj -> starting_zpos = z0;
     traj -> precise_coords = NEW(POINT3D,traj->num_points);
-    
+    traj -> hidden = 0;
+
     current = pd;
     
     RK4_2D( z0, x0, y0, dt, Velocity_u, Velocity_v, 
@@ -235,6 +241,8 @@ void trajs_print( XFLOW_DATA *pd) {
   }
 }
 
+int point_factor = 3;
+int line_width = 4;
 
 void trajs_draw( XFLOW_API *api, GtkWidget *widget, XFLOW_DATA *pd) {
   if ( pd->type == DATA_XFLOW && pd->data.xflow.trajs) {
@@ -247,45 +255,46 @@ void trajs_draw( XFLOW_API *api, GtkWidget *widget, XFLOW_DATA *pd) {
     int fixcolor = 0;
     XFLOW_DATA *p;
     for( p=api->data; p; p=p->next) {
-      if( pd->type == DATA_XFLOW) fixcolor++;
+      if( p->type == DATA_XFLOW) fixcolor++;
       if( fixcolor > 1) break;
     }
 
     for( l = pd->data.xflow.trajs; l; l=l->next) {
       TRAJECTORY *traj = l -> data;
-      GdkPoint *points = NEW( GdkPoint, traj->num_points);
-      int i;
-      for( i=0; i<traj->num_points; i++) {
-	points[i].x = (int)((traj->precise_coords[i].i)*((float)api->wwin/(float)api->wimg)) ;
-	points[i].y = (int)((traj->precise_coords[i].j)*((float)api->hwin/(float)api->himg)) ;
+      if( traj -> hidden == 0 ) {
+	GdkPoint *points = NEW( GdkPoint, traj->num_points);
+	int i;
+	for( i=0; i<traj->num_points; i++) {
+	  points[i].x = (int)((traj->precise_coords[i].i)*((float)api->wwin/(float)api->wimg)) ;
+	  points[i].y = (int)((traj->precise_coords[i].j)*((float)api->hwin/(float)api->himg)) ;
+	}
+	
+	if( fixcolor == 1) 
+	  color_set_by_id( api, pd->data.xflow.arrowcolor+j++);
+	else
+	  color_set_by_id( api, pd->data.xflow.arrowcolor);
+	
+	gdk_gc_set_line_attributes( api->gc, line_width, 
+				    GDK_LINE_DOUBLE_DASH, GDK_CAP_NOT_LAST,  GDK_JOIN_MITER);
+	
+	gdk_draw_lines( widget->window, api->gc, points, i);
+	
+	float scale = api->wwin/ api->wimg;
+	// FIXME
+#define POINTSIZE point_factor * scale
+	if( traj -> starting_zpos <= api->zpos) {
+	  gdk_draw_arc (widget->window,
+			api->gc,
+			FALSE,
+			points[api->zpos - traj->starting_zpos].x - POINTSIZE,
+			points[api->zpos - traj->starting_zpos].y - POINTSIZE,
+			POINTSIZE * 2,
+			POINTSIZE * 2, 
+			0, 64*360);
+	}
+	
+	DELETE(points);
       }
-      
-      if( fixcolor == 1) 
-	color_set_by_id( api, pd->data.xflow.arrowcolor+j++);
-      else
-	color_set_by_id( api, pd->data.xflow.arrowcolor);
-
-      gdk_gc_set_line_attributes( api->gc, 3, //GDK_LINE_SOLID 
-				  GDK_LINE_DOUBLE_DASH
-				  , GDK_CAP_NOT_LAST,  GDK_JOIN_MITER);
-
-      gdk_draw_lines( widget->window, api->gc, points, i);
-      
-      float scale = api->wwin/ api->wimg;
-      // FIXME
-#define POINTSIZE 2 * scale
-      if( traj -> starting_zpos <= api->zpos) {
-	gdk_draw_arc (widget->window,
-		      api->gc,
-		      FALSE,
-		      points[api->zpos - traj->starting_zpos].x - POINTSIZE,
-		      points[api->zpos - traj->starting_zpos].y - POINTSIZE,
-		      POINTSIZE * 2,
-		      POINTSIZE * 2, 
-		      0, 64*360);
-      }
-      
-      DELETE(points);
     }
   }
 }
@@ -317,7 +326,6 @@ void trajs_update_list_store( XFLOW_API *api) {
 						  "xflow_main_vectors_paned_box"))));
  
     t = gtk_tree_model_get_iter_first ( model, &iter);
-	 
     while( t) {
       TRAJECTORY *traj = l->data;
 
@@ -329,7 +337,7 @@ void trajs_update_list_store( XFLOW_API *api) {
 		 traj->precise_coords[api->zpos-traj->starting_zpos].j,
 		 (int)traj->precise_coords[api->zpos-traj->starting_zpos].t
 		 );
-      gtk_list_store_set ( GTK_LIST_STORE(model), &iter, 2, text, -1);       
+      gtk_list_store_set ( GTK_LIST_STORE(model), &iter, 3, text, -1);       
       t = gtk_tree_model_iter_next( model, &iter);
       
       l = l -> next;

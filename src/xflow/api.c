@@ -3,6 +3,7 @@
  */
 #include <config.h>  /* Uniquement pour la macro PACKAGE */
 #include <stdlib.h>
+#include <string.h>
 #include <math.h>
 #include "data.h"
 #include "utils.h"
@@ -196,46 +197,41 @@ void xflow_api_show_window( XFLOW_API *api) {
     GtkListStore *store;
     
     /* model */
-    store = gtk_list_store_new( 3, 
+    store = gtk_list_store_new( 4,     /* four columns */
+				G_TYPE_BOOLEAN,
 				G_TYPE_BOOLEAN,
 				G_TYPE_STRING,
 				G_TYPE_STRING);
     
     treeview = gtk_tree_view_new_with_model ( GTK_TREE_MODEL(store));
     
-    /* three columns */
+
+    /* 'Delete' button */
     renderer = gtk_cell_renderer_toggle_new();
-    column = gtk_tree_view_column_new_with_attributes( "Delete", 
-						       renderer,
-						       "active",
-						       0,
-						       NULL);
+    column = gtk_tree_view_column_new_with_attributes( "Delete", renderer, "active", 0, NULL);
     g_signal_connect (renderer, "toggled",
-		      G_CALLBACK (on_xflow_main_trajs_delete_toggled), api);
-    
+		      G_CALLBACK (on_xflow_main_trajs_delete_toggled), api);    
     /* set this column to a fixed sizing (of 50 pixels) */
-    gtk_tree_view_column_set_sizing (GTK_TREE_VIEW_COLUMN (column),
-				     GTK_TREE_VIEW_COLUMN_FIXED);
-    gtk_tree_view_column_set_fixed_width (GTK_TREE_VIEW_COLUMN (column), 50);
+    //    gtk_tree_view_column_set_sizing (GTK_TREE_VIEW_COLUMN (column),
+    //				     GTK_TREE_VIEW_COLUMN_FIXED);
+    //    gtk_tree_view_column_set_fixed_width (GTK_TREE_VIEW_COLUMN (column), 50);
     gtk_tree_view_append_column (GTK_TREE_VIEW(treeview), column);
     
-    
-    
+    /* 'Hide' button */
+    renderer = gtk_cell_renderer_toggle_new();
+    column = gtk_tree_view_column_new_with_attributes( "Hide", renderer, "active", 1, NULL);
+    g_signal_connect( renderer, "toggled",
+		      G_CALLBACK(on_xflow_main_trajs_hide_toggled), api);
+    gtk_tree_view_append_column (GTK_TREE_VIEW(treeview), column);
+
+    /* Coordinate initial point */
     renderer = gtk_cell_renderer_text_new();
-    column = gtk_tree_view_column_new_with_attributes( "(x0,y0,z0)", 
-						       renderer,
-						       "text",
-						       1,
-						       NULL);
+    column = gtk_tree_view_column_new_with_attributes( "(x0,y0,z0)", renderer, "text", 2, NULL);
     gtk_tree_view_append_column (GTK_TREE_VIEW(treeview), column);
     
-    
+    /* Coordinate final point */
     renderer = gtk_cell_renderer_text_new();
-    column = gtk_tree_view_column_new_with_attributes( "(xn,yn,zn)", 
-						       renderer,
-						       "text",
-						       2,
-						       NULL);
+    column = gtk_tree_view_column_new_with_attributes( "(xn,yn,zn)", renderer, "text", 3, NULL);
     gtk_tree_view_append_column (GTK_TREE_VIEW(treeview), column);
     
     
@@ -244,7 +240,6 @@ void xflow_api_show_window( XFLOW_API *api) {
 						   "xflow_main_vectors_paned_box")),
 		       treeview);
     
-   
   }
 
 

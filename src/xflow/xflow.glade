@@ -623,7 +623,68 @@
                         <property name="label">Dump</property>
                         <signal name="activate" handler="on_xflow_main_menu_trajs_dump_activate" swapped="no"/>
                       </object>
-                    </child>
+                    </child>	
+
+		    <child>
+		      <object class="GtkMenuItem" id="xflow_main_menu_trajs_pf">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="label" translatable="yes">Size</property>
+			<child type="submenu">
+			  <object class="GtkMenu" id="pf_sizes">
+			     <property name="visible">True</property>
+                             <property name="can_focus">False</property>
+			     <child>
+                               <object class="GtkMenuItem" id="pf1">
+                                 <property name="visible">True</property>
+                                 <property name="can_focus">False</property>
+                                 <property name="label" translatable="yes">--</property>
+                                 <signal name="activate" handler="on_xflow_main_menu_trajs_pf_dec_activate" swapped="no"/>
+                               </object>
+			     </child>
+			     <child>
+                               <object class="GtkMenuItem" id="pf2">
+                                 <property name="visible">True</property>
+                                 <property name="can_focus">False</property>
+                                 <property name="label" translatable="yes">++</property>
+                                 <signal name="activate" handler="on_xflow_main_menu_trajs_pf_inc_activate" swapped="no"/>
+                               </object>
+			     </child>
+			  </object>
+			</child>
+		      </object>
+		    </child>
+
+		    <child>
+		      <object class="GtkMenuItem" id="xflow_main_menu_trajs_lw">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="label" translatable="yes">Width</property>
+			<child type="submenu">
+			  <object class="GtkMenu" id="lw_sizes">
+			     <property name="visible">True</property>
+                             <property name="can_focus">False</property>
+			     <child>
+                               <object class="GtkMenuItem" id="lw1">
+                                 <property name="visible">True</property>
+                                 <property name="can_focus">False</property>
+                                 <property name="label" translatable="yes">--</property>
+                                 <signal name="activate" handler="on_xflow_main_menu_trajs_lw_dec_activate" swapped="no"/>
+                               </object>
+			     </child>
+			     <child>
+                               <object class="GtkMenuItem" id="lw2">
+                                 <property name="visible">True</property>
+                                 <property name="can_focus">False</property>
+                                 <property name="label" translatable="yes">++</property>
+                                 <signal name="activate" handler="on_xflow_main_menu_trajs_lw_inc_activate" swapped="no"/>
+                               </object>
+			     </child>
+			  </object>
+			</child>
+		      </object>
+		    </child>
+
                   </object>
                 </child>
               </object>

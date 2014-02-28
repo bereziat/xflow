@@ -34,5 +34,8 @@ on_xflow_main_vectors_checks_toggled  (GtkToggleButton *button, gpointer user_da
 
 void
 on_xflow_main_trajs_delete_toggled( GtkCellRendererToggle *cell,
-				    gchar *path_str,
-				    gpointer userdata);
+				    gchar *path_str, gpointer userdata);
+
+void
+on_xflow_main_trajs_hide_toggled( GtkCellRendererToggle *cell,
+				  gchar *path_str, gpointer userdata);
