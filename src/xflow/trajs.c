@@ -43,15 +43,18 @@ static void  RK4_1D( float t0, float y0, float dt, pfun1D F,
  * FIXME le 1D n'est pas utilisé, le virer et transférer la doc ici
  */
 
-void  RK4_2D( float t0, float i0, float j0, float dt,
-	      pfun2D F_U, pfun2D F_V,float num_iter, POINT3D*  P ) {
+int RK4_2D( float t0, float i0, float j0, float dt,
+	    pfun2D F_U, pfun2D F_V,float num_iter, POINT3D*  P,
+	    int imin, int jmin, int imax, int jmax) {
 
   int n;
   float t=t0;
   int current_t=0;
+ 
   P[current_t].t=t0;
   P[current_t].i=i0;
   P[current_t].j=j0;
+  
   for(n=0;n<num_iter;++n) {
     float K1_U,K2_U,K3_U,K4_U;
     float K1_V,K2_V,K3_V,K4_V;
@@ -75,7 +78,13 @@ void  RK4_2D( float t0, float i0, float j0, float dt,
     ++current_t;
     t+=dt;
     P[current_t].t=t;
+
+    if( P[current_t].i < imin || P[current_t].j < jmin ||
+	P[current_t].i > imax || P[current_t].j > jmax ) {
+      return current_t+1; /* taille du tableau */
+    }
   }
+  return current_t+1; /* taille du tableau */
 }
 
 
@@ -90,11 +99,13 @@ void read_velocity( XFLOW_DATA *pd, int t, int pixel_i, int pixel_j, vel2d *vel)
   vel2d *line = NEW(vel2d, DIMX);
 
 
-  if( t > NDIMZ) {
-    fprintf( stderr, "\033[31m%s\033[39m time %d if out of range in image %s\n", 
-	     "Warning:",t,pd->data.xflow.file->iuv->nom);
-    t = NDIMZ;
-  }
+  if( t<0) t=0;
+  if( t > NDIMZ) t = NDIMZ;
+  if( pixel_i<0) pixel_i = 0;
+  if( pixel_i>=NDIMX) pixel_i = NDIMX-1;
+  if( pixel_j<0) pixel_j = 0;
+  if( pixel_j>=NDIMY) pixel_j = NDIMY-1;
+
   xflow_seek( pd->data.xflow.file, (t-1)*NDIMY + pixel_j + 1);
   xflow_read_v2d( pd->data.xflow.file, 1, line);
   
@@ -192,7 +203,7 @@ int trajs_add( XFLOW_DATA *pd, int x0, int y0, int z0, float dt, float tol) {
     TRAJECTORY *traj;
     int count = 0;
 
-    if( pd->data.xflow.file->iuv->f_type & FL_PIPE) 
+    if( pd->data.xflow.file->iuv->f_type & FL_PIPE)
       return -2;
    
     for( l= pd->data.xflow.trajs; l; l=l->next) {
@@ -216,8 +227,10 @@ int trajs_add( XFLOW_DATA *pd, int x0, int y0, int z0, float dt, float tol) {
 
     current = pd;
     
-    RK4_2D( z0, x0, y0, dt, Velocity_u, Velocity_v, 
-	    traj->num_points - 1 , traj->precise_coords);
+    traj->num_points = RK4_2D( z0, x0, y0, dt, Velocity_u, Velocity_v, 
+			       traj->num_points - 1 , traj->precise_coords,
+			       0, 0, pd->data.xflow.file->iuv->NDIMX,pd->data.xflow.file->iuv->NDIMY
+			       );
     
     return count;
   }
@@ -282,7 +295,8 @@ void trajs_draw( XFLOW_API *api, GtkWidget *widget, XFLOW_DATA *pd) {
 	float scale = api->wwin/ api->wimg;
 	// FIXME
 #define POINTSIZE point_factor * scale
-	if( traj -> starting_zpos <= api->zpos) {
+	if( traj -> starting_zpos <= api->zpos &&
+	    (api->zpos-traj->starting_zpos)<traj->num_points )
 	  gdk_draw_arc (widget->window,
 			api->gc,
 			FALSE,
@@ -291,7 +305,6 @@ void trajs_draw( XFLOW_API *api, GtkWidget *widget, XFLOW_DATA *pd) {
 			POINTSIZE * 2,
 			POINTSIZE * 2, 
 			0, 64*360);
-	}
 	
 	DELETE(points);
       }
@@ -330,6 +343,8 @@ void trajs_update_list_store( XFLOW_API *api) {
       TRAJECTORY *traj = l->data;
 
       if( traj -> starting_zpos > api->zpos)
+	*text = 0;
+      else if( (api->zpos-traj->starting_zpos) >= traj->num_points )
 	*text = 0;
       else
 	sprintf( text, "(%.1f,%.1f,%d)", 

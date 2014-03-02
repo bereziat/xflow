@@ -218,7 +218,8 @@ static void draw_vectors( XFLOW_API *api, GtkWidget *widget, XFLOW_DATA *pd) {
   size =  pd->data.xflow.arrowsize;
 
   /* Epaisseur */
-  gdk_gc_set_line_attributes( api->gc, pd->data.xflow.arrowwidth, GDK_LINE_SOLID, GDK_CAP_NOT_LAST,  GDK_JOIN_MITER);
+  gdk_gc_set_line_attributes( api->gc, pd->data.xflow.arrowwidth, 
+			      GDK_LINE_SOLID, GDK_CAP_NOT_LAST,  GDK_JOIN_MITER);
   
   xflow_get_dims( pd->data.xflow.file, &w_img, &h_img, &dum); 
 	  

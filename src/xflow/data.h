@@ -16,8 +16,8 @@ typedef struct xflow_data {
   union {
     struct {
       t_scrn display;    
-      unsigned char *read;
-      unsigned char *buf;
+      unsigned char *read; /* tampon du plan lu */
+      unsigned char *buf;  /* tampon de l'écran */
       struct image *file;
       unsigned char pal[256][4];
     } image;

@@ -291,7 +291,7 @@ on_export_apply_clicked                (GtkButton       *button,
       sprintf( command, "%s -nf ", command);
     
     if( gtk_toggle_button_get_active( GTK_TOGGLE_BUTTON(lookup_widget(api->export,"export_nvo"))))
-      sprintf( command, "-nvo ", command);
+      sprintf( command, "%s -nvo ", command);
     
     
     switch( bg_type) {	    
