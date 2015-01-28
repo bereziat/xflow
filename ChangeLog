@@ -1,6 +1,93 @@
+2014-02-28 15:16  bereziat
+
+	* configure.ac, src/xflow/api.c, src/xflow/api.h,
+	  src/xflow/cb_mainwindow.c, src/xflow/main.c, src/xflow/trajs.c,
+	  src/xflow/trajs.h, src/xflow/xflow.glade: meilleure gestion des
+	  trajectoires
+	  controle des tailles via la ligne de commande et le menu
+	  on peut masquer certaines trajectoires
+	  correction de bug (couleurs des trajectoires)
+
+2013-11-28 10:37  bereziat
+
+	* src/utils/vel2fig.c, src/xflow/utils.c, src/xflow/xflow.glade:
+	  amelioration taille fleche
+
+2013-10-30 12:50  bereziat
+
+	* NEWS, TODO, src/utils/vel2fig.c: modif taille fleche dans vel2fig
+
+2013-10-28 15:43  bereziat
+
+	* src/xflow/trajs.c: les trajectoirs changes de couleurs en
+	  fonction du nombre de champs. 1 champs -> chaque trajectoires a
+	  sa couleur, 2 champs ou plus, les trajectoires ont la couleurs de
+	  leur champ
+
+2013-10-22 11:35  bereziat
+
+	* src/utils/velstats.c: velstats: gestion tag_float, plus de stats
+	  sur le champ ref
+
+2013-10-17 09:06  bereziat
+
+	* src/xflow/data.c, src/xflow/utils.c, src/xflow/utils.h: les NaN
+	  sont filtrées avec en prime un message d'alerte dans la sortie
+	  d'erreur.
+
+2013-10-16 10:12  bereziat
+
+	* src/xflow/api.c, src/xflow/cb_mainwindow.c: selection des
+	  images/champs par leur chemin et non plus leur nom
+
+2013-10-16 09:35  bereziat
+
+	* src/xflow/main.c: trajectoire n\'est plus active par defaut
+
+2013-10-07 14:43  bereziat
+
+	* src/xflow/cb_mainwindow.c: fix: snprintf ne fonctionne pas sur
+	  debian
+
+2013-10-07 14:36  bereziat
+
+	* Makefile.in, NEWS, README, TODO, aclocal.m4, compile,
+	  config.h.in, configure, configure.ac, scripts/Makefile.in,
+	  src/Makefile.in, src/doxydoc.c, src/img/Makefile.in,
+	  src/inrimage/Makefile.in, src/lib/Makefile.in,
+	  src/utils/Makefile.in, src/xflow.doxy, src/xflow.doxy.in,
+	  src/xflow/Makefile.in, src/xflow/api.c, src/xflow/cb_about.c,
+	  src/xflow/cb_export.c, src/xflow/cb_mainwindow.c,
+	  src/xflow/data.c, src/xflow/data.h, src/xflow/main.c,
+	  src/xflow/trajs.c, src/xflow/utils.c, src/xflow/utils.h,
+	  src/xflow/xflow.glade: trajectory manager, select paned view
+
+2013-05-14 14:41  bereziat
+
+	* src/xflow/api.c, src/xflow/api.h, src/xflow/cb_export.c,
+	  src/xflow/cb_mainwindow.c, src/xflow/data.h, src/xflow/main.c,
+	  src/xflow/trajs.c, src/xflow/trajs.h, src/xflow/utils.c,
+	  src/xflow/utils.h, src/xflow/xflow.glade: gestion des
+	  trajectoires dans la barre laterale
+
+2013-05-07 19:56  bereziat
+
+	* configure, configure.ac, src/xflow/api.c, src/xflow/data.c,
+	  src/xflow/utils.c: correction de deux bugs critiques (mauvais
+	  drawable pour contexte graphique) et test_dims incorrect.
+	  configure.ac: -lm testé avant -linrimage
+
+2013-05-05 19:33  bereziat
+
+	* ChangeLog, Makefile.am, Makefile.in, NEWS, TODO, configure,
+	  configure.ac, src/doxydoc.c, src/xflow.doxy,
+	  src/xflow/Makefile.in, src/xflow/api.c, src/xflow/cb_about.c,
+	  src/xflow/cb_export.c, src/xflow/data.h: Maj a jour general pour
+	  la 2.4.1. Remodif de la lecture des fichiers glade
+
 2013-05-05 19:04  bereziat
 
-	* [r74] ChangeLog, src/doxydoc.c, src/utils/vel2col.c,
+	* ChangeLog, src/doxydoc.c, src/utils/vel2col.c,
 	  src/utils/vel2fig.c, src/xflow/cb_export.c,
 	  src/xflow/cb_mainwindow.c: vel2fig: les fichiers qui ne sont pas
 	  dans le répertoire courant sont maintenant correctement traités.
@@ -10,37 +97,35 @@
 
 2013-05-04 10:47  bereziat
 
-	* [r73] src/xflow/cb_mainwindow.c, src/xflow/xflow.glade: La
-	  scrolled window est maintenant fonctionnelle pour H
+	* src/xflow/cb_mainwindow.c, src/xflow/xflow.glade: La scrolled
+	  window est maintenant fonctionnelle pour H
 
 2013-05-03 19:23  bereziat
 
-	* [r72] src/xflow/Makefile.am, src/xflow/Makefile.in,
-	  src/xflow/api.c, src/xflow/api.h, src/xflow/arrow.sh,
-	  src/xflow/cb_mainwindow.c, src/xflow/data.c,
-	  src/xflow/xflow.glade: ajout dans le menu Arrow style; le menu
-	  est mis a jour lorsqu'on change le champ actif
+	* src/xflow/Makefile.am, src/xflow/Makefile.in, src/xflow/api.c,
+	  src/xflow/api.h, src/xflow/arrow.sh, src/xflow/cb_mainwindow.c,
+	  src/xflow/data.c, src/xflow/xflow.glade: ajout dans le menu Arrow
+	  style; le menu est mis a jour lorsqu'on change le champ actif
 
 2013-05-03 11:39  bereziat
 
-	* [r71] src/xflow/Makefile.am, src/xflow/Makefile.in,
-	  src/xflow/api.c, src/xflow/api.h, src/xflow/cb_about.c,
-	  src/xflow/cb_export.c, src/xflow/cb_mainwindow.c,
-	  src/xflow/data.c, src/xflow/data.h, src/xflow/main.c,
-	  src/xflow/trajs.c, src/xflow/trajs.h, src/xflow/xflow.glade:
-	  debut de gestion des trajectoires (option -wt provisoire),
-	  nouveaux raccourcis dans le menu, nouveau titre de fenetre, bogue
-	  fixe dans previous_frame
+	* src/xflow/Makefile.am, src/xflow/Makefile.in, src/xflow/api.c,
+	  src/xflow/api.h, src/xflow/cb_about.c, src/xflow/cb_export.c,
+	  src/xflow/cb_mainwindow.c, src/xflow/data.c, src/xflow/data.h,
+	  src/xflow/main.c, src/xflow/trajs.c, src/xflow/trajs.h,
+	  src/xflow/xflow.glade: debut de gestion des trajectoires (option
+	  -wt provisoire), nouveaux raccourcis dans le menu, nouveau titre
+	  de fenetre, bogue fixe dans previous_frame
 
 2013-04-29 16:27  bereziat
 
-	* [r70] src/xflow/cb_mainwindow.c, src/xflow/data.c,
-	  src/xflow/data.h, src/xflow/main.c, src/xflow/xflow.glade: ajout
-	  ecriture parametres xflow dans les entetes
+	* src/xflow/cb_mainwindow.c, src/xflow/data.c, src/xflow/data.h,
+	  src/xflow/main.c, src/xflow/xflow.glade: ajout ecriture
+	  parametres xflow dans les entetes
 
 2013-04-28 14:56  bereziat
 
-	* [r69] configure, configure.ac, scripts/vel2curl, scripts/vel2div,
+	* configure, configure.ac, scripts/vel2curl, scripts/vel2div,
 	  scripts/vel2mpg, src/Makefile.am, src/Makefile.in, src/doxydoc.c,
 	  src/img/Makefile.am, src/img/Makefile.in,
 	  src/img/main-window.fig, src/img/main-window.png,
@@ -58,7 +143,7 @@
 
 2013-04-27 16:12  bereziat
 
-	* [r68] ChangeLog, src/utils/vel2col.c, src/xflow/Makefile.am,
+	* ChangeLog, src/utils/vel2col.c, src/xflow/Makefile.am,
 	  src/xflow/Makefile.in, src/xflow/about.glade, src/xflow/api.c,
 	  src/xflow/cb_mainwindow.c, src/xflow/data.c,
 	  src/xflow/export.glade, src/xflow/xflow.glade: snprint() ne
@@ -67,45 +152,43 @@
 
 2013-04-26 13:26  bereziat
 
-	* [r67] configure, src/xflow/Makefile.am, src/xflow/Makefile.in,
+	* configure, src/xflow/Makefile.am, src/xflow/Makefile.in,
 	  src/xflow/api.c: bug fix compile linux
 
 2013-04-26 13:11  bereziat
 
-	* [r66] configure.ac, src/xflow/Makefile.am, src/xflow/Makefile.in:
-	  ajout compilation makewheel
+	* configure.ac, src/xflow/Makefile.am, src/xflow/Makefile.in: ajout
+	  compilation makewheel
 
 2013-04-26 13:08  bereziat
 
-	* [r65] src/xflow/makewheel.c: oubli makewheel.c
+	* src/xflow/makewheel.c: oubli makewheel.c
 
 2013-04-26 12:52  bereziat
 
-	* [r64] src/xflow/cb_export.c: ComboBox pour 2.4 (on garde le
+	* src/xflow/cb_export.c: ComboBox pour 2.4 (on garde le
 	  ComboBoxText pour 2.24 sous le coude)
 
 2013-04-26 10:32  bereziat
 
-	* [r63] src/xflow/about.glade, src/xflow/export.glade: oubli
-	  fichiers
+	* src/xflow/about.glade, src/xflow/export.glade: oubli fichiers
 
 2013-04-26 10:28  bereziat
 
-	* [r62] NEWS, configure, configure.ac, scripts/vel2curl,
-	  scripts/vel2div, src/Makefile.am, src/Makefile.in,
-	  src/xflow.doxy, src/xflow/utils.c: corrections diverses, scripts
-	  vel2div vel2curl bien meilleurs
+	* NEWS, configure, configure.ac, scripts/vel2curl, scripts/vel2div,
+	  src/Makefile.am, src/Makefile.in, src/xflow.doxy,
+	  src/xflow/utils.c: corrections diverses, scripts vel2div vel2curl
+	  bien meilleurs
 
 2013-04-25 12:45  bereziat
 
-	* [r61] src/xflow/api.c, src/xflow/cb_mainwindow.c,
-	  src/xflow/data.h, src/xflow/xflow.glade: hpaned a la place de
-	  hbox
+	* src/xflow/api.c, src/xflow/cb_mainwindow.c, src/xflow/data.h,
+	  src/xflow/xflow.glade: hpaned a la place de hbox
 
 2013-04-25 09:08  bereziat
 
-	* [r60] src/xflow/Makefile.am, src/xflow/Makefile.in,
-	  src/xflow/api.c, src/xflow/cb_about.c, src/xflow/cb_export.c,
+	* src/xflow/Makefile.am, src/xflow/Makefile.in, src/xflow/api.c,
+	  src/xflow/cb_about.c, src/xflow/cb_export.c,
 	  src/xflow/cb_mainwindow.c, src/xflow/data.c, src/xflow/utils.c,
 	  src/xflow/utils.h, src/xflow/xflow.glade: ajout dialogue about,
 	  raccourci clavier menu, export est contextuel au notebook (manque
@@ -113,14 +196,14 @@
 
 2013-04-24 11:43  bereziat
 
-	* [r59] src/xflow/Makefile.am, src/xflow/Makefile.in,
-	  src/xflow/api.c, src/xflow/cb_about.c, src/xflow/data.h,
-	  src/xflow/xflow.glade: ajout cb_about + bugs fixes
+	* src/xflow/Makefile.am, src/xflow/Makefile.in, src/xflow/api.c,
+	  src/xflow/cb_about.c, src/xflow/data.h, src/xflow/xflow.glade:
+	  ajout cb_about + bugs fixes
 
 2013-04-22 20:38  bereziat
 
-	* [r58] src/xflow/Makefile.am, src/xflow/Makefile.in,
-	  src/xflow/api.c, src/xflow/api.h, src/xflow/cb_export.c,
+	* src/xflow/Makefile.am, src/xflow/Makefile.in, src/xflow/api.c,
+	  src/xflow/api.h, src/xflow/cb_export.c,
 	  src/xflow/cb_mainwindow.c, src/xflow/data.c, src/xflow/data.h,
 	  src/xflow/lecscrn.c, src/xflow/main.c, src/xflow/middlebury.c,
 	  src/xflow/middlebury.h, src/xflow/utils.c, src/xflow/utils.h,
@@ -129,12 +212,12 @@
 
 2013-04-13 14:33  bereziat
 
-	* [r57] src/xflow/data.h: maj version api (avant importation modifs
+	* src/xflow/data.h: maj version api (avant importation modifs
 	  etudiants
 
 2013-04-13 14:27  bereziat
 
-	* [r56] Makefile.in, aclocal.m4, compile, configure.ac,
+	* Makefile.in, aclocal.m4, compile, configure.ac,
 	  scripts/Makefile.in, src/Makefile.in, src/img/Makefile.in,
 	  src/inrimage/Makefile.in, src/lib/Makefile.in,
 	  src/utils/Makefile.in, src/utils/vel2fig.c,
@@ -145,42 +228,41 @@
 
 2013-01-16 12:35  bereziat
 
-	* [r55] configure: maj numero version
+	* configure: maj numero version
 
 2013-01-11 13:24  bereziat
 
-	* [r54] NEWS: Cette révision correspond à la version 2.3.3 de xflow
-	  que je publie
+	* NEWS: Cette révision correspond à la version 2.3.3 de xflow que
+	  je publie
 
 2013-01-11 13:23  bereziat
 
-	* [r53] ChangeLog, NEWS, configure.ac, src/xflow/cb_export.c,
+	* ChangeLog, NEWS, configure.ac, src/xflow/cb_export.c,
 	  src/xflow/data.h, src/xflow/interface.c, src/xflow/xflow.glade,
 	  src/xflow/xflow.glade.bak, src/xflow/xflow.gladep,
 	  src/xflow/xflow.gladep.bak: ajout export pdf
 
 2013-01-11 12:31  bereziat
 
-	* [r52] src/lib/xflow.c: fichier obsolete
+	* src/lib/xflow.c: fichier obsolete
 
 2013-01-11 12:29  bereziat
 
-	* [r51] src/utils/uv2col.c: uv2col.c obsolete car remplacé par
-	  vel2col.c
+	* src/utils/uv2col.c: uv2col.c obsolete car remplacé par vel2col.c
 
 2013-01-11 12:13  bereziat
 
-	* [r50] Makefile.in, aclocal.m4, config.h.in, configure,
-	  configure.ac, scripts/Makefile.in, src/Makefile.in,
-	  src/img/Makefile.in, src/inrimage/Makefile.in,
-	  src/lib/Makefile.am, src/lib/Makefile.in, src/utils/Makefile.am,
+	* Makefile.in, aclocal.m4, config.h.in, configure, configure.ac,
+	  scripts/Makefile.in, src/Makefile.in, src/img/Makefile.in,
+	  src/inrimage/Makefile.in, src/lib/Makefile.am,
+	  src/lib/Makefile.in, src/utils/Makefile.am,
 	  src/utils/Makefile.in, src/xflow/Makefile.am,
 	  src/xflow/Makefile.in, src/xflow/cb_export.c, src/xflow/utils.c:
 	  maj autoconf + bug fix sous mac os (export plantait)
 
 2013-01-09 22:06  bereziat
 
-	* [r49] ChangeLog, ChangeLog.CVS, ChangeLog.bak, Makefile.in, TODO,
+	* ChangeLog, ChangeLog.CVS, ChangeLog.bak, Makefile.in, TODO,
 	  aclocal.m4, compile, configure, configure.ac, debian/changelog,
 	  scripts/Makefile.in, src/Makefile.in, src/img/Makefile.in,
 	  src/img/main-window.png, src/inrimage/Makefile.in,
@@ -194,50 +276,50 @@
 
 2012-12-18 21:13  bereziat
 
-	* [r47] src/utils/vel2fig.c: correction bug composante nulle
+	* src/utils/vel2fig.c: correction bug composante nulle
 
 2012-11-15 09:22  bereziat
 
-	* [r46] src/utils/vel2fig.c: maj vel2fig help
+	* src/utils/vel2fig.c: maj vel2fig help
 
 2012-11-15 09:16  bereziat
 
-	* [r45] src/utils/vel2fig.c, src/utils/velstats.c: amelioration
-	  vel2fig et velstats
+	* src/utils/vel2fig.c, src/utils/velstats.c: amelioration vel2fig
+	  et velstats
 
 2012-11-12 21:19  bereziat
 
-	* [r44] src/utils/velstats.c: velstats.c 1.3 : deux bogs fixes
+	* src/utils/velstats.c: velstats.c 1.3 : deux bogs fixes
 
 2012-08-28 08:44  bereziat
 
-	* [r27] src/utils/vel2fig.c: improvement of vel2fig
+	* src/utils/vel2fig.c: improvement of vel2fig
 
 2012-07-10 13:22  bereziat
 
-	* [r26] src/utils/Makefile.in, src/utils/vel2col.c: vel2col: ajout
-	  doc -help
+	* src/utils/Makefile.in, src/utils/vel2col.c: vel2col: ajout doc
+	  -help
 
 2012-06-25 21:04  bereziat
 
-	* [r25] src/utils/velstats.c: velstats version 1.2
+	* src/utils/velstats.c: velstats version 1.2
 
 2012-06-25 21:02  bereziat
 
-	* [r24] compile: ajout compile
+	* compile: ajout compile
 
 2012-06-25 21:01  bereziat
 
-	* [r23] configure.ac: ajoute AM_PROG_CC_C_O
+	* configure.ac: ajoute AM_PROG_CC_C_O
 
 2012-06-25 20:59  bereziat
 
-	* [r22] src/utils/Makefile.am, src/utils/colorcode.c: Fixeme:
-	  #define M_PI sous linux
+	* src/utils/Makefile.am, src/utils/colorcode.c: Fixeme: #define
+	  M_PI sous linux
 
 2012-06-25 20:49  bereziat
 
-	* [r21] src/utils/Makefile.am, src/utils/colorcode.c,
+	* src/utils/Makefile.am, src/utils/colorcode.c,
 	  src/utils/colorcode.h, src/utils/vel2col.c, src/utils/vel2fig.c,
 	  src/utils/velstats.c: vel2fig: nouvelle option -nf (noframe)
 	  ajout de la commande vel2col (colorisation a la middlebury)
@@ -245,41 +327,38 @@
 
 2012-02-03 14:30  bereziat
 
-	* [r20] src/utils/velstats.c: nouvelle facon de calculer l'angle
-	  entre ref et est. l'ancienne facon perdure avec l'option -barron
+	* src/utils/velstats.c: nouvelle facon de calculer l'angle entre
+	  ref et est. l'ancienne facon perdure avec l'option -barron
 
 2012-01-27 17:56  bereziat
 
-	* [r19] src/utils/velstats.c: ajout seuil bas pour calcul norme
-	  relative
+	* src/utils/velstats.c: ajout seuil bas pour calcul norme relative
 
 2011-12-20 12:55  bereziat
 
-	* [r17] Makefile.in, aclocal.m4, config.h.in, configure,
+	* Makefile.in, aclocal.m4, config.h.in, configure,
 	  scripts/Makefile.in, src/Makefile.in, src/img/Makefile.in,
 	  src/img/main-window.png, src/inrimage/Makefile.in,
 	  src/lib/Makefile.in, src/xflow/Makefile.in: maj autotools
 
 2011-12-20 12:53  bereziat
 
-	* [r16] src/xflow/Makefile.am, src/xflow/cb_mainwindow.c: ajout
-	  export -smooth
+	* src/xflow/Makefile.am, src/xflow/cb_mainwindow.c: ajout export
+	  -smooth
 
 2011-12-20 12:51  bereziat
 
-	* [r15] src/utils/Makefile.in, src/utils/uv2col.c,
-	  src/utils/velang.c, src/utils/velerr.c, src/utils/velnorm.c:
-	  ajout velang.c velnorm.c
+	* src/utils/Makefile.in, src/utils/uv2col.c, src/utils/velang.c,
+	  src/utils/velerr.c, src/utils/velnorm.c: ajout velang.c velnorm.c
 
 2011-12-20 12:48  bereziat
 
-	* [r14] src/utils/Makefile.am, src/utils/vel2fig.c,
-	  src/utils/velstats.c: Ajout -norma dans vel2fig, nouvelle
-	  commande velstats
+	* src/utils/Makefile.am, src/utils/vel2fig.c, src/utils/velstats.c:
+	  Ajout -norma dans vel2fig, nouvelle commande velstats
 
 2011-08-15 09:39  bereziat
 
-	* [r13] Makefile.am, Makefile.in, NEWS, TODO, scripts/vel2curl,
+	* Makefile.am, Makefile.in, NEWS, TODO, scripts/vel2curl,
 	  scripts/vel2div, src/Makefile.am, src/Makefile.in, src/doxydoc.c,
 	  src/lib/Makefile.in, src/xflow/Makefile.in, src/xflow/api.c,
 	  src/xflow/cb_mainwindow.c, src/xflow/data.h, src/xflow/main.c:
@@ -293,7 +372,7 @@
 
 2011-06-21 18:52  bereziat
 
-	* [r12] src/utils/Makefile.am, src/utils/Makefile.in,
+	* src/utils/Makefile.am, src/utils/Makefile.in,
 	  src/utils/vel2fig.c, src/utils/veldif.c, src/utils/velerr.c:
 	  vel2fig: on utilise mkstemp() generer le nom des fichiers
 	  temporaires
@@ -301,27 +380,26 @@
 
 2010-10-26 19:37  bereziat
 
-	* [r3] CVS, debian/CVS, doc/CVS, scripts/CVS, src/CVS,
-	  src/examples/CVS, src/img/CVS, src/inrimage/CVS, src/lib/CVS,
-	  src/utils/CVS, src/xflow/CVS, src/xflow/t.uv,
-	  src/xflow/taxi.inr.gz: Nettoyage du repertoire apres l'import un
-	  peu rapide !
+	* CVS, debian/CVS, doc/CVS, scripts/CVS, src/CVS, src/examples/CVS,
+	  src/img/CVS, src/inrimage/CVS, src/lib/CVS, src/utils/CVS,
+	  src/xflow/CVS, src/xflow/t.uv, src/xflow/taxi.inr.gz: Nettoyage
+	  du repertoire apres l'import un peu rapide !
 
 2010-10-26 19:29  bereziat
 
-	* [r2] ., AUTHORS, COPYING, CVS, CVS/Entries, CVS/Repository,
-	  CVS/Root, ChangeLog, ChangeLog.bak, INSTALL, Makefile.am,
-	  Makefile.in, NEWS, README, TODO, aclocal.m4, acsite.m4,
-	  config.h.in, configure, configure.ac, debian, debian/CVS,
-	  debian/CVS/Entries, debian/CVS/Repository, debian/CVS/Root,
-	  debian/README.Debian, debian/changelog, debian/compat,
-	  debian/control, debian/copyright, debian/dirs, debian/docs,
-	  debian/rules, depcomp, doc, doc/CVS, doc/CVS/Entries,
-	  doc/CVS/Repository, doc/CVS/Root, install-sh, missing, scripts,
-	  scripts/CVS, scripts/CVS/Entries, scripts/CVS/Repository,
-	  scripts/CVS/Root, scripts/Makefile.am, scripts/Makefile.in,
-	  scripts/vel2curl, scripts/vel2div, scripts/vel2mpg,
-	  scripts/vel2uv.sh, scripts/velimg, src, src/CVS, src/CVS/Entries,
+	* ., AUTHORS, COPYING, CVS, CVS/Entries, CVS/Repository, CVS/Root,
+	  ChangeLog, ChangeLog.bak, INSTALL, Makefile.am, Makefile.in,
+	  NEWS, README, TODO, aclocal.m4, acsite.m4, config.h.in,
+	  configure, configure.ac, debian, debian/CVS, debian/CVS/Entries,
+	  debian/CVS/Repository, debian/CVS/Root, debian/README.Debian,
+	  debian/changelog, debian/compat, debian/control,
+	  debian/copyright, debian/dirs, debian/docs, debian/rules,
+	  depcomp, doc, doc/CVS, doc/CVS/Entries, doc/CVS/Repository,
+	  doc/CVS/Root, install-sh, missing, scripts, scripts/CVS,
+	  scripts/CVS/Entries, scripts/CVS/Repository, scripts/CVS/Root,
+	  scripts/Makefile.am, scripts/Makefile.in, scripts/vel2curl,
+	  scripts/vel2div, scripts/vel2mpg, scripts/vel2uv.sh,
+	  scripts/velimg, src, src/CVS, src/CVS/Entries,
 	  src/CVS/Repository, src/CVS/Root, src/Makefile.am,
 	  src/Makefile.in, src/doxydoc.c, src/examples, src/examples/CVS,
 	  src/examples/CVS/Entries, src/examples/CVS/Repository,

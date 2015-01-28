@@ -274,6 +274,12 @@ void trajs_draw( XFLOW_API *api, GtkWidget *widget, XFLOW_DATA *pd) {
 
     for( l = pd->data.xflow.trajs; l; l=l->next) {
       TRAJECTORY *traj = l -> data;
+
+      if( fixcolor == 1) 
+	color_set_by_id( api, pd->data.xflow.arrowcolor+j++);
+      else
+	color_set_by_id( api, pd->data.xflow.arrowcolor);
+
       if( traj -> hidden == 0 ) {
 	GdkPoint *points = NEW( GdkPoint, traj->num_points);
 	int i;
@@ -281,12 +287,7 @@ void trajs_draw( XFLOW_API *api, GtkWidget *widget, XFLOW_DATA *pd) {
 	  points[i].x = (int)((traj->precise_coords[i].i)*((float)api->wwin/(float)api->wimg)) ;
 	  points[i].y = (int)((traj->precise_coords[i].j)*((float)api->hwin/(float)api->himg)) ;
 	}
-	
-	if( fixcolor == 1) 
-	  color_set_by_id( api, pd->data.xflow.arrowcolor+j++);
-	else
-	  color_set_by_id( api, pd->data.xflow.arrowcolor);
-	
+		
 	gdk_gc_set_line_attributes( api->gc, line_width, 
 				    GDK_LINE_DOUBLE_DASH, GDK_CAP_NOT_LAST,  GDK_JOIN_MITER);
 	
