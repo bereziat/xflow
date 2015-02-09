@@ -2,7 +2,6 @@
  * \file xflow.h
  * \brief Interface de la librairie XFLOW (écriture et lecture d'image
  *        de champs de vecteur).
- *
  */
 
 /* $Id: xflow.h,v 1.4 2009/07/17 09:38:13 bereziat Exp $ */
