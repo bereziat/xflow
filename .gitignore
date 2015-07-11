@@ -1,0 +1,9 @@
+Makefile
+config.h
+config.status
+*.log
+autom4te.cache
+*~
+*.tar.gz
+.deps/
+debian/xflow.substvars

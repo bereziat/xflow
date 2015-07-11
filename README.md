@@ -5,12 +5,12 @@
 `Xflow` is an utility devoted to display image 2D vector fields in a GTK
 window. Image vectors fields are embedded in an Inrimage image data.
 [inrimage](http://inrimage.gforge.inria.fr) is then required to compile `xflow`.
-`xflow` can also product graphics in various format (using `fig2dev` command
-available in `transfig` or ``xfig` packages).
+`xflow` can also product graphics in various formats (using `fig2dev` command
+available in `transfig` or `xfig` packages).
 
 ## Install ##
 	
-From (http://inrimage.gforge.inria.fr), choose a suitable version of Inrimage
+From http://inrimage.gforge.inria.fr, choose a suitable version of Inrimage
 for your OS. For instance, an 64-bits Ubuntu/Debian:
 
 	$ wget https://who.rocq.inria.fr/Dominique.Bereziat/ftp/inrimage/4.6.5/inrimage_4.6.5-debian_amd64.deb

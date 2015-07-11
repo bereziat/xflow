@@ -1,9 +1,10 @@
 Source: xflow
 Section: graphics
-Priority: extra
+Priority: optional
 Maintainer: Dominique Béréziat <bereziat@orphee>
-Build-Depends: debhelper (>= 7), autotools-dev, inrimage, libgtk2.0-dev
+Build-Depends: debhelper (>= 7), inrimage, libgtk2.0-dev, transfig
 Standards-Version: 3.8.0
+Vcs-Git: https://github.com/bereziat/xflow.git
 Homepage: http://pequan.lip6.fr/~bereziat/softs/xflow/
 
 Package: xflow 
