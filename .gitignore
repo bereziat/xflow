@@ -1,9 +1,31 @@
+# autotools
 Makefile
 config.h
 config.status
 *.log
 autom4te.cache
+# compilation, edition
 *~
-*.tar.gz
+*.[oa]
 .deps/
+*.png
+doc/
+# binaires
+flo2inr
+inr2flo
+uv2vel
+vel2col
+vel2fig
+vel2lic
+velang
+veldif
+velerr
+velnorm
+velpar
+velset
+velstats
+xflow
+makewheel
+# packaging
 debian/xflow.substvars
+*.tar.gz
