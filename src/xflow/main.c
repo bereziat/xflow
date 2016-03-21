@@ -41,7 +41,8 @@ Options are:\n\
 int main( int argc, char **argv) {
   char name [256];
   XFLOW_API  *api;
-
+  int have_config;
+  
   /* Init Inrimage */
 
   inr_init( argc, argv, PACKAGE_VERSION, usage, detail); 
@@ -81,7 +82,7 @@ int main( int argc, char **argv) {
 
   /* config ? */
 
-  read_config( api);
+  have_config = read_config( api);
 
   /* Options ligne de commandes */
   
@@ -119,7 +120,11 @@ int main( int argc, char **argv) {
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(widget), 1);
   }
 
-
+  if( have_config) {
+    GtkWidget * widget = lookup_widget( api->mainwindow, "xflow_main_menu_remember_config");
+    gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM(widget), 1);
+  }
+  
   /* Lire le premier plan des données pour l'affichage */
   data_read( api, 1);
   xflow_api_update_widget( api);

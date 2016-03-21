@@ -139,8 +139,13 @@
                       </object>
                     </child>
                     <child>
-                      <object class="GtkMenuItem" id="xflow_main_menu_write">
+                      <object class="GtkSeparatorMenuItem" id="separatormenuitem1">
                         <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkMenuItem" id="xflow_main_menu_write">
                         <property name="can_focus">False</property>
                         <property name="label">Write in header</property>
                         <accelerator key="W" signal="activate" modifiers="GDK_CONTROL_MASK"/>
@@ -149,11 +154,24 @@
                     </child>
                     <child>
                       <object class="GtkMenuItem" id="xflow_main_menu_del">
-                        <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="label">Clean header</property>
                         <accelerator key="D" signal="activate" modifiers="GDK_CONTROL_MASK"/>
                         <signal name="activate" handler="on_xflow_main_menu_clean_activate" swapped="no"/>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkCheckMenuItem" id="xflow_main_menu_remember_config">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="label">Remember last configuration</property>
+                        <signal name="toggled" handler="on_xflow_main_menu_config_toggled" swapped="no"/>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkSeparatorMenuItem" id="separatormenuitem2">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
                       </object>
                     </child>
                     <child>
@@ -169,7 +187,7 @@
                       </object>
                     </child>
                     <child>
-                      <object class="GtkSeparatorMenuItem" id="separatormenuitem1">
+                      <object class="GtkSeparatorMenuItem" id="separatormenuitem3">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                       </object>
@@ -219,7 +237,7 @@
                       </object>
                     </child>
                     <child>
-                      <object class="GtkSeparatorMenuItem" id="separatormenuitem2">
+                      <object class="GtkSeparatorMenuItem" id="separatormenuitem4">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                       </object>

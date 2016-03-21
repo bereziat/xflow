@@ -1139,6 +1139,16 @@ on_xflow_main_menu_clean_activate            (GtkMenuItem     *menuitem,
 
 
 void
+on_xflow_main_menu_config_toggled (GtkCheckMenuItem *menuitem, gpointer user_data) {
+  XFLOW_API *api = (XFLOW_API*) user_data;
+
+  if( gtk_check_menu_item_get_active (menuitem))
+    write_config(api);
+  else
+    clean_config();
+}
+
+void
 on_xflow_main_menu_activefield_activate            (GtkMenuItem     *menuitem,
 						    gpointer         user_data)
 {

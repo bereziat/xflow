@@ -56,8 +56,9 @@ void utils_pal_stretch( t_col32 *pal, float vmin, float vmax);
 char* utils_basename( char *p);
 int utils_pal_from_image( struct image *nf, unsigned char pal[][4]);
 
-void read_config( XFLOW_API *api);
+int  read_config ( XFLOW_API *api);
 void write_config( XFLOW_API *api);
+void clean_config( void);
 
 void check_version( XFLOW_API *api);
 

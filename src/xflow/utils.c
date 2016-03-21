@@ -157,7 +157,7 @@ void utils_arrow( GdkDrawable *draw,
   xc = xb - (float)(xb-xa)/ab * size;
   yc = yb - (float)(yb-ya)/ab * size;
 
-  if( abs(yb-yc) > 1) {
+  if( fabs(yb-yc) > 1) {
     alpha = (xb-xc)/(yb-yc);
 
     /* premier point */
@@ -175,7 +175,7 @@ void utils_arrow( GdkDrawable *draw,
       gdk_draw_line( draw, gc,  xc + size/2, yc - alpha*size/2,
 		     xc - size/2, yc + alpha*size/2);
     
-  } else if( abs(xb-xc) > 1) {
+  } else if( fabs(xb-xc) > 1) {
     alpha = (yb-yc)/(xb-xc);
 
     /* premier point */
@@ -610,7 +610,7 @@ on_alert_close                         (GtkButton       *button,
   gtk_widget_destroy( lookup_widget( api->mainwindow, "alert_newversion"));      
 }
 
-void read_config( XFLOW_API *api) {
+int read_config( XFLOW_API *api) {
   char name[256];
   FILE *fp;
   strcpy( name, getenv("HOME"));
@@ -626,7 +626,9 @@ void read_config( XFLOW_API *api) {
 	sscanf( name, "sample = %d", &api->sample);
     }
     fclose( fp);
+    return 1;	
   }
+  return 0;
 }
 
 void write_config( XFLOW_API *api) {
@@ -634,13 +636,20 @@ void write_config( XFLOW_API *api) {
   FILE *fp;
   strcpy( name, getenv("HOME"));
   strcat( name, "/.xflowrc");
-  fp = fopen( name, "r");
+  fp = fopen( name, "w");
   if( fp) {
     fprintf( fp, "zoom = %f\n", api->zoom);
     fprintf( fp, "scale = %f\n", api->scale);
     fprintf( fp, "sample = %d\n", api->sample);
     fclose( fp);
   }  
+}
+
+void clean_config( void) {
+  char name[256];
+  strcpy( name, getenv("HOME"));
+  strcat( name, "/.xflowrc");
+  unlink( name);
 }
 
 #if 0
