@@ -80,7 +80,7 @@
     <property name="upper">30</property>
     <property name="value">1</property>
     <property name="step_increment">1</property>
-    <property name="page_increment">10</property>
+    <property name="page_increment">1</property>
   </object>
   <object class="GtkAdjustment" id="saturation">
     <property name="upper">100</property>
@@ -93,6 +93,19 @@
     <property name="value">1</property>
     <property name="step_increment">1</property>
     <property name="page_increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="zoom">
+    <property name="lower">1</property>
+    <property name="upper">20</property>
+    <property name="value">1</property>
+    <property name="step_increment">0.10000000000000001</property>
+    <property name="page_increment">1</property>
+  </object>
+  <object class="GtkAdjustment" id="zscroll">
+    <property name="upper">1</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">1</property>
+    <property name="page_size">1</property>
   </object>
   <object class="GtkWindow" id="xflow_main">
     <property name="width_request">500</property>
@@ -397,7 +410,7 @@
                           <object class="GtkMenu" id="group_sizes">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
-			     <child>
+                            <child>
                               <object class="GtkRadioMenuItem" id="micro">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
@@ -407,7 +420,7 @@
                                 <signal name="activate" handler="on_xflow_main_menu_size_activate" swapped="no"/>
                               </object>
                             </child>
-			     <child>
+                            <child>
                               <object class="GtkRadioMenuItem" id="tiny">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
@@ -463,7 +476,7 @@
                                 <signal name="activate" handler="on_xflow_main_menu_size_activate" swapped="no"/>
                               </object>
                             </child>
-			    <child>
+                            <child>
                               <object class="GtkRadioMenuItem" id="huge">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
@@ -623,68 +636,65 @@
                         <property name="label">Dump</property>
                         <signal name="activate" handler="on_xflow_main_menu_trajs_dump_activate" swapped="no"/>
                       </object>
-                    </child>	
-
-		    <child>
-		      <object class="GtkMenuItem" id="xflow_main_menu_trajs_pf">
+                    </child>
+                    <child>
+                      <object class="GtkMenuItem" id="xflow_main_menu_trajs_pf">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="label" translatable="yes">Size</property>
-			<child type="submenu">
-			  <object class="GtkMenu" id="pf_sizes">
-			     <property name="visible">True</property>
-                             <property name="can_focus">False</property>
-			     <child>
-                               <object class="GtkMenuItem" id="pf1">
-                                 <property name="visible">True</property>
-                                 <property name="can_focus">False</property>
-                                 <property name="label" translatable="yes">--</property>
-                                 <signal name="activate" handler="on_xflow_main_menu_trajs_pf_dec_activate" swapped="no"/>
-                               </object>
-			     </child>
-			     <child>
-                               <object class="GtkMenuItem" id="pf2">
-                                 <property name="visible">True</property>
-                                 <property name="can_focus">False</property>
-                                 <property name="label" translatable="yes">++</property>
-                                 <signal name="activate" handler="on_xflow_main_menu_trajs_pf_inc_activate" swapped="no"/>
-                               </object>
-			     </child>
-			  </object>
-			</child>
-		      </object>
-		    </child>
-
-		    <child>
-		      <object class="GtkMenuItem" id="xflow_main_menu_trajs_lw">
+                        <child type="submenu">
+                          <object class="GtkMenu" id="pf_sizes">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <child>
+                              <object class="GtkMenuItem" id="pf1">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="label" translatable="yes">--</property>
+                                <signal name="activate" handler="on_xflow_main_menu_trajs_pf_dec_activate" swapped="no"/>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkMenuItem" id="pf2">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="label" translatable="yes">++</property>
+                                <signal name="activate" handler="on_xflow_main_menu_trajs_pf_inc_activate" swapped="no"/>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkMenuItem" id="xflow_main_menu_trajs_lw">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="label" translatable="yes">Width</property>
-			<child type="submenu">
-			  <object class="GtkMenu" id="lw_sizes">
-			     <property name="visible">True</property>
-                             <property name="can_focus">False</property>
-			     <child>
-                               <object class="GtkMenuItem" id="lw1">
-                                 <property name="visible">True</property>
-                                 <property name="can_focus">False</property>
-                                 <property name="label" translatable="yes">--</property>
-                                 <signal name="activate" handler="on_xflow_main_menu_trajs_lw_dec_activate" swapped="no"/>
-                               </object>
-			     </child>
-			     <child>
-                               <object class="GtkMenuItem" id="lw2">
-                                 <property name="visible">True</property>
-                                 <property name="can_focus">False</property>
-                                 <property name="label" translatable="yes">++</property>
-                                 <signal name="activate" handler="on_xflow_main_menu_trajs_lw_inc_activate" swapped="no"/>
-                               </object>
-			     </child>
-			  </object>
-			</child>
-		      </object>
-		    </child>
-
+                        <child type="submenu">
+                          <object class="GtkMenu" id="lw_sizes">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <child>
+                              <object class="GtkMenuItem" id="lw1">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="label" translatable="yes">--</property>
+                                <signal name="activate" handler="on_xflow_main_menu_trajs_lw_dec_activate" swapped="no"/>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkMenuItem" id="lw2">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="label" translatable="yes">++</property>
+                                <signal name="activate" handler="on_xflow_main_menu_trajs_lw_inc_activate" swapped="no"/>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
                   </object>
                 </child>
               </object>
@@ -766,10 +776,36 @@
                   </object>
                 </child>
                 <child type="label">
-                  <object class="GtkLabel" id="label22">
+                  <object class="GtkHBox" id="hbox2">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="label" translatable="yes">Sample/Scale</property>
+                    <child>
+                      <object class="GtkLabel" id="label1">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="label" translatable="yes">Sample /</property>
+                      </object>
+                      <packing>
+                        <property name="expand">True</property>
+                        <property name="fill">True</property>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkToggleButton" id="xflow_main_unscale">
+                        <property name="label" translatable="yes">Scale</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">True</property>
+                        <property name="relief">none</property>
+                        <signal name="toggled" handler="on_xflow_main_scale_toggled" swapped="no"/>
+                      </object>
+                      <packing>
+                        <property name="expand">True</property>
+                        <property name="fill">True</property>
+                        <property name="position">1</property>
+                      </packing>
+                    </child>
                   </object>
                 </child>
               </object>
@@ -853,11 +889,13 @@
                       </object>
                     </child>
                     <child type="label">
-                      <object class="GtkLabel" id="label2">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                      <object class="GtkToggleButton" id="xflow_main_unzoom">
                         <property name="label" translatable="yes">Zoom</property>
-                        <property name="use_markup">True</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">True</property>
+                        <property name="relief">none</property>
+                        <signal name="toggled" handler="on_xflow_main_zoom_toggled" swapped="no"/>
                       </object>
                     </child>
                   </object>
@@ -1328,18 +1366,5 @@
         </child>
       </object>
     </child>
-  </object>
-  <object class="GtkAdjustment" id="zoom">
-    <property name="lower">1</property>
-    <property name="upper">20</property>
-    <property name="value">1</property>
-    <property name="step_increment">0.10000000000000001</property>
-    <property name="page_increment">1</property>
-  </object>
-  <object class="GtkAdjustment" id="zscroll">
-    <property name="upper">1</property>
-    <property name="step_increment">1</property>
-    <property name="page_increment">1</property>
-    <property name="page_size">1</property>
   </object>
 </interface>

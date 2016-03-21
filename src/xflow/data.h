@@ -52,7 +52,9 @@ typedef struct xflow_data {
 typedef struct xflow_api {
   int   sample;
   float thresh, scale, thresh_high;
-  float zoom;
+  int   unscale;  
+  float zoom;         ///> Zoom scale >= 1
+  int   unzoom;       ///> if 1 unzoom instead of zoom
   int   wimg, himg;   ///> Taille des images.
   int   wwin, hwin;   ///> Dimension de l'image dans le widget
   int   zpos;         ///> Index des plans en mémoire ou 0

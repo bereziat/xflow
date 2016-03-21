@@ -23,6 +23,7 @@ XFLOW_API *xflow_api_new( void) {
   api -> zpos = 0;
   api -> gc = NULL;
   api -> scale = 1.;
+  api -> unscale = 0;
   api -> thresh = 0.;
   api -> thresh_high = 1000.;
   api -> sample = 4;
@@ -34,7 +35,8 @@ XFLOW_API *xflow_api_new( void) {
   api -> background = NULL;
   api -> active = NULL;
   api -> zoom = 1;
-   
+  api -> unzoom = 0;
+  
   return api;
 }
 
@@ -303,6 +305,8 @@ void xflow_api_update_widget( XFLOW_API *api) {
   adj = gtk_range_get_adjustment( GTK_RANGE(lookup_widget(api->mainwindow,"xflow_main_scale")));
   adj -> value = api->scale;
   gtk_adjustment_changed( adj);
+  gtk_button_set_label (GTK_BUTTON(lookup_widget(api->mainwindow,"xflow_main_unscale")),
+			api->unscale ? "Downscale" : "Scale"); 
 
   /* seuillage bas */
   widget = lookup_widget( api->mainwindow, "xflow_main_thresh");
@@ -333,12 +337,14 @@ void xflow_api_update_widget( XFLOW_API *api) {
   gtk_scale_set_digits (GTK_SCALE (widget), 3);
   gtk_adjustment_changed( adj);
 
-  /* zoom */  
+  /* zoom */
   widget = lookup_widget( api->mainwindow, "xflow_main_zoom");
   adj = gtk_range_get_adjustment( GTK_RANGE(widget));
   adj -> value = api->zoom;
   gtk_adjustment_value_changed( adj);
-
+  gtk_button_set_label (GTK_BUTTON(lookup_widget(api->mainwindow,"xflow_main_unzoom")),
+				   api->unzoom ? "Unzoom" : "Zoom");
+  
   /* HSV saturation */
   if( api->active) {
     widget = lookup_widget( api->mainwindow, "xflow_main_hsv_saturation");

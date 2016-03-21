@@ -610,6 +610,39 @@ on_alert_close                         (GtkButton       *button,
   gtk_widget_destroy( lookup_widget( api->mainwindow, "alert_newversion"));      
 }
 
+void read_config( XFLOW_API *api) {
+  char name[256];
+  FILE *fp;
+  strcpy( name, getenv("HOME"));
+  strcat( name, "/.xflowrc");
+  fp = fopen( name, "r");
+  if( fp) {
+    while (fgets(name, 255, fp)) {
+      if( strstr( name, "zoom = ") == name)
+	sscanf( name, "zoom = %f", &api->zoom);
+      else if( strstr( name, "scale = ") == name)
+	sscanf( name, "scale = %f", &api->scale);
+      else if( strstr( name, "sample = ") == name)
+	sscanf( name, "sample = %d", &api->sample);
+    }
+    fclose( fp);
+  }
+}
+
+void write_config( XFLOW_API *api) {
+  char name[256];
+  FILE *fp;
+  strcpy( name, getenv("HOME"));
+  strcat( name, "/.xflowrc");
+  fp = fopen( name, "r");
+  if( fp) {
+    fprintf( fp, "zoom = %f\n", api->zoom);
+    fprintf( fp, "scale = %f\n", api->scale);
+    fprintf( fp, "sample = %d\n", api->sample);
+    fclose( fp);
+  }  
+}
+
 #if 0
 void check_version( XFLOW_API *api) {
   char *p, name[256];

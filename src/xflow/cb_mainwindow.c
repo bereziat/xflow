@@ -165,9 +165,15 @@ on_xflow_main_zoom_value_changed     (GtkRange        *range,
 {
   XFLOW_API *api = (XFLOW_API*) user_data;
   GtkAdjustment* GtkAdj = gtk_range_get_adjustment( range);
-  int nw = (float)api->wimg * GtkAdj->value;
-  int nh = (float)api->himg * GtkAdj->value;
-
+  int nw, nh;
+  
+  if( api->unzoom) {
+    nw = (float)api->wimg / GtkAdj->value;
+    nh = (float)api->himg / GtkAdj->value;
+  } else {
+    nw = (float)api->wimg * GtkAdj->value;
+    nh = (float)api->himg * GtkAdj->value;
+  }
   // @TODO La requete devrait se faire faire l'onglet actif
   // @TODO Le changement d'onglet doit calculer la bonne taille
   if( GtkAdj->value >= 1) {
@@ -182,7 +188,26 @@ on_xflow_main_zoom_value_changed     (GtkRange        *range,
   }
 }
 
+void on_xflow_main_zoom_toggled ( GtkToggleButton *tbut, gpointer user_data) {
+  XFLOW_API *api = (XFLOW_API*) user_data;
 
+  api->unzoom = 1 - api->unzoom;
+  gtk_button_set_label(GTK_BUTTON(lookup_widget(api->mainwindow,"xflow_main_unzoom")),
+		       api->unzoom ? "Unzoom" : "Zoom");
+  gtk_range_set_value( GTK_RANGE(lookup_widget(api->mainwindow, "xflow_main_zoom")),
+		       api->zoom+0.1);
+  gtk_range_set_value( GTK_RANGE(lookup_widget(api->mainwindow, "xflow_main_zoom")),
+		       api->zoom-0.1);
+}
+
+void on_xflow_main_scale_toggled ( GtkToggleButton *tbut, gpointer user_data) {
+  XFLOW_API *api = (XFLOW_API*) user_data;
+
+  api->unscale = 1 - api->unscale;
+  gtk_button_set_label (GTK_BUTTON(lookup_widget(api->mainwindow,"xflow_main_unscale")),
+			api->unscale ? "Downscale" : "Scale");
+  xflow_api_refresh_drawing_areas (api);
+}
 
 static void get_moy_vois( vel2d *uv, float *u, float *v, int dimx, int sample_x, int sample_y) {
   int i,j;
@@ -230,7 +255,8 @@ static void draw_vectors( XFLOW_API *api, GtkWidget *widget, XFLOW_DATA *pd) {
   th = api -> thresh_high * api -> thresh_high;
 
   scale = (float) api -> scale / (pd->data.xflow.norma?pd->data.xflow.normsup:1.);
-
+  if( api->unscale) scale = 1 / scale;
+  
   for( j = 0; j < h_img; j += api->sample)
     for( i = 0; i < w_img; i += api->sample) { 
       vel2d *uv = pd->data.xflow.buf + i + j * w_img;

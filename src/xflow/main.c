@@ -22,11 +22,11 @@ static char detail[] = "images can be a list of any INRIMAGE file or XFLOW2 imag
     displayed (other image can be selected inside xflow)\n\
   \n\
 Options are:\n\
-  -sample %d: set value of sample parameter (1-30)\n\
-  -scale %f:  set value of scale parameter\n\
+  -sample %d: set value of sample parameter [1-30]\n\
+  -scale %f:  set value of scale parameter >0\n\
   -tlow %f:   set value of low threshold parameter\n\
   -thigh %f:  set value of high threshold parameter\n\
-  -zoom %f:   set zoom parameter (1-20)\n\
+  -zoom %f:   set zoom parameter ]0-20]\n\
   -smooth:    smooth vector fields\n\
   -norma:     normalize vector fields\n\
   -mag|-div|-curl|-hsv: display respectively magnetude, divergence,\n\
@@ -79,13 +79,19 @@ int main( int argc, char **argv) {
   } while( infileopt(name));    
 
 
+  /* config ? */
+
+  read_config( api);
+
   /* Options ligne de commandes */
+  
   igetopt1("-zoom", "%f", &api->zoom);
+  if( api->zoom <= 0) imerror( 1, "-zoom should be strictly postive");
   igetopt1("-scale", "%f", &api->scale);
+  if( api->scale <= 0) imerror( 1, "-scale should be strictly postive");
   igetopt1("-sample", "%d", &api->sample);
   igetopt1("-tlow", "%f", &api->thresh);
   igetopt1("-thigh", "%f", &api->thresh_high);
-
 
 
   /* Init Gtk */
@@ -97,7 +103,22 @@ int main( int argc, char **argv) {
 
   xflow_api_show_window( api);
   xflow_api_set_title( api);
-    
+
+  /*
+   * paramètres qui nécessitent que la fenêtre soit construite
+   */
+
+  if( api->zoom < 1) {
+    GtkWidget * widget = lookup_widget( api->mainwindow, "xflow_main_unzoom");
+    api->zoom = 1 / api->zoom;
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(widget), 1);
+  }
+  if( api->scale <1 ) {
+    GtkWidget * widget = lookup_widget( api->mainwindow, "xflow_main_unscale");
+    api->scale = 1 / api->scale;
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(widget), 1);
+  }
+
 
   /* Lire le premier plan des données pour l'affichage */
   data_read( api, 1);
