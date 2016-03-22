@@ -1,14 +1,14 @@
 /**
  * \page velset Documentation de l'utilitaire velset.
  *
- * La commande velset modifie ou créée un fichier XFLOW. Elle
+ * La commande velset modifie ou crÃ©Ã©e un fichier XFLOW. Elle
  * sert dans les scripts en conjonction d'autres commandes 
  * Inrimage.
  *
  * \section velset_usage Usage
  * 
  * \section velset_exemple Exemple
- * Créer une image XFLOW (vide) en utilisant le format de l'image taxi.inr.gz :
+ * CrÃ©er une image XFLOW (vide) en utilisant le format de l'image taxi.inr.gz :
  * \verbatim % velset -blank  taxi.inr.gz > taxi.uv \endverbatim
  *  
  *
@@ -69,7 +69,7 @@ int main( int argc, char **argv) {
       infileopt( par2);
       xfl = xflow_open( par2);
       xflow_get_dims( xfl, &dimx, &dimy, &dimz);
-      /* admissibilité des paramètres */	
+      /* admissibilitÃ© des paramÃ¨tres */	
       if( x>0 && x <= dimx &&
 	  y>0 && y <= dimy &&
 	  z>0 && z <= dimz) {
@@ -83,7 +83,7 @@ int main( int argc, char **argv) {
 	xflow_write_f_v2d( xfl, 1, uv);
 	xflow_close( xfl);
       } else
-	  fprintf( stderr, "%s -set: paramètre hors domaine.\n", argv[0]);
+	  fprintf( stderr, "%s -set: paramÃ¨tre hors domaine.\n", argv[0]);
     } else
       if( igetopt1( "-img", "%s", par1) ||
 	  igetopt1( "-name", "%s", par1) /* ancient option name */ ) {
