@@ -2,6 +2,7 @@
 #include <gtk/gtk.h>
 #include <math.h>
 #include <string.h>
+#include <stdlib.h>
 
 #include "data.h"
 #include "utils.h"
@@ -269,7 +270,7 @@ on_export_apply_clicked                (GtkButton       *button,
 
     /* ces options peuvent passer en locale */
     sprintf( command, "%s -scale %f -sample %d -tl %f -th %f ", command,
-	     api->scale, api->sample, api->thresh, api->thresh_high);
+	     api->unscale ? 1./api->scale : api->scale, api->sample, api->thresh, api->thresh_high);
     
     /* autres options globales */
     
