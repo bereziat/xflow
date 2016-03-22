@@ -8,9 +8,9 @@
 #include "trajs.h"
 
 /**
- * ajout d'un descripteur de donnée dans la liste
- * des données de l'API.
- * @param mode ajoute à la fin (1) ou au debut (0) de la liste chainée
+ * ajout d'un descripteur de donnÃ©e dans la liste
+ * des donnÃ©es de l'API.
+ * @param mode ajoute Ã  la fin (1) ou au debut (0) de la liste chainÃ©e
  */
 
 void data_insert( XFLOW_API *api, XFLOW_DATA *data, int mode) {
@@ -44,7 +44,7 @@ static int test_dims( XFLOW_API *api, int dimx, int dimy) {
  * retourne :
  *  -3: erreur: dimensions dimx, dimy, incompatibles
  *  -2: erreur, filename n'est pas une image valide.
- * @TODO -1: erreur, image déjà chargée. 
+ * @TODO -1: erreur, image dÃ©jÃ  chargÃ©e. 
  *   0: filename est une image de fond.
  *   1: filename est un champ de vecteurs.
  */ 
@@ -93,7 +93,7 @@ int data_addimage( XFLOW_API *api, char *filename) {
       data_insert( api, data, 1);
     } else
       if(debug) 
-	fprintf( stderr, "Attention : fichier image associé non trouvé\n");
+	fprintf( stderr, "Attention : fichier image associÃ© non trouvÃ©\n");
     
     xflow_get_dims( xfl, &w, &h, &z);
     
@@ -127,8 +127,8 @@ int data_addimage( XFLOW_API *api, char *filename) {
   }
 }
 
-/* Lit un plan des données;
- * z commence à 1 */
+/* Lit un plan des donnÃ©es;
+ * z commence Ã  1 */
 void data_read( XFLOW_API *api, int z) {
   XFLOW_DATA *pd;
   
@@ -146,7 +146,7 @@ void data_read( XFLOW_API *api, int z) {
       if( NDIMZ>1 || z == 1) {
       /* Lecture du tampon */
       if( z-1 != api->zpos) { 
-	/* réouverture de l'image si on est en tube */
+	/* rÃ©ouverture de l'image si on est en tube */
 	if( z<=api->zpos && pd->data.image.file->f_type & FL_PIPE) {
 	  char *str = strdup(pd->data.image.file->nom);
 
