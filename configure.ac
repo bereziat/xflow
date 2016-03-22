@@ -1,6 +1,6 @@
 AC_PREREQ(2.59)
 
-AC_INIT([xflow],[2.4.3-beta])
+AC_INIT([xflow],[2.4.4])
 AC_CONFIG_SRCDIR([src/lib/xflow_open.c])
 AM_INIT_AUTOMAKE
 
