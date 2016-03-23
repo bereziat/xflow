@@ -31,7 +31,8 @@ XFLOW_API *xflow_api_new( void) {
   api -> mainwindow = NULL;
   api -> about = NULL;
   api -> export = NULL;
-
+  api -> w = 0;
+  
   api -> background = NULL;
   api -> active = NULL;
   api -> zoom = 1;
@@ -412,9 +413,6 @@ void xflow_api_refresh_drawing_areas( XFLOW_API *api) {
   gtk_widget_queue_draw( lookup_widget(api->mainwindow, "xflow_main_curl_legend"));
   gtk_widget_queue_draw( lookup_widget(api->mainwindow, "xflow_main_hsv_draw"));
 
-  /* Write config */
-  if( gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(lookup_widget(api->mainwindow,"xflow_main_menu_remember_config"))))
-      write_config( api);
 }
 
 void xflow_api_set_title( XFLOW_API *api) {

@@ -16,6 +16,8 @@ on_xflow_main_destroy            (GtkObject       *object,
 				  gpointer         user_data)
 {
   XFLOW_API *api = (XFLOW_API *)user_data;
+  if( gtk_check_menu_item_get_active (GTK_CHECK_MENU_ITEM(lookup_widget(api->mainwindow, "xflow_main_menu_remember_config"))))
+    write_config(api);
   xflow_api_delete( api);
   gtk_main_quit();
 }
@@ -1142,9 +1144,7 @@ void
 on_xflow_main_menu_config_toggled (GtkCheckMenuItem *menuitem, gpointer user_data) {
   XFLOW_API *api = (XFLOW_API*) user_data;
 
-  if( gtk_check_menu_item_get_active (menuitem))
-    write_config(api);
-  else
+  if( ! gtk_check_menu_item_get_active (menuitem))
     clean_config();
 }
 

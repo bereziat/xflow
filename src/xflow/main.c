@@ -109,6 +109,9 @@ int main( int argc, char **argv) {
    * paramètres qui nécessitent que la fenêtre soit construite
    */
 
+  if( api->w > 0)
+    gtk_window_resize ( GTK_WINDOW( gtk_builder_get_object (api->mainwindow, "xflow_main")), api->w, api->h);
+  
   if( api->zoom < 1) {
     GtkWidget * widget = lookup_widget( api->mainwindow, "xflow_main_unzoom");
     api->zoom = 1 / api->zoom;

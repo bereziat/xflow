@@ -624,6 +624,12 @@ int read_config( XFLOW_API *api) {
 	sscanf( name, "scale = %f", &api->scale);
       else if( strstr( name, "sample = ") == name)
 	sscanf( name, "sample = %d", &api->sample);
+      else if( strstr( name, "thresh_low = ") == name)
+	sscanf( name, "thresh_low = %f", &api->thresh);
+      else if( strstr( name, "thresh_high = ") == name)
+	sscanf( name, "thresh_high = %f", &api->thresh_high);
+      else if( strstr( name, "windowsize = ") == name)
+	sscanf( name, "windowsize = %d,%d", &api->w, &api->h);
     }
     fclose( fp);
     return 1;	
@@ -638,9 +644,13 @@ void write_config( XFLOW_API *api) {
   strcat( name, "/.xflowrc");
   fp = fopen( name, "w");
   if( fp) {
-    fprintf( fp, "zoom = %f\n", api->zoom);
-    fprintf( fp, "scale = %f\n", api->scale);
+    fprintf( fp, "zoom = %f\n", api->unzoom ? 1./api->zoom : api->zoom);
+    fprintf( fp, "scale = %f\n", api->unscale ? 1./api->scale : api->scale);
     fprintf( fp, "sample = %d\n", api->sample);
+    fprintf( fp, "thresh_low = %f\n", api->thresh);
+    fprintf( fp, "thresh_high = %f\n", api->thresh_high);
+    gtk_window_get_size ( GTK_WINDOW( gtk_builder_get_object (api->mainwindow, "xflow_main")), &api->w, &api->h);
+    fprintf( fp, "windowsize = %d,%d\n", api->w, api->h);
     fclose( fp);
   }  
 }
