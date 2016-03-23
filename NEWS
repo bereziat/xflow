@@ -1,5 +1,16 @@
 Fichier historique du projet xflow
 
+* Mar 2016 (2.4.4)
+ - adding a downscale and an unzoom buttons
+ - last configuration can be automatically saved as an option
+   in the menu bar
+
+* July 2015 (2.4.3-beta)
+ - trajectories display have been improved
+ - some improvement in vel2fig
+ - xflow is now available on Github
+ - conversion tools to Middlebury velocity format
+
 * Oct 2013 (2.4.2-beta)
  - addings trajectories analysis (still beta) that can be
    activated using -wt (with trajectories) flags. Another
