@@ -1,4 +1,8 @@
-Fichier historique du projet xflow
+History file of xflow project
+
+* Nov 2016 (2.4.5)
+ - images with 3 components (-v 3) are now displayed as RGB
+   images however their value coding
 
 * Mar 2016 (2.4.4)
  - adding a downscale and an unzoom buttons
