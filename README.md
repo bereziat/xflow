@@ -30,7 +30,7 @@ Here a simple example with Lena gradient computed using Sobel filter (with Inrim
 	$ raz >lena.grad `par lena.inr -x -y` -r -v 2
 	$ echo -1 0 1 -2 0 2 -1 0 1 | cim -x 3 -y 3 -r | conv lena.inr - -dir | melg - lena.grad
 	$ echo -1 -2 -1 0 0 0 1 2 1 | cim -x 3 -y 3 -r | conv lena.inr - -dir | melg - lena.grad -ivo 2
-	$ xflow lena.grad
+	$ xflow lena.jpg lena.grad
 
 
 
