@@ -9,13 +9,15 @@
 #define DELETE(var)    i_Free((char **)&var)
 
 /**
- * Vérification du format et retour du type d'affichage.
+ * Vérification du format et retour du type d'affichage (pour GTK)
  */
 
 void typescrn(  struct image *img, t_scrn *display, unsigned char pal[][4]) {
   Fort_int *lfmt = img -> lfmt;
 
-  if( TYPE == FIXE && BSIZE == 1) {
+  if ( TYPE == REELLE && BSIZE == 8)  // peut être levé facilement
+    *display = SCRN_UNSUPPORTED;
+  else
     switch( NDIMV) {
     case 1:       
       if( utils_pal_from_image( img, pal))
@@ -29,17 +31,6 @@ void typescrn(  struct image *img, t_scrn *display, unsigned char pal[][4]) {
     default: 
       *display = SCRN_UNSUPPORTED;
     }
-  } else
-    *display = SCRN_FLOAT;
-  
-  /* Image double précision non supporté */
-  if( TYPE == REELLE && BSIZE == 8)
-    *display = SCRN_UNSUPPORTED;
-  
-  /* Image packée non supporté (format obsolete) */
-  /* if( TYPE == PACKEE) 
-    *display = SCRN_UNSUPPORTED;
-    */
  }
 
 /**
@@ -54,45 +45,41 @@ void typescrn(  struct image *img, t_scrn *display, unsigned char pal[][4]) {
  * formats sont convertis en 1 octet. 
  *
  * Formats non supportés :
- *   - image vectorielles (sauf -v 3 -o 1 -f)
- *   - image RGB codés avec -z 3 -o 1 -v 1
- *   - manque les images a palette
- *
+ *   - image vectorielles (sauf -v 3)
+ *   - image RGB codés avec -z 3
+ *   - manque les images à palette
+ * 
  * \bug Pas de vérification sur les formats supportés
  */
 
 void lecscrn( struct image *img, int nline, unsigned char *buf, t_scrn display, void *pal) {
   Fort_int *lfmt = img->lfmt;
-  int n;
-  float *fbuf, *pfbuf;
-  unsigned char *pbuf;
-  float min,max;
 
-  switch( display) {
-  case SCRN_RGB:
-  case SCRN_GRAY:
-  case SCRN_INDEXED:
+  if( TYPE == FIXE && BSIZE == 1)
     /* Cas de lecture directe */
     c_lect( img, nline, buf);
-    break;
-  case SCRN_FLOAT:
+  else {
+    /* conversion au format 1 octet (écran) */
+    int n;
+    float *fbuf, *pfbuf;
+    unsigned char *pbuf;
+    float min,max;
+
     /* Cas de lecture par lecflt : je normalise pour l'écran */
-    fbuf = NEW( float, NDIMX*nline);
+    /* limitation: les images RGB sont normalisées globalement */
+    
+    fbuf = NEW( float, DIMX*nline);
     c_lecflt( img, nline, fbuf);
     min = max = *fbuf;
-    for( pfbuf = fbuf, n = nline*NDIMX; n>0; n --, pfbuf ++) {
+    for( pfbuf = fbuf, n = nline*DIMX; n>0; n --, pfbuf ++) {
       if( *pfbuf > max) max = *pfbuf;
       if( *pfbuf < min) min = *pfbuf;
     }
     max -= min;
-    for( pfbuf = fbuf, n = nline*NDIMX, pbuf = buf; n>0; 
+    for( pfbuf = fbuf, n = nline*DIMX, pbuf = buf; n>0; 
 	 n --, pfbuf ++, pbuf ++)
       *pbuf = (unsigned char) 255*(*pfbuf-min)/max;
     DELETE(fbuf);
-    break;
-  default:    
-    break;
-  }  
-
+  }
 }
 

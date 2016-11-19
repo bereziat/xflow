@@ -3,7 +3,6 @@ typedef enum {
   SCRN_RGB,   /* triplet r,v,b */
   SCRN_GRAY,  /* 1 octet niveau de gris */
   SCRN_INDEXED, /* 1 octet avec palette */
-  SCRN_FLOAT, /* lecture avec conversion flottante */
   SCRN_UNSUPPORTED  /* codage non supporté */
 } t_scrn;
 

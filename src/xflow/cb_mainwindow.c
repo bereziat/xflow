@@ -331,7 +331,6 @@ on_xflow_main_vectors_draw_expose_event        (GtkWidget       *widget,
 			      );
       break;
     case SCRN_GRAY:
-    case SCRN_FLOAT:
       gdk_draw_gray_image( widget->window, 
 			   widget->style->fg_gc[GTK_STATE_NORMAL],
 			   0, 0, api->wwin, api->hwin,
