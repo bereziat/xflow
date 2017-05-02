@@ -1,7 +1,7 @@
 # Makefile for compile xflow displayer.
 # (c) 2013 D.Béréziat
 
-AM_CPPFLAGS = -I.. @PACKAGE_CFLAGS@ \
+AM_CPPFLAGS = -I.. @GTK2_CFLAGS@ \
 	      -DPACKAGE_DATA_DIR=\""$(datadir)"\"
 
 bin_PROGRAMS = xflow
@@ -13,7 +13,7 @@ xflow_SOURCES = main.c api.c api.h \
 		trajs.c trajs.h
 
 xflow_CFLAGS = -O2
-xflow_LDADD = @PACKAGE_LIBS@ ../lib/libxflow.a
+xflow_LDADD = @GTK2_LIBS@ ../lib/libxflow.a
 if LINUX
 # ce flag permet à gmodule de lire la table des symboles de l'application
 # et  d'associer les callbacks aux bonnes routines (gtk_builder_connect_signals()).

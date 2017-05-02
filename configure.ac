@@ -24,8 +24,7 @@ dnl AC_ISC_POSIX
 # Checks for libraries.
 
 dnl Gtk lib
-pkg_modules="gtk+-2.0 >= 2.4.0"
-PKG_CHECK_MODULES(PACKAGE, [$pkg_modules])
+PKG_CHECK_MODULES(GTK2, gtk+-2.0 >= 2.24.0)
 
 dnl edges est juste utilisé pour un exemple de client
 dnl xflow, -> mettre un truc dans config et c'est tout.

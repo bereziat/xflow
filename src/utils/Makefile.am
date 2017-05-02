@@ -3,7 +3,7 @@
 # $Id: Makefile.am,v 1.4 2007/09/24 11:43:35 bereziat Exp $
 
 # common switches
-AM_CPPFLAGS = -I.. @PACKAGE_CFLAGS@
+AM_CPPFLAGS = -I.. 
 AM_LDFLAGS = -L../lib/ 
 LDADD   = -lxflow -lm
 
