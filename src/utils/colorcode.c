@@ -72,6 +72,6 @@ void computeColor(float fx, float fy, uchar *pix)
 	    col = 1 - rad * (1 - col); // increase saturation with radius
 	else
 	    col *= .75; // out of range
-	pix[2 - b] = (int)(255.0 * col);
+	pix[b] = (int)(255.0 * col);
     }
 }
